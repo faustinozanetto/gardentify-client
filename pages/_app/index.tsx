@@ -11,7 +11,11 @@ class WebApp extends App {
   render() {
     const { Component, pageProps } = this.props;
 
-    return <Component {...pageProps} />;
+    return (
+      <ChakraProvider>
+        <Component {...pageProps} />
+      </ChakraProvider>
+    );
   }
 }
 

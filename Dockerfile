@@ -1,4 +1,4 @@
-FROM node:10-alpine
+FROM node:14-alpine
 
 WORKDIR /opt/app
 
@@ -6,7 +6,7 @@ ENV NODE_ENV production
 
 COPY package*.json ./
 
-RUN npm ci 
+RUN npm ci
 
 COPY . /opt/app
 
