@@ -1,22 +1,14 @@
-import * as React from 'react';
-import App, { AppInitialProps, AppContext } from 'next/app';
+import React from 'react';
+import type {AppProps} from 'next/app';
+import { ChakraProvider } from '@chakra-ui/react';
 
-class WebApp extends App {
-  static async getInitialProps({ Component, ctx }: AppContext): Promise<AppInitialProps> {
-    const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
+const GardentifyApp = (props: AppProps) => {
+  const { Component, pageProps } = props;
+  return (
+    <ChakraProvider>
+      <Component {...pageProps} />
+    </ChakraProvider>
+  );
+};
 
-    return { pageProps };
-  }
-
-  render() {
-    const { Component, pageProps } = this.props;
-
-    return (
-      <ChakraProvider>
-        <Component {...pageProps} />
-      </ChakraProvider>
-    );
-  }
-}
-
-export default WebApp;
+export default GardentifyApp;

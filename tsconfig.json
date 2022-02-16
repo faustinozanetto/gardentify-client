@@ -1,10 +1,14 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "target": "es6",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -15,25 +19,11 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
-      "@Actions": ["src/Actions"],
-      "@Components/*": ["src/Components/*"],
-      "@Components": ["src/Components"],
-      "@Definitions/*": ["src/Definitions/*"],
-      "@Definitions": ["src/Definitions"],
-      "@Interfaces": ["src/Interfaces"],
-      "@Interfaces/*": ["src/Interfaces/*"],
-      "@Pages/*": ["pages/*"],
-      "@Reducers": ["src/Redux/Reducers"],
-      "@Reducers/*": ["src/Redux/Reducers/*"],
-      "@Redux": ["src/Redux"],
-      "@Redux/*": ["src/Redux/*"],
-      "@Server/*": ["server/*"],
-      "@Services": ["src/Services"],
-      "@Services/*": ["src/Services/*"],
-      "@Static/*": ["public/static/*"],
-      "@Styled/*": ["src/Styled/*"],
-      "@Test/*": ["test/*"]
-    }
+      "@Actions": [
+        "src/Actions"
+      ]
+    },
+    "incremental": true
   },
   "exclude": [
     "node_modules",
@@ -46,5 +36,9 @@
     "coverage",
     "test/*"
   ],
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ]
 }
