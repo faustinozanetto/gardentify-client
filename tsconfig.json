@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -19,26 +15,12 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
-      "@Actions": [
-        "src/Actions"
-      ]
+      "@components/*": ["/src/components/*"],
+      "@pages/*": ["src/pages/*"],
+      "@modules/*": ["src/modules/*"]
     },
     "incremental": true
   },
-  "exclude": [
-    "node_modules",
-    "dist",
-    ".next",
-    "out",
-    "next.config.js",
-    ".babelrc",
-    "bundles",
-    "coverage",
-    "test/*"
-  ],
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ]
+  "exclude": ["node_modules", "dist", ".next", "out", "next.config.js", ".babelrc", "bundles", "coverage", "test/*"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
 }
