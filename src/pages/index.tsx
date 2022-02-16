@@ -3,6 +3,8 @@ import { Heading, Text } from '@chakra-ui/react';
 import { withApollo } from '@modules/apollo/apollo.module';
 import CoreLayout from 'src/components/layout/core-layout';
 import CoreLayoutHead from 'src/components/layout/core-layout-head';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { GetStaticProps } from 'next';
 
 const Home = ({}) => {
   return (
@@ -19,6 +21,11 @@ const Home = ({}) => {
       </Heading>
     </CoreLayout>
   );
+};
+
+export const getStaticProps: GetStaticProps = async context => {
+  const { locale } = context;
+  return { props: { ...(await serverSideTranslations(locale ?? 'en', ['common', 'sidebar'])) } };
 };
 
 export default withApollo({})(Home);
