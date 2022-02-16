@@ -1,13 +1,13 @@
 import React from 'react';
 import type {AppProps} from 'next/app';
 import { ChakraProvider } from '@chakra-ui/react';
-import GlobalStyles from '@styles/global-styles';
+import theme from '@styles/theme';
+import "@fontsource/poppins"
 
 const GardentifyApp = (props: AppProps) => {
   const { Component, pageProps } = props;
   return (
-    <ChakraProvider>
-      <GlobalStyles />
+    <ChakraProvider theme={theme}>
       <Component {...pageProps} />
     </ChakraProvider>
   );

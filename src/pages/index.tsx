@@ -1,9 +1,24 @@
 import React from 'react';
-import { Text } from '@chakra-ui/react';
+import { Heading, Text } from '@chakra-ui/react';
 import { withApollo } from '@modules/apollo/apollo.module';
+import CoreLayout from 'src/components/layout/core-layout';
+import CoreLayoutHead from 'src/components/layout/core-layout-head';
 
 const Home = ({}) => {
-  return <Text>Hello</Text>;
+  return (
+    <CoreLayout
+      head={CoreLayoutHead}
+      headProps={{
+        seoTitle: 'Home',
+        seoDescription: 'Home page description',
+        seoUrl: 'https://gardentify.com/',
+      }}
+    >
+      <Heading as="h1" fontWeight={700}>
+        Welcome to Mecha Type
+      </Heading>
+    </CoreLayout>
+  );
 };
 
 export default withApollo({})(Home);
