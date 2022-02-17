@@ -1,0 +1,5 @@
+query plant($input: FindPlantInput!) {
+  plant(input: $input) {
+    ...PlantResponse
+  }
+}

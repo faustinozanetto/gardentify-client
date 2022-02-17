@@ -405,7 +405,7 @@ export type Query = {
   findPlants: PlantsResponse;
   findPlot: PlotResponse;
   me: UserResponse;
-  plantByUuid: PlantResponse;
+  plant: PlantResponse;
   plantDiseases: DiseasesResponse;
   plantHarvests: HarvestsResponse;
   plotPlants: PlantsResponse;
@@ -434,8 +434,8 @@ export type QueryFindPlotArgs = {
 };
 
 
-export type QueryPlantByUuidArgs = {
-  uuid: Scalars['String'];
+export type QueryPlantArgs = {
+  input: FindPlantInput;
 };
 
 
@@ -494,6 +494,8 @@ export type HarvestResponseFragment = { __typename?: 'HarvestResponse', harvest?
 
 export type PlantFragment = { __typename?: 'Plant', uuid?: string | null, scientificName?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null };
 
+export type PlantResponseFragment = { __typename?: 'PlantResponse', plant?: { __typename?: 'Plant', uuid?: string | null, scientificName?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null };
+
 export type PlotFragment = { __typename?: 'Plot', uuid?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null };
 
 export type DeleteObjectResponseFragment = { __typename?: 'DeleteObjectResponse', success?: boolean | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null };
@@ -529,6 +531,13 @@ export type FindHarvestQueryVariables = Exact<{
 
 
 export type FindHarvestQuery = { __typename?: 'Query', findHarvest: { __typename?: 'HarvestResponse', harvest?: { __typename?: 'Harvest', uuid?: string | null, amountHarvested?: number | null, harvestWeight?: number | null, harvestedOn?: any | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
+
+export type PlantQueryVariables = Exact<{
+  input: FindPlantInput;
+}>;
+
+
+export type PlantQuery = { __typename?: 'Query', plant: { __typename?: 'PlantResponse', plant?: { __typename?: 'Plant', uuid?: string | null, scientificName?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -578,6 +587,17 @@ export const PlantFragmentDoc = gql`
   seedsSproutedOn
 }
     `;
+export const PlantResponseFragmentDoc = gql`
+    fragment PlantResponse on PlantResponse {
+  plant {
+    ...Plant
+  }
+  errors {
+    ...ErrorResponse
+  }
+}
+    ${PlantFragmentDoc}
+${ErrorResponseFragmentDoc}`;
 export const PlotFragmentDoc = gql`
     fragment Plot on Plot {
   uuid
@@ -746,6 +766,41 @@ export function useFindHarvestLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type FindHarvestQueryHookResult = ReturnType<typeof useFindHarvestQuery>;
 export type FindHarvestLazyQueryHookResult = ReturnType<typeof useFindHarvestLazyQuery>;
 export type FindHarvestQueryResult = Apollo.QueryResult<FindHarvestQuery, FindHarvestQueryVariables>;
+export const PlantDocument = gql`
+    query plant($input: FindPlantInput!) {
+  plant(input: $input) {
+    ...PlantResponse
+  }
+}
+    ${PlantResponseFragmentDoc}`;
+
+/**
+ * __usePlantQuery__
+ *
+ * To run a query within a React component, call `usePlantQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePlantQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePlantQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function usePlantQuery(baseOptions: Apollo.QueryHookOptions<PlantQuery, PlantQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PlantQuery, PlantQueryVariables>(PlantDocument, options);
+      }
+export function usePlantLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PlantQuery, PlantQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PlantQuery, PlantQueryVariables>(PlantDocument, options);
+        }
+export type PlantQueryHookResult = ReturnType<typeof usePlantQuery>;
+export type PlantLazyQueryHookResult = ReturnType<typeof usePlantLazyQuery>;
+export type PlantQueryResult = Apollo.QueryResult<PlantQuery, PlantQueryVariables>;
 export const MeDocument = gql`
     query me {
   me {
