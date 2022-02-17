@@ -49,7 +49,7 @@ const Sidebar: React.FC<SidebarProps> = props => {
     >
       {/* Title & Logo */}
       <Flex flexDir="row" justifyContent="center" alignContent="center" alignItems="center" mb={4}>
-        <Text as="h1" fontWeight={700} fontSize="1.75rem" color="#fff" textAlign="center">
+        <Text as="h1" fontWeight={800} fontSize="2rem" color="#fff" textAlign="center">
           {isMediumOrMore ? `Gardentify` : 'GT'}
         </Text>
       </Flex>

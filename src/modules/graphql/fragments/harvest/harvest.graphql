@@ -1,0 +1,6 @@
+fragment Harvest on Harvest {
+  uuid
+  amountHarvested
+  harvestWeight
+  harvestedOn
+}

@@ -1,0 +1,9 @@
+fragment Plant on Plant {
+  uuid
+  scientificName
+  variety
+  type
+  image
+  plantedSeedsOn
+  seedsSproutedOn
+}

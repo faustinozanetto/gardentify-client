@@ -1,0 +1,6 @@
+fragment Plot on Plot {
+  uuid
+  sizeX
+  sizeY
+  dirtDepth
+}
