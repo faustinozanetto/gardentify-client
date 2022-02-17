@@ -17,13 +17,13 @@ const Home = ({}) => {
       }}
     >
       <Heading as="h1" fontWeight={700}>
-        Welcome to Mecha Type
+        Welcome to Gardentify XD
       </Heading>
     </CoreLayout>
   );
 };
 
-export const getStaticProps: GetStaticProps = async context => {
+export const getStaticProps: GetStaticProps = async (context) => {
   const { locale } = context;
   return { props: { ...(await serverSideTranslations(locale ?? 'en', ['common', 'sidebar'])) } };
 };

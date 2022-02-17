@@ -8,6 +8,8 @@ import FiStar from '@meronex/icons/fi/FiStar';
 import { Flex, Text, useMediaQuery } from '@chakra-ui/react';
 import { useTranslation } from 'next-i18next';
 import { SidebarUserButton } from './user/sidebar-user-button';
+import { UserFragment } from 'src/generated/graphql';
+import { SidebarLoginButton } from './sidebar-login-button';
 
 interface SidebarLinkData {
   name: string;
@@ -28,9 +30,12 @@ const sidebarLinks: SidebarLinkData[] = [
   },
 ];
 
-export interface SidebarProps {}
+export interface SidebarProps {
+  userData?: UserFragment;
+}
 
-const Sidebar: React.FC<SidebarProps> = props => {
+const Sidebar: React.FC<SidebarProps> = (props) => {
+  const { userData } = props;
   const { t } = useTranslation('sidebar');
   const [isMediumOrMore] = useMediaQuery('(min-width: 80em)');
   const [isSmallOrLess] = useMediaQuery('(max-width: 30em)');
@@ -63,7 +68,13 @@ const Sidebar: React.FC<SidebarProps> = props => {
 
       {/* User details */}
       <Flex flexDir="column" flexGrow={0} alignItems="center">
-        <SidebarUserButton />
+        {userData?.uuid ? (
+          // Valid user.
+          <React.Fragment></React.Fragment>
+        ) : (
+          // Invalid user.
+          <SidebarLoginButton />
+        )}
       </Flex>
     </Flex>
   );

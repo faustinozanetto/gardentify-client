@@ -1,6 +1,6 @@
 import React from 'react';
 import SidebarButton from './sidebar-button';
-import FiLogIn from '@meronex/icons/fi';
+import FiLogIn from '@meronex/icons/fi/FiLogIn';
 import { useTranslation } from 'next-i18next';
 
 interface SidebarLoginButtonProps {}
