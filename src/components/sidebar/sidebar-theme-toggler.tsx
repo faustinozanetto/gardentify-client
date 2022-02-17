@@ -1,57 +1,43 @@
 import React from 'react';
-import { Button, Tooltip, HStack, Icon, Text, useMediaQuery } from '@chakra-ui/react';
+import { Button, Tooltip, Text, useColorMode, HStack, useMediaQuery } from '@chakra-ui/react';
+import { SunIcon, MoonIcon } from '@chakra-ui/icons';
 
-interface SidebarButtonProps {
-  /**
-   * Icon to render on the left of the label.
-   */
-  icon: any;
-  /**
-   * Label to render on the button
-   */
+interface SidebarThemeTogglerProps {
+  /** Label to show in the button */
   label: string;
-  /**
-   * Href tag to parse to the button.
-   */
-  href?: string;
-  /**
-   * On Click event to pass to the onclick of the button.
-   */
-  onClick?: () => void;
 }
 
-const SidebarButton: React.FC<SidebarButtonProps> = ({ icon, label, href, onClick, ...rest }) => {
+const SidebarThemeToggler: React.FC<SidebarThemeTogglerProps> = ({ label }) => {
+  const { colorMode, toggleColorMode } = useColorMode();
   const [isMediumOrMore] = useMediaQuery('(min-width: 80em)');
 
   return (
     <Tooltip
       label={label}
       placement="right"
-      aria-label={`${label} tooltip`}
+      aria-label="Switch Theme Tooltip"
       fontWeight={600}
       fontSize={'md'}
       isDisabled={isMediumOrMore}
     >
       <Button
-        as="a"
+        aria-label={label}
         variant="ghost"
         borderRadius="md"
         size="lg"
         color="#fff"
-        my={2}
+        my={1}
         width={['auto', 'auto', 'auto', 'auto', '100%']}
         justifyContent={['center', 'center', 'center', 'center', 'flex-start']}
         paddingInline={[0, 0, 0, 4, 4]}
-        onClick={onClick}
-        href={href ?? ''}
+        onClick={toggleColorMode}
         _hover={{
           color: 'hsl(210deg,30%,8%)!important',
           backgroundColor: '#fff',
         }}
-        {...rest}
       >
         <HStack alignItems="center">
-          <Icon as={icon} w={6} h={6} />
+          {colorMode === 'dark' ? <SunIcon w={5} h={5} /> : <MoonIcon w={5} h={5} />}
           {isMediumOrMore && <Text>{label}</Text>}
         </HStack>
       </Button>
@@ -59,4 +45,4 @@ const SidebarButton: React.FC<SidebarButtonProps> = ({ icon, label, href, onClic
   );
 };
 
-export default SidebarButton;
+export default SidebarThemeToggler;

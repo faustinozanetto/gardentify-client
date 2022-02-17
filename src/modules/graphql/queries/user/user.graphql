@@ -1,0 +1,5 @@
+query user($input: FindUserInput!) {
+  user(input: $input) {
+    ...UserResponse
+  }
+}

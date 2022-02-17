@@ -8,6 +8,7 @@ import { useTranslation } from 'next-i18next';
 import { UserFragment } from 'src/generated/graphql';
 import { SidebarLoginButton } from './user/sidebar-login-button';
 import SidebarLogoutButton from './user/sidebar-logout-button';
+import SidebarThemeToggler from './sidebar-theme-toggler';
 
 interface SidebarLinkData {
   name: string;
@@ -24,6 +25,11 @@ const sidebarLinks: SidebarLinkData[] = [
   {
     name: 'sidebar-dashboard',
     href: '/dashboard',
+    icon: AiOutlineDashboard,
+  },
+  {
+    name: 'sidebar-plants',
+    href: '/plants',
     icon: AiOutlineDashboard,
   },
 ];
@@ -47,7 +53,7 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
       float="left"
       height="100%"
       width={['80px', '80px', '80px', '80px', '250px']}
-      backgroundColor={'green.500'}
+      backgroundColor={'green.600'}
       p={4}
     >
       {/* Title & Logo */}
@@ -66,6 +72,8 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
 
       {/* User details */}
       <Flex flexDir="column" flexGrow={0} alignItems="center">
+        {/* Theme toggler */}
+        <SidebarThemeToggler label={t('sidebar-theme-switcher')} />
         {userData?.uuid ? (
           // Valid user.
           <React.Fragment>

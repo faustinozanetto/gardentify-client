@@ -28,9 +28,9 @@ const nextConfig = {
    *  - babel Default babel-loader configuration
    * @see https://nextjs.org/docs/api-reference/next.config.js/custom-webpack-config
    */
-  experimental: {
-    esmExternals: false,
-  },
+  // experimental: {
+  //   esmExternals: false,
+  // },
   webpack: (config, { buildId, dev, isServer, defaultLoaders }) => {
     if (isServer) {
       /**

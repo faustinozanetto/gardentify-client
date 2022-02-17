@@ -20,7 +20,7 @@ const GardentifyApp = (props: AppProps) => {
     }
   }, [meUserData, meUserLoading]);
 
-  // if (!loaded) return <h1>Loading</h1>;
+  if (!meUserData?.me?.user && meUserLoading) return <h1>Loading</h1>;
 
   return (
     <ChakraProvider theme={theme}>
