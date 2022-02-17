@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import CoreLayout from 'src/components/layout/core-layout';
 import CoreLayoutHead from 'src/components/layout/core-layout-head';
 import { PlantFragment, usePlantQuery, UserFragment } from 'src/generated/graphql';
+import PlantDetails from 'src/components/plant/details/plant-details';
 
 interface PlatPageProps {
   meUser: UserFragment;
@@ -32,7 +33,7 @@ const PlatPage: React.FC<PlatPageProps> = (props) => {
         seoUrl: 'https://gardentify.com/plants',
       }}
     >
-      {plant && <h1>{plant.type}</h1>}
+      <PlantDetails plantData={plant} loading={plantLoading} />
     </CoreLayout>
   );
 };

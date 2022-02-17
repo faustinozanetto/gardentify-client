@@ -31,7 +31,9 @@ export type CreateHarvestInput = {
 };
 
 export type CreatePlantInput = {
+  description: Scalars['String'];
   image?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
   plantedSeedsOn?: InputMaybe<Scalars['DateTime']>;
   scientificName: Scalars['String'];
   seedsSproutedOn?: InputMaybe<Scalars['DateTime']>;
@@ -268,8 +270,10 @@ export type MutationRemovePlantFromPlotArgs = {
 export type Plant = {
   __typename?: 'Plant';
   createdAt?: Maybe<Scalars['DateTime']>;
+  description?: Maybe<Scalars['String']>;
   harvests?: Maybe<Array<Harvest>>;
   image?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
   plantedSeedsOn?: Maybe<Scalars['DateTime']>;
   plot?: Maybe<Plot>;
   scientificName?: Maybe<Scalars['String']>;
@@ -492,9 +496,9 @@ export type HarvestFragment = { __typename?: 'Harvest', uuid?: string | null, am
 
 export type HarvestResponseFragment = { __typename?: 'HarvestResponse', harvest?: { __typename?: 'Harvest', uuid?: string | null, amountHarvested?: number | null, harvestWeight?: number | null, harvestedOn?: any | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null };
 
-export type PlantFragment = { __typename?: 'Plant', uuid?: string | null, scientificName?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null };
+export type PlantFragment = { __typename?: 'Plant', uuid?: string | null, name?: string | null, scientificName?: string | null, description?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null };
 
-export type PlantResponseFragment = { __typename?: 'PlantResponse', plant?: { __typename?: 'Plant', uuid?: string | null, scientificName?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null };
+export type PlantResponseFragment = { __typename?: 'PlantResponse', plant?: { __typename?: 'Plant', uuid?: string | null, name?: string | null, scientificName?: string | null, description?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null };
 
 export type PlotFragment = { __typename?: 'Plot', uuid?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null };
 
@@ -537,7 +541,7 @@ export type PlantQueryVariables = Exact<{
 }>;
 
 
-export type PlantQuery = { __typename?: 'Query', plant: { __typename?: 'PlantResponse', plant?: { __typename?: 'Plant', uuid?: string | null, scientificName?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
+export type PlantQuery = { __typename?: 'Query', plant: { __typename?: 'PlantResponse', plant?: { __typename?: 'Plant', uuid?: string | null, name?: string | null, scientificName?: string | null, description?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -579,7 +583,9 @@ ${ErrorResponseFragmentDoc}`;
 export const PlantFragmentDoc = gql`
     fragment Plant on Plant {
   uuid
+  name
   scientificName
+  description
   variety
   type
   image
