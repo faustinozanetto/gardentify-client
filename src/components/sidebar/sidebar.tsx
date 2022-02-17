@@ -1,15 +1,13 @@
 import React from 'react';
 import SidebarButton from './sidebar-button';
-import FiLogIn from '@meronex/icons/fi/FiLogIn';
 import AiOutlineDashboard from '@meronex/icons/ai/AiOutlineDashboard';
-import FaKeyboard from '@meronex/icons/fa/FaKeyboard';
 import FiHome from '@meronex/icons/fi/FiHome';
-import FiStar from '@meronex/icons/fi/FiStar';
+import SidebarUserButton from './user/sidebar-user-button';
 import { Flex, Text, useMediaQuery } from '@chakra-ui/react';
 import { useTranslation } from 'next-i18next';
-import { SidebarUserButton } from './user/sidebar-user-button';
 import { UserFragment } from 'src/generated/graphql';
-import { SidebarLoginButton } from './sidebar-login-button';
+import { SidebarLoginButton } from './user/sidebar-login-button';
+import SidebarLogoutButton from './user/sidebar-logout-button';
 
 interface SidebarLinkData {
   name: string;
@@ -70,7 +68,10 @@ const Sidebar: React.FC<SidebarProps> = (props) => {
       <Flex flexDir="column" flexGrow={0} alignItems="center">
         {userData?.uuid ? (
           // Valid user.
-          <React.Fragment></React.Fragment>
+          <React.Fragment>
+            <SidebarUserButton userData={userData} />
+            <SidebarLogoutButton />
+          </React.Fragment>
         ) : (
           // Invalid user.
           <SidebarLoginButton />

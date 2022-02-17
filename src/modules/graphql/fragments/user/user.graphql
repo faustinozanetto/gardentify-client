@@ -2,8 +2,7 @@ fragment User on User {
   uuid
   oauthId
   username
-  firstName
-  lastName
+  description
   avatar
   authProvider
 }

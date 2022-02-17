@@ -33,7 +33,6 @@ export type CreateHarvestInput = {
 export type CreatePlantInput = {
   image?: InputMaybe<Scalars['String']>;
   plantedSeedsOn?: InputMaybe<Scalars['DateTime']>;
-  plotUuid: Scalars['String'];
   scientificName: Scalars['String'];
   seedsSproutedOn?: InputMaybe<Scalars['DateTime']>;
   type: PlantType;
@@ -53,10 +52,65 @@ export type DeleteObjectResponse = {
   success?: Maybe<Scalars['Boolean']>;
 };
 
+export type Disease = {
+  __typename?: 'Disease';
+  createdAt?: Maybe<Scalars['DateTime']>;
+  description?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
+  plant?: Maybe<Plant>;
+  scientificName?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  uuid?: Maybe<Scalars['String']>;
+};
+
+export type DiseaseCreateInput = {
+  description?: InputMaybe<Scalars['String']>;
+  image?: InputMaybe<Scalars['String']>;
+  scientificName?: InputMaybe<Scalars['String']>;
+};
+
+export type DiseaseResponse = {
+  __typename?: 'DiseaseResponse';
+  disease?: Maybe<Disease>;
+  errors?: Maybe<Array<ErrorResponse>>;
+};
+
+export type DiseasesEdge = {
+  __typename?: 'DiseasesEdge';
+  cursor?: Maybe<Scalars['DateTime']>;
+  node?: Maybe<Disease>;
+};
+
+export type DiseasesInput = {
+  skip: Scalars['Int'];
+  take: Scalars['Int'];
+  where?: InputMaybe<FindDiseaseInput>;
+};
+
+export type DiseasesPageInfo = {
+  __typename?: 'DiseasesPageInfo';
+  endCursor?: Maybe<Scalars['DateTime']>;
+  hasMore?: Maybe<Scalars['Boolean']>;
+  startCursor?: Maybe<Scalars['DateTime']>;
+};
+
+export type DiseasesResponse = {
+  __typename?: 'DiseasesResponse';
+  count?: Maybe<Scalars['Int']>;
+  edges?: Maybe<Array<DiseasesEdge>>;
+  errors?: Maybe<Array<ErrorResponse>>;
+  pageInfo?: Maybe<DiseasesPageInfo>;
+};
+
 export type ErrorResponse = {
   __typename?: 'ErrorResponse';
   field: Scalars['String'];
   message: Scalars['String'];
+};
+
+export type FindDiseaseInput = {
+  scientificName?: InputMaybe<Scalars['String']>;
+  uuid?: InputMaybe<Scalars['String']>;
 };
 
 export type FindHarvestInput = {
@@ -72,6 +126,19 @@ export type FindPlantInput = {
   type?: InputMaybe<PlantType>;
   uuid?: InputMaybe<Scalars['String']>;
   variety?: InputMaybe<Scalars['String']>;
+};
+
+export type FindPlantsInput = {
+  skip: Scalars['Int'];
+  take: Scalars['Int'];
+  where?: InputMaybe<FindPlantInput>;
+};
+
+export type FindPlotInput = {
+  dirtDepth?: InputMaybe<Scalars['Float']>;
+  sizeX?: InputMaybe<Scalars['Float']>;
+  sizeY?: InputMaybe<Scalars['Float']>;
+  uuid?: InputMaybe<Scalars['String']>;
 };
 
 export type FindUserInput = {
@@ -95,14 +162,60 @@ export type HarvestResponse = {
   harvest?: Maybe<Harvest>;
 };
 
+export type HarvestsEdge = {
+  __typename?: 'HarvestsEdge';
+  cursor?: Maybe<Scalars['DateTime']>;
+  node?: Maybe<Harvest>;
+};
+
+export type HarvestsPageInfo = {
+  __typename?: 'HarvestsPageInfo';
+  endCursor?: Maybe<Scalars['DateTime']>;
+  hasMore?: Maybe<Scalars['Boolean']>;
+  startCursor?: Maybe<Scalars['DateTime']>;
+};
+
+export type HarvestsResponse = {
+  __typename?: 'HarvestsResponse';
+  count?: Maybe<Scalars['Int']>;
+  edges?: Maybe<Array<HarvestsEdge>>;
+  errors?: Maybe<Array<ErrorResponse>>;
+  pageInfo?: Maybe<HarvestsPageInfo>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  addDiseaseToPlant: DiseaseResponse;
+  addPlantToPlot: PlotPlantResponse;
+  createDisease: DiseaseResponse;
   createPlant: PlantResponse;
   createPlantHarvest: HarvestResponse;
   createPlot: PlotResponse;
-  deleteHarvest: DeleteObjectResponse;
+  deleteDisease: DiseaseResponse;
+  deleteDiseaseFromPlant: DeleteObjectResponse;
   deletePlant: DeleteObjectResponse;
+  deletePlantHarvest: DeleteObjectResponse;
   deletePlot: DeleteObjectResponse;
+  logout: Scalars['Boolean'];
+  /** Removes the plant from the current plot if assigned */
+  removePlantFromPlot: DeleteObjectResponse;
+};
+
+
+export type MutationAddDiseaseToPlantArgs = {
+  disease: FindDiseaseInput;
+  plant: FindPlantInput;
+};
+
+
+export type MutationAddPlantToPlotArgs = {
+  plantUuid: Scalars['String'];
+  plotUuid: Scalars['String'];
+};
+
+
+export type MutationCreateDiseaseArgs = {
+  input: DiseaseCreateInput;
 };
 
 
@@ -121,8 +234,14 @@ export type MutationCreatePlotArgs = {
 };
 
 
-export type MutationDeleteHarvestArgs = {
-  input: FindHarvestInput;
+export type MutationDeleteDiseaseArgs = {
+  input: FindDiseaseInput;
+};
+
+
+export type MutationDeleteDiseaseFromPlantArgs = {
+  diseaseUuid: Scalars['String'];
+  plantUuid: Scalars['String'];
 };
 
 
@@ -131,8 +250,18 @@ export type MutationDeletePlantArgs = {
 };
 
 
+export type MutationDeletePlantHarvestArgs = {
+  input: FindHarvestInput;
+};
+
+
 export type MutationDeletePlotArgs = {
   uuid: Scalars['String'];
+};
+
+
+export type MutationRemovePlantFromPlotArgs = {
+  plantUuid: Scalars['String'];
 };
 
 export type Plant = {
@@ -148,6 +277,19 @@ export type Plant = {
   updatedAt?: Maybe<Scalars['DateTime']>;
   uuid?: Maybe<Scalars['String']>;
   variety?: Maybe<Scalars['String']>;
+};
+
+export type PlantDiseasesInput = {
+  skip: Scalars['Int'];
+  take: Scalars['Int'];
+  where?: InputMaybe<FindPlantInput>;
+};
+
+export type PlantHarvestsInput = {
+  skip: Scalars['Int'];
+  take: Scalars['Int'];
+  /** Input to select the plant */
+  where?: InputMaybe<FindPlantInput>;
 };
 
 export type PlantResponse = {
@@ -214,6 +356,13 @@ export type Plot = {
   uuid?: Maybe<Scalars['String']>;
 };
 
+export type PlotPlantResponse = {
+  __typename?: 'PlotPlantResponse';
+  errors?: Maybe<Array<ErrorResponse>>;
+  plant?: Maybe<Plant>;
+  plot?: Maybe<Plot>;
+};
+
 export type PlotPlantsInput = {
   plotUuid: Scalars['String'];
   skip: Scalars['Int'];
@@ -250,13 +399,22 @@ export type PlotsResponse = {
 
 export type Query = {
   __typename?: 'Query';
+  findDiseases: DiseasesResponse;
   findHarvest: HarvestResponse;
+  findPlants: PlantsResponse;
+  findPlot: PlotResponse;
   me: UserResponse;
   plantByUuid: PlantResponse;
-  plotByUuid: PlotResponse;
+  plantDiseases: DiseasesResponse;
+  plantHarvests: HarvestsResponse;
   plotPlants: PlantsResponse;
   user: UserResponse;
   userPlots: PlotsResponse;
+};
+
+
+export type QueryFindDiseasesArgs = {
+  input: DiseasesInput;
 };
 
 
@@ -265,13 +423,28 @@ export type QueryFindHarvestArgs = {
 };
 
 
+export type QueryFindPlantsArgs = {
+  input: FindPlantsInput;
+};
+
+
+export type QueryFindPlotArgs = {
+  input: FindPlotInput;
+};
+
+
 export type QueryPlantByUuidArgs = {
   uuid: Scalars['String'];
 };
 
 
-export type QueryPlotByUuidArgs = {
-  uuid: Scalars['String'];
+export type QueryPlantDiseasesArgs = {
+  input: PlantDiseasesInput;
+};
+
+
+export type QueryPlantHarvestsArgs = {
+  input: PlantHarvestsInput;
 };
 
 
@@ -294,8 +467,7 @@ export type User = {
   authProvider?: Maybe<AuthProvider>;
   avatar?: Maybe<Scalars['String']>;
   createdAt?: Maybe<Scalars['DateTime']>;
-  firstName?: Maybe<Scalars['String']>;
-  lastName?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
   oauthId?: Maybe<Scalars['String']>;
   plots?: Maybe<Array<Plot>>;
   updatedAt?: Maybe<Scalars['DateTime']>;
@@ -327,7 +499,9 @@ export type DeleteObjectResponseFragment = { __typename?: 'DeleteObjectResponse'
 
 export type ErrorResponseFragment = { __typename?: 'ErrorResponse', field: string, message: string };
 
-export type UserFragment = { __typename?: 'User', uuid?: string | null, oauthId?: string | null, username?: string | null, firstName?: string | null, lastName?: string | null, avatar?: string | null, authProvider?: AuthProvider | null };
+export type UserResponseFragment = { __typename?: 'UserResponse', user?: { __typename?: 'User', uuid?: string | null, oauthId?: string | null, username?: string | null, description?: string | null, avatar?: string | null, authProvider?: AuthProvider | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null };
+
+export type UserFragment = { __typename?: 'User', uuid?: string | null, oauthId?: string | null, username?: string | null, description?: string | null, avatar?: string | null, authProvider?: AuthProvider | null };
 
 export type CreatePlantHarvestMutationVariables = Exact<{
   input: CreateHarvestInput;
@@ -336,12 +510,17 @@ export type CreatePlantHarvestMutationVariables = Exact<{
 
 export type CreatePlantHarvestMutation = { __typename?: 'Mutation', createPlantHarvest: { __typename?: 'HarvestResponse', harvest?: { __typename?: 'Harvest', uuid?: string | null, amountHarvested?: number | null, harvestWeight?: number | null, harvestedOn?: any | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
 
-export type DeleteHarvestMutationVariables = Exact<{
+export type DeletePlantHarvestMutationVariables = Exact<{
   input: FindHarvestInput;
 }>;
 
 
-export type DeleteHarvestMutation = { __typename?: 'Mutation', deleteHarvest: { __typename?: 'DeleteObjectResponse', success?: boolean | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
+export type DeletePlantHarvestMutation = { __typename?: 'Mutation', deletePlantHarvest: { __typename?: 'DeleteObjectResponse', success?: boolean | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
+
+export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
 
 export type FindHarvestQueryVariables = Exact<{
   input: FindHarvestInput;
@@ -349,6 +528,11 @@ export type FindHarvestQueryVariables = Exact<{
 
 
 export type FindHarvestQuery = { __typename?: 'Query', findHarvest: { __typename?: 'HarvestResponse', harvest?: { __typename?: 'Harvest', uuid?: string | null, amountHarvested?: number | null, harvestWeight?: number | null, harvestedOn?: any | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
+
+export type MeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MeQuery = { __typename?: 'Query', me: { __typename?: 'UserResponse', user?: { __typename?: 'User', uuid?: string | null, oauthId?: string | null, username?: string | null, description?: string | null, avatar?: string | null, authProvider?: AuthProvider | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
 
 export const HarvestFragmentDoc = gql`
     fragment Harvest on Harvest {
@@ -407,12 +591,22 @@ export const UserFragmentDoc = gql`
   uuid
   oauthId
   username
-  firstName
-  lastName
+  description
   avatar
   authProvider
 }
     `;
+export const UserResponseFragmentDoc = gql`
+    fragment UserResponse on UserResponse {
+  user {
+    ...User
+  }
+  errors {
+    ...ErrorResponse
+  }
+}
+    ${UserFragmentDoc}
+${ErrorResponseFragmentDoc}`;
 export const CreatePlantHarvestDocument = gql`
     mutation createPlantHarvest($input: CreateHarvestInput!) {
   createPlantHarvest(input: $input) {
@@ -446,39 +640,69 @@ export function useCreatePlantHarvestMutation(baseOptions?: Apollo.MutationHookO
 export type CreatePlantHarvestMutationHookResult = ReturnType<typeof useCreatePlantHarvestMutation>;
 export type CreatePlantHarvestMutationResult = Apollo.MutationResult<CreatePlantHarvestMutation>;
 export type CreatePlantHarvestMutationOptions = Apollo.BaseMutationOptions<CreatePlantHarvestMutation, CreatePlantHarvestMutationVariables>;
-export const DeleteHarvestDocument = gql`
-    mutation deleteHarvest($input: FindHarvestInput!) {
-  deleteHarvest(input: $input) {
+export const DeletePlantHarvestDocument = gql`
+    mutation deletePlantHarvest($input: FindHarvestInput!) {
+  deletePlantHarvest(input: $input) {
     ...DeleteObjectResponse
   }
 }
     ${DeleteObjectResponseFragmentDoc}`;
-export type DeleteHarvestMutationFn = Apollo.MutationFunction<DeleteHarvestMutation, DeleteHarvestMutationVariables>;
+export type DeletePlantHarvestMutationFn = Apollo.MutationFunction<DeletePlantHarvestMutation, DeletePlantHarvestMutationVariables>;
 
 /**
- * __useDeleteHarvestMutation__
+ * __useDeletePlantHarvestMutation__
  *
- * To run a mutation, you first call `useDeleteHarvestMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useDeleteHarvestMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useDeletePlantHarvestMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeletePlantHarvestMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [deleteHarvestMutation, { data, loading, error }] = useDeleteHarvestMutation({
+ * const [deletePlantHarvestMutation, { data, loading, error }] = useDeletePlantHarvestMutation({
  *   variables: {
  *      input: // value for 'input'
  *   },
  * });
  */
-export function useDeleteHarvestMutation(baseOptions?: Apollo.MutationHookOptions<DeleteHarvestMutation, DeleteHarvestMutationVariables>) {
+export function useDeletePlantHarvestMutation(baseOptions?: Apollo.MutationHookOptions<DeletePlantHarvestMutation, DeletePlantHarvestMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteHarvestMutation, DeleteHarvestMutationVariables>(DeleteHarvestDocument, options);
+        return Apollo.useMutation<DeletePlantHarvestMutation, DeletePlantHarvestMutationVariables>(DeletePlantHarvestDocument, options);
       }
-export type DeleteHarvestMutationHookResult = ReturnType<typeof useDeleteHarvestMutation>;
-export type DeleteHarvestMutationResult = Apollo.MutationResult<DeleteHarvestMutation>;
-export type DeleteHarvestMutationOptions = Apollo.BaseMutationOptions<DeleteHarvestMutation, DeleteHarvestMutationVariables>;
+export type DeletePlantHarvestMutationHookResult = ReturnType<typeof useDeletePlantHarvestMutation>;
+export type DeletePlantHarvestMutationResult = Apollo.MutationResult<DeletePlantHarvestMutation>;
+export type DeletePlantHarvestMutationOptions = Apollo.BaseMutationOptions<DeletePlantHarvestMutation, DeletePlantHarvestMutationVariables>;
+export const LogoutDocument = gql`
+    mutation logout {
+  logout
+}
+    `;
+export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMutationVariables>;
+
+/**
+ * __useLogoutMutation__
+ *
+ * To run a mutation, you first call `useLogoutMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLogoutMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [logoutMutation, { data, loading, error }] = useLogoutMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<LogoutMutation, LogoutMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument, options);
+      }
+export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
+export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
+export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
 export const FindHarvestDocument = gql`
     query findHarvest($input: FindHarvestInput!) {
   findHarvest(input: $input) {
@@ -514,3 +738,37 @@ export function useFindHarvestLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
 export type FindHarvestQueryHookResult = ReturnType<typeof useFindHarvestQuery>;
 export type FindHarvestLazyQueryHookResult = ReturnType<typeof useFindHarvestLazyQuery>;
 export type FindHarvestQueryResult = Apollo.QueryResult<FindHarvestQuery, FindHarvestQueryVariables>;
+export const MeDocument = gql`
+    query me {
+  me {
+    ...UserResponse
+  }
+}
+    ${UserResponseFragmentDoc}`;
+
+/**
+ * __useMeQuery__
+ *
+ * To run a query within a React component, call `useMeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMeQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMeQuery(baseOptions?: Apollo.QueryHookOptions<MeQuery, MeQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+      }
+export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+        }
+export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
+export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
+export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;

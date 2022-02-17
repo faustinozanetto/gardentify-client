@@ -5,10 +5,17 @@ import CoreLayout from 'src/components/layout/core-layout';
 import CoreLayoutHead from 'src/components/layout/core-layout-head';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GetStaticProps } from 'next';
+import { UserFragment } from 'src/generated/graphql';
 
-const Home = ({}) => {
+interface HomePageProps {
+  meUser: UserFragment;
+}
+
+const HomePage: React.FC<HomePageProps> = (props) => {
+  const { meUser } = props;
   return (
     <CoreLayout
+      loggedUser={meUser}
       head={CoreLayoutHead}
       headProps={{
         seoTitle: 'Home',
@@ -28,4 +35,4 @@ export const getStaticProps: GetStaticProps = async (context) => {
   return { props: { ...(await serverSideTranslations(locale ?? 'en', ['common', 'sidebar'])) } };
 };
 
-export default withApollo({})(Home);
+export default withApollo({})(HomePage);

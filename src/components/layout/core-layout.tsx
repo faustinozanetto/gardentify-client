@@ -3,15 +3,18 @@ import { Box, Flex, Text, Grid, useColorModeValue } from '@chakra-ui/react';
 import { CoreLayoutHeadProps } from './core-layout-head';
 import CoreLayoutContainer from './core-layout-container';
 import Sidebar from '../sidebar/sidebar';
+import { UserFragment } from 'src/generated/graphql';
 
 export interface LayoutCoreProps {
   children: React.ReactNode;
   head?: React.FC<CoreLayoutHeadProps>;
   headProps?: CoreLayoutHeadProps;
+  loggedUser?: UserFragment;
   error?: any;
 }
 
 const CoreLayout: React.FC<LayoutCoreProps> = (props): JSX.Element => {
+  const { children, head: Head, headProps, loggedUser, error } = props;
   const mainContainerBG = useColorModeValue('gray.200', 'gray.800');
 
   return (
@@ -22,15 +25,15 @@ const CoreLayout: React.FC<LayoutCoreProps> = (props): JSX.Element => {
       minHeight="100vh"
     >
       {/* SEO Head */}
-      <props.head {...props.headProps} />
+      <Head {...headProps} />
 
       {/* Sidebar */}
-      <Box position="relative">{<Sidebar />}</Box>
+      <Box position="relative">{<Sidebar userData={loggedUser} />}</Box>
 
       {/* Main container */}
       <Flex flexDir="column" backgroundColor={mainContainerBG} minHeight="100vh">
         {/* Content */}
-        {props.error ? <Text>Error</Text> : <CoreLayoutContainer>{props.children}</CoreLayoutContainer>}
+        {error ? <Text>Error</Text> : <CoreLayoutContainer>{children}</CoreLayoutContainer>}
         {/* Footer */}
         {/* <Footer /> */}
       </Flex>

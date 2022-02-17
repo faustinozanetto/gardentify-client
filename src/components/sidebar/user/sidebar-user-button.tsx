@@ -1,9 +1,15 @@
 import React from 'react';
 import FiUser from '@meronex/icons/fi/FiUser';
 import SidebarButton from '../sidebar-button';
+import { UserFragment } from 'src/generated/graphql';
 
-interface SidebarUserButtonProps {}
+interface SidebarUserButtonProps {
+  userData?: UserFragment;
+}
 
-export const SidebarUserButton: React.FC<SidebarUserButtonProps> = ({}) => {
-  return <SidebarButton icon={FiUser} label={`Hi, User`} href={'/user/user'} />;
+const SidebarUserButton: React.FC<SidebarUserButtonProps> = (props) => {
+  const { userData } = props;
+  return <SidebarButton icon={FiUser} label={`Hi, ${userData.username}`} href={`/user/${userData.username}`} />;
 };
+
+export default SidebarUserButton;
