@@ -1,0 +1,12 @@
+fragment DiseasesResponse on DiseasesResponse {
+  count
+  pageInfo {
+    ...DiseasesPageInfo
+  }
+  edges {
+    ...DiseasesEdge
+  }
+  errors {
+    ...ErrorResponse
+  }
+}

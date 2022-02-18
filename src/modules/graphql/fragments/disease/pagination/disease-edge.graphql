@@ -1,0 +1,6 @@
+fragment DiseasesEdge on DiseasesEdge {
+  cursor
+  node {
+    ...Disease
+  }
+}

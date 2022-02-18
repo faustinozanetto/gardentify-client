@@ -4,7 +4,6 @@ import CoreLayout from 'src/components/layout/core-layout';
 import CoreLayoutHead from 'src/components/layout/core-layout-head';
 import { PlantFragment, usePlantQuery, UserFragment } from 'src/generated/graphql';
 import PlantDetails from 'src/components/plant/details/plant-details';
-import PlantCommonDiseases from 'src/components/plant/diseases/plant-common-diseases';
 
 interface PlatPageProps {
   meUser: UserFragment;
@@ -34,10 +33,7 @@ const PlatPage: React.FC<PlatPageProps> = (props) => {
         seoUrl: 'https://gardentify.com/plants',
       }}
     >
-      {/* Main details */}
       <PlantDetails plantData={plant} loading={plantLoading} />
-      {/* Common diseases */}
-      <PlantCommonDiseases diseasesData={plant?.diseases} loading={plantLoading} />
     </CoreLayout>
   );
 };

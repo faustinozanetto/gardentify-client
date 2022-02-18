@@ -1,0 +1,8 @@
+fragment Disease on Disease {
+  uuid
+  scientificName
+  description
+  image
+  createdAt
+  updatedAt
+}

@@ -9,6 +9,9 @@ fragment Plant on Plant {
   requirements {
     ...PlantRequirements
   }
+  diseases {
+    ...Disease
+  }
   plantedSeedsOn
   seedsSproutedOn
 }

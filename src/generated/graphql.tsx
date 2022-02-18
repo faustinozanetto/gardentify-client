@@ -272,6 +272,7 @@ export type Plant = {
   __typename?: 'Plant';
   createdAt?: Maybe<Scalars['DateTime']>;
   description?: Maybe<Scalars['String']>;
+  diseases?: Maybe<Array<Disease>>;
   harvests?: Maybe<Array<Harvest>>;
   image?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
@@ -512,15 +513,23 @@ export type UserResponse = {
   user?: Maybe<User>;
 };
 
+export type DiseaseFragment = { __typename?: 'Disease', uuid?: string | null, scientificName?: string | null, description?: string | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null };
+
+export type DiseasesEdgeFragment = { __typename?: 'DiseasesEdge', cursor?: any | null, node?: { __typename?: 'Disease', uuid?: string | null, scientificName?: string | null, description?: string | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null } | null };
+
+export type DiseasesPageInfoFragment = { __typename?: 'DiseasesPageInfo', startCursor?: any | null, endCursor?: any | null, hasMore?: boolean | null };
+
+export type DiseasesResponseFragment = { __typename?: 'DiseasesResponse', count?: number | null, pageInfo?: { __typename?: 'DiseasesPageInfo', startCursor?: any | null, endCursor?: any | null, hasMore?: boolean | null } | null, edges?: Array<{ __typename?: 'DiseasesEdge', cursor?: any | null, node?: { __typename?: 'Disease', uuid?: string | null, scientificName?: string | null, description?: string | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null } | null }> | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null };
+
 export type HarvestFragment = { __typename?: 'Harvest', uuid?: string | null, amountHarvested?: number | null, harvestWeight?: number | null, harvestedOn?: any | null };
 
 export type HarvestResponseFragment = { __typename?: 'HarvestResponse', harvest?: { __typename?: 'Harvest', uuid?: string | null, amountHarvested?: number | null, harvestWeight?: number | null, harvestedOn?: any | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null };
 
 export type PlantRequirementsFragment = { __typename?: 'PlantRequirements', uuid?: string | null, soil?: string | null, water?: string | null, light?: string | null, temperature?: string | null };
 
-export type PlantFragment = { __typename?: 'Plant', uuid?: string | null, name?: string | null, scientificName?: string | null, description?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null, requirements?: { __typename?: 'PlantRequirements', uuid?: string | null, soil?: string | null, water?: string | null, light?: string | null, temperature?: string | null } | null };
+export type PlantFragment = { __typename?: 'Plant', uuid?: string | null, name?: string | null, scientificName?: string | null, description?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null, requirements?: { __typename?: 'PlantRequirements', uuid?: string | null, soil?: string | null, water?: string | null, light?: string | null, temperature?: string | null } | null, diseases?: Array<{ __typename?: 'Disease', uuid?: string | null, scientificName?: string | null, description?: string | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null }> | null };
 
-export type PlantResponseFragment = { __typename?: 'PlantResponse', plant?: { __typename?: 'Plant', uuid?: string | null, name?: string | null, scientificName?: string | null, description?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null, requirements?: { __typename?: 'PlantRequirements', uuid?: string | null, soil?: string | null, water?: string | null, light?: string | null, temperature?: string | null } | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null };
+export type PlantResponseFragment = { __typename?: 'PlantResponse', plant?: { __typename?: 'Plant', uuid?: string | null, name?: string | null, scientificName?: string | null, description?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null, requirements?: { __typename?: 'PlantRequirements', uuid?: string | null, soil?: string | null, water?: string | null, light?: string | null, temperature?: string | null } | null, diseases?: Array<{ __typename?: 'Disease', uuid?: string | null, scientificName?: string | null, description?: string | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null }> | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null };
 
 export type PlotFragment = { __typename?: 'Plot', uuid?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null };
 
@@ -551,6 +560,13 @@ export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
 
+export type PlantDiseasesQueryVariables = Exact<{
+  input: PlantDiseasesInput;
+}>;
+
+
+export type PlantDiseasesQuery = { __typename?: 'Query', plantDiseases: { __typename?: 'DiseasesResponse', count?: number | null, pageInfo?: { __typename?: 'DiseasesPageInfo', startCursor?: any | null, endCursor?: any | null, hasMore?: boolean | null } | null, edges?: Array<{ __typename?: 'DiseasesEdge', cursor?: any | null, node?: { __typename?: 'Disease', uuid?: string | null, scientificName?: string | null, description?: string | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null } | null }> | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
+
 export type FindHarvestQueryVariables = Exact<{
   input: FindHarvestInput;
 }>;
@@ -563,7 +579,7 @@ export type PlantQueryVariables = Exact<{
 }>;
 
 
-export type PlantQuery = { __typename?: 'Query', plant: { __typename?: 'PlantResponse', plant?: { __typename?: 'Plant', uuid?: string | null, name?: string | null, scientificName?: string | null, description?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null, requirements?: { __typename?: 'PlantRequirements', uuid?: string | null, soil?: string | null, water?: string | null, light?: string | null, temperature?: string | null } | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
+export type PlantQuery = { __typename?: 'Query', plant: { __typename?: 'PlantResponse', plant?: { __typename?: 'Plant', uuid?: string | null, name?: string | null, scientificName?: string | null, description?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null, requirements?: { __typename?: 'PlantRequirements', uuid?: string | null, soil?: string | null, water?: string | null, light?: string | null, temperature?: string | null } | null, diseases?: Array<{ __typename?: 'Disease', uuid?: string | null, scientificName?: string | null, description?: string | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null }> | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -577,18 +593,59 @@ export type UserQueryVariables = Exact<{
 
 export type UserQuery = { __typename?: 'Query', user: { __typename?: 'UserResponse', user?: { __typename?: 'User', uuid?: string | null, oauthId?: string | null, username?: string | null, description?: string | null, avatar?: string | null, authProvider?: AuthProvider | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
 
+export const DiseasesPageInfoFragmentDoc = gql`
+    fragment DiseasesPageInfo on DiseasesPageInfo {
+  startCursor
+  endCursor
+  hasMore
+}
+    `;
+export const DiseaseFragmentDoc = gql`
+    fragment Disease on Disease {
+  uuid
+  scientificName
+  description
+  image
+  createdAt
+  updatedAt
+}
+    `;
+export const DiseasesEdgeFragmentDoc = gql`
+    fragment DiseasesEdge on DiseasesEdge {
+  cursor
+  node {
+    ...Disease
+  }
+}
+    ${DiseaseFragmentDoc}`;
+export const ErrorResponseFragmentDoc = gql`
+    fragment ErrorResponse on ErrorResponse {
+  field
+  message
+}
+    `;
+export const DiseasesResponseFragmentDoc = gql`
+    fragment DiseasesResponse on DiseasesResponse {
+  count
+  pageInfo {
+    ...DiseasesPageInfo
+  }
+  edges {
+    ...DiseasesEdge
+  }
+  errors {
+    ...ErrorResponse
+  }
+}
+    ${DiseasesPageInfoFragmentDoc}
+${DiseasesEdgeFragmentDoc}
+${ErrorResponseFragmentDoc}`;
 export const HarvestFragmentDoc = gql`
     fragment Harvest on Harvest {
   uuid
   amountHarvested
   harvestWeight
   harvestedOn
-}
-    `;
-export const ErrorResponseFragmentDoc = gql`
-    fragment ErrorResponse on ErrorResponse {
-  field
-  message
 }
     `;
 export const HarvestResponseFragmentDoc = gql`
@@ -623,10 +680,14 @@ export const PlantFragmentDoc = gql`
   requirements {
     ...PlantRequirements
   }
+  diseases {
+    ...Disease
+  }
   plantedSeedsOn
   seedsSproutedOn
 }
-    ${PlantRequirementsFragmentDoc}`;
+    ${PlantRequirementsFragmentDoc}
+${DiseaseFragmentDoc}`;
 export const PlantResponseFragmentDoc = gql`
     fragment PlantResponse on PlantResponse {
   plant {
@@ -771,6 +832,41 @@ export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<Logou
 export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
 export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
+export const PlantDiseasesDocument = gql`
+    query plantDiseases($input: PlantDiseasesInput!) {
+  plantDiseases(input: $input) {
+    ...DiseasesResponse
+  }
+}
+    ${DiseasesResponseFragmentDoc}`;
+
+/**
+ * __usePlantDiseasesQuery__
+ *
+ * To run a query within a React component, call `usePlantDiseasesQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePlantDiseasesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePlantDiseasesQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function usePlantDiseasesQuery(baseOptions: Apollo.QueryHookOptions<PlantDiseasesQuery, PlantDiseasesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<PlantDiseasesQuery, PlantDiseasesQueryVariables>(PlantDiseasesDocument, options);
+      }
+export function usePlantDiseasesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PlantDiseasesQuery, PlantDiseasesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<PlantDiseasesQuery, PlantDiseasesQueryVariables>(PlantDiseasesDocument, options);
+        }
+export type PlantDiseasesQueryHookResult = ReturnType<typeof usePlantDiseasesQuery>;
+export type PlantDiseasesLazyQueryHookResult = ReturnType<typeof usePlantDiseasesLazyQuery>;
+export type PlantDiseasesQueryResult = Apollo.QueryResult<PlantDiseasesQuery, PlantDiseasesQueryVariables>;
 export const FindHarvestDocument = gql`
     query findHarvest($input: FindHarvestInput!) {
   findHarvest(input: $input) {

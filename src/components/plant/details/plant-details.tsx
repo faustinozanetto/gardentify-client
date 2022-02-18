@@ -24,6 +24,7 @@ const PlantDetails: React.FC<PlantDetailsProps> = (props) => {
       borderRadius="3xl"
       boxShadow="2xl"
       padding={6}
+      my={4}
       minWidth="100%"
     >
       {/* Main details */}
@@ -43,30 +44,24 @@ const PlantDetails: React.FC<PlantDetailsProps> = (props) => {
             {/* Name */}
             <Box>
               <Skeleton isLoaded={!loading}>
-                <Heading lineHeight={1.1} fontWeight={600} fontSize={{ base: '3xl', sm: '4xl', lg: '6xl' }}>
-                  <Text as={'span'} position={'relative'}>
-                    {plantData?.name}
-                  </Text>
+                <Heading as="h1" lineHeight={1.1} fontWeight={600} fontSize={{ base: '3xl', sm: '4xl', lg: '6xl' }}>
+                  {plantData?.name}
                 </Heading>
               </Skeleton>
             </Box>
             {/* Scientific name */}
             <Box>
               <Skeleton isLoaded={!loading}>
-                <Heading lineHeight={1.1} fontWeight={300} fontSize={{ base: '1xl', sm: '2xl', lg: '3xl' }}>
-                  <Text as={'span'} position={'relative'}>
-                    {plantData?.scientificName}
-                  </Text>
+                <Heading as="h2" lineHeight={1.1} fontWeight={300} fontSize={{ base: '1xl', sm: '2xl', lg: '3xl' }}>
+                  {plantData?.scientificName}
                 </Heading>
               </Skeleton>
             </Box>
             {/* Description */}
             <Box>
               <Skeleton isLoaded={!loading}>
-                <Heading lineHeight={1.1} fontWeight={200} fontSize={{ base: 'md', sm: 'lg', lg: 'xl' }}>
-                  <Text as={'span'} position={'relative'}>
-                    {plantData?.description}
-                  </Text>
+                <Heading as="p" lineHeight={1.1} fontWeight={200} fontSize={{ base: 'md', sm: 'lg', lg: 'xl' }}>
+                  {plantData?.description}
                 </Heading>
               </Skeleton>
             </Box>
@@ -78,10 +73,8 @@ const PlantDetails: React.FC<PlantDetailsProps> = (props) => {
       <VStack as={Box} align="flex-start" width={'50%'} padding={4}>
         {/* Requirements Heading */}
         <Skeleton isLoaded={!loading}>
-          <Heading lineHeight={1.1} fontWeight={600} fontSize={{ base: 'xl', sm: '2xl', lg: '4xl' }}>
-            <Text as={'span'} position={'relative'}>
-              Requirements
-            </Text>
+          <Heading as="h2" lineHeight={1.1} fontWeight={600} fontSize={{ base: 'xl', sm: '2xl', lg: '4xl' }}>
+            Requirements
           </Heading>
         </Skeleton>
         {/* Soil */}

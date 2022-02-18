@@ -1,6 +1,6 @@
 import { Heading } from '@chakra-ui/react';
 import { withApollo } from '@modules/apollo/apollo.module';
-import { GetServerSideProps, GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';

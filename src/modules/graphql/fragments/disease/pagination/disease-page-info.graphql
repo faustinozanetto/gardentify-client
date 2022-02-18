@@ -1,0 +1,5 @@
+fragment DiseasesPageInfo on DiseasesPageInfo {
+  startCursor
+  endCursor
+  hasMore
+}

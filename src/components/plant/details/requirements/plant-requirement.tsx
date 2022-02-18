@@ -44,7 +44,7 @@ const PlantRequirement: React.FC<PlantRequirementProps> = (props) => {
   return (
     <Flex
       flexDir={'column'}
-      backgroundColor={useColorModeValue('gray.200', 'gray.700')}
+      backgroundColor={useColorModeValue('gray.200', 'gray.800')}
       padding={4}
       rounded={'lg'}
       width={'full'}
@@ -53,17 +53,15 @@ const PlantRequirement: React.FC<PlantRequirementProps> = (props) => {
       <Skeleton isLoaded={!loading}>
         <HStack mb={1}>
           <Icon as={getRequirementIcon(type)} w={6} h={6} color={getHeadingColor(type)} />
-          <Heading lineHeight={1.1} fontWeight={600} fontSize={{ base: 'lg', sm: 'xl', lg: '2xl' }}>
-            <Text as={'span'} position={'relative'}>
-              {type}
-            </Text>
+          <Heading as="h3" lineHeight={1.1} fontWeight={600} fontSize={{ base: 'lg', sm: 'xl', lg: '2xl' }}>
+            {type}
           </Heading>
         </HStack>
       </Skeleton>
 
       {/* Information */}
       <Skeleton isLoaded={!loading}>
-        <Text fontWeight={600} fontSize={'1rem'}>
+        <Text as="p" fontWeight={600} fontSize={'1rem'}>
           {information}
         </Text>
       </Skeleton>
