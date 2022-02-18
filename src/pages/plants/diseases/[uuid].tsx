@@ -1,7 +1,8 @@
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CoreLayout from 'src/components/layout/core-layout';
 import CoreLayoutHead from 'src/components/layout/core-layout-head';
+import PlantDiseaseDetails from 'src/components/plant/diseases/details/plat-disease-details';
 import { Disease, useFindDiseaseQuery, UserFragment } from 'src/generated/graphql';
 
 interface DiseasePageProps {
@@ -16,6 +17,13 @@ const DiseasePage: React.FC<DiseasePageProps> = (props) => {
     variables: { input: { uuid: query.uuid as string } },
   });
 
+  // Loading disease
+  useEffect(() => {
+    if (diseaseData && diseaseData.findDisease.disease && !diseaseLoading) {
+      setDisease(diseaseData.findDisease.disease);
+    }
+  }, [diseaseData, diseaseLoading]);
+
   return (
     <CoreLayout
       loggedUser={meUser}
@@ -26,7 +34,8 @@ const DiseasePage: React.FC<DiseasePageProps> = (props) => {
         seoUrl: ('https://gardentify.com/plants/diseases/' + query?.uuid) as string,
       }}
     >
-      <h1>Klang is bad</h1>
+      {/* Disease Details */}
+      <PlantDiseaseDetails diseaseData={disease} loading={diseaseLoading} />
     </CoreLayout>
   );
 };

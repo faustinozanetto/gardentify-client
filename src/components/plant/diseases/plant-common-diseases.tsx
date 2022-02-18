@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Text, Heading, Skeleton, Stack, useColorModeValue, VStack, SimpleGrid, Wrap } from '@chakra-ui/react';
 import { Disease, PlantFragment } from 'src/generated/graphql';
-import PlantDisease from './plant-disease';
+import PlantDisease from './card/plant-disease';
 
 interface PlantCommonDiseasesProps {
   diseasesData?: Disease[];

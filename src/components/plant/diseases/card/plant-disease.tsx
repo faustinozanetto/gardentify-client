@@ -44,7 +44,7 @@ const PlantDisease: React.FC<PlantDiseaseProps> = (props) => {
 
           {/* Description */}
           <Skeleton isLoaded={!loading} mb={2}>
-            <Text as="p" fontWeight={500}>
+            <Text as="p" fontWeight={500} noOfLines={3}>
               {diseaseData.description}
             </Text>
           </Skeleton>
