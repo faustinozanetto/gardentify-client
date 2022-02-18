@@ -425,6 +425,7 @@ export type PlotsResponse = {
 
 export type Query = {
   __typename?: 'Query';
+  findDisease: DiseaseResponse;
   findDiseases: DiseasesResponse;
   findHarvest: HarvestResponse;
   findPlants: PlantsResponse;
@@ -436,6 +437,11 @@ export type Query = {
   plotPlants: PlantsResponse;
   user: UserResponse;
   userPlots: PlotsResponse;
+};
+
+
+export type QueryFindDiseaseArgs = {
+  input: FindDiseaseInput;
 };
 
 
@@ -519,6 +525,8 @@ export type DiseasesEdgeFragment = { __typename?: 'DiseasesEdge', cursor?: any |
 
 export type DiseasesPageInfoFragment = { __typename?: 'DiseasesPageInfo', startCursor?: any | null, endCursor?: any | null, hasMore?: boolean | null };
 
+export type DiseaseResponseFragment = { __typename?: 'DiseaseResponse', disease?: { __typename?: 'Disease', uuid?: string | null, scientificName?: string | null, description?: string | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null };
+
 export type DiseasesResponseFragment = { __typename?: 'DiseasesResponse', count?: number | null, pageInfo?: { __typename?: 'DiseasesPageInfo', startCursor?: any | null, endCursor?: any | null, hasMore?: boolean | null } | null, edges?: Array<{ __typename?: 'DiseasesEdge', cursor?: any | null, node?: { __typename?: 'Disease', uuid?: string | null, scientificName?: string | null, description?: string | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null } | null }> | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null };
 
 export type HarvestFragment = { __typename?: 'Harvest', uuid?: string | null, amountHarvested?: number | null, harvestWeight?: number | null, harvestedOn?: any | null };
@@ -560,6 +568,13 @@ export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
 
+export type FindDiseaseQueryVariables = Exact<{
+  input: FindDiseaseInput;
+}>;
+
+
+export type FindDiseaseQuery = { __typename?: 'Query', findDisease: { __typename?: 'DiseaseResponse', disease?: { __typename?: 'Disease', uuid?: string | null, scientificName?: string | null, description?: string | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
+
 export type PlantDiseasesQueryVariables = Exact<{
   input: PlantDiseasesInput;
 }>;
@@ -593,13 +608,6 @@ export type UserQueryVariables = Exact<{
 
 export type UserQuery = { __typename?: 'Query', user: { __typename?: 'UserResponse', user?: { __typename?: 'User', uuid?: string | null, oauthId?: string | null, username?: string | null, description?: string | null, avatar?: string | null, authProvider?: AuthProvider | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
 
-export const DiseasesPageInfoFragmentDoc = gql`
-    fragment DiseasesPageInfo on DiseasesPageInfo {
-  startCursor
-  endCursor
-  hasMore
-}
-    `;
 export const DiseaseFragmentDoc = gql`
     fragment Disease on Disease {
   uuid
@@ -610,6 +618,30 @@ export const DiseaseFragmentDoc = gql`
   updatedAt
 }
     `;
+export const ErrorResponseFragmentDoc = gql`
+    fragment ErrorResponse on ErrorResponse {
+  field
+  message
+}
+    `;
+export const DiseaseResponseFragmentDoc = gql`
+    fragment DiseaseResponse on DiseaseResponse {
+  disease {
+    ...Disease
+  }
+  errors {
+    ...ErrorResponse
+  }
+}
+    ${DiseaseFragmentDoc}
+${ErrorResponseFragmentDoc}`;
+export const DiseasesPageInfoFragmentDoc = gql`
+    fragment DiseasesPageInfo on DiseasesPageInfo {
+  startCursor
+  endCursor
+  hasMore
+}
+    `;
 export const DiseasesEdgeFragmentDoc = gql`
     fragment DiseasesEdge on DiseasesEdge {
   cursor
@@ -618,12 +650,6 @@ export const DiseasesEdgeFragmentDoc = gql`
   }
 }
     ${DiseaseFragmentDoc}`;
-export const ErrorResponseFragmentDoc = gql`
-    fragment ErrorResponse on ErrorResponse {
-  field
-  message
-}
-    `;
 export const DiseasesResponseFragmentDoc = gql`
     fragment DiseasesResponse on DiseasesResponse {
   count
@@ -832,6 +858,41 @@ export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<Logou
 export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
 export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
+export const FindDiseaseDocument = gql`
+    query findDisease($input: FindDiseaseInput!) {
+  findDisease(input: $input) {
+    ...DiseaseResponse
+  }
+}
+    ${DiseaseResponseFragmentDoc}`;
+
+/**
+ * __useFindDiseaseQuery__
+ *
+ * To run a query within a React component, call `useFindDiseaseQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindDiseaseQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindDiseaseQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useFindDiseaseQuery(baseOptions: Apollo.QueryHookOptions<FindDiseaseQuery, FindDiseaseQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindDiseaseQuery, FindDiseaseQueryVariables>(FindDiseaseDocument, options);
+      }
+export function useFindDiseaseLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindDiseaseQuery, FindDiseaseQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindDiseaseQuery, FindDiseaseQueryVariables>(FindDiseaseDocument, options);
+        }
+export type FindDiseaseQueryHookResult = ReturnType<typeof useFindDiseaseQuery>;
+export type FindDiseaseLazyQueryHookResult = ReturnType<typeof useFindDiseaseLazyQuery>;
+export type FindDiseaseQueryResult = Apollo.QueryResult<FindDiseaseQuery, FindDiseaseQueryVariables>;
 export const PlantDiseasesDocument = gql`
     query plantDiseases($input: PlantDiseasesInput!) {
   plantDiseases(input: $input) {

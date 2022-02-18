@@ -1,5 +1,5 @@
 import React from 'react';
-import { Flex, Text, Image, Heading, Skeleton, useColorModeValue, Stack, VStack } from '@chakra-ui/react';
+import { Flex, Text, Image, Heading, Skeleton, useColorModeValue, Stack, VStack, Spacer } from '@chakra-ui/react';
 import { Disease } from 'src/generated/graphql';
 import PlantDiseaseReadMore from './plant-disease-read-more';
 
@@ -19,6 +19,7 @@ const PlantDisease: React.FC<PlantDiseaseProps> = (props) => {
       align={'center'}
       rounded={'lg'}
       maxWidth={'400px'}
+      height={'full'}
     >
       <VStack padding={4} textAlign={'center'}>
         {/* Image */}
@@ -31,6 +32,7 @@ const PlantDisease: React.FC<PlantDiseaseProps> = (props) => {
           alt={diseaseData?.scientificName}
         />
 
+        <Spacer />
         {/* Information */}
         <Stack spacing={2}>
           {/* Name */}
@@ -48,7 +50,7 @@ const PlantDisease: React.FC<PlantDiseaseProps> = (props) => {
           </Skeleton>
 
           {/* Read more button */}
-          <PlantDiseaseReadMore diseaseName=''loading />
+          <PlantDiseaseReadMore diseaseUuid={diseaseData.uuid} loading={loading} />
         </Stack>
       </VStack>
     </Flex>

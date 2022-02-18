@@ -1,0 +1,8 @@
+fragment DiseaseResponse on DiseaseResponse {
+  disease {
+    ...Disease
+  }
+  errors {
+    ...ErrorResponse
+  }
+}
