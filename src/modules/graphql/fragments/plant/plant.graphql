@@ -6,6 +6,9 @@ fragment Plant on Plant {
   variety
   type
   image
+  requirements {
+    ...PlantRequirements
+  }
   plantedSeedsOn
   seedsSproutedOn
 }

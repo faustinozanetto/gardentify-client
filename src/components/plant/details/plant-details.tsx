@@ -1,6 +1,14 @@
 import React from 'react';
 import { Box, Flex, Text, Image, Heading, Skeleton, Stack, VStack, useColorModeValue } from '@chakra-ui/react';
 import { PlantFragment } from 'src/generated/graphql';
+import PlantRequirement from './requirements/plant-requirement';
+
+export enum PlantRequirementType {
+  SOIL = 'Soil',
+  WATER = 'Water',
+  TEMPERATURE = 'Temperature',
+  LIGHT = 'Light',
+}
 
 interface PlantDetailsProps {
   plantData?: PlantFragment;
@@ -68,26 +76,38 @@ const PlantDetails: React.FC<PlantDetailsProps> = (props) => {
 
       {/* Specific details */}
       <VStack as={Box} align="flex-start" width={'50%'} padding={4}>
-        {/* Information Heading */}
+        {/* Requirements Heading */}
         <Skeleton isLoaded={!loading}>
           <Heading lineHeight={1.1} fontWeight={600} fontSize={{ base: 'xl', sm: '2xl', lg: '4xl' }}>
             <Text as={'span'} position={'relative'}>
-              Information
+              Requirements
             </Text>
           </Heading>
         </Skeleton>
-        {/* Soil Requirements */}
-        <VStack>
-          <Skeleton isLoaded={!loading}>
-            <Heading lineHeight={1.1} fontWeight={500} fontSize={{ base: 'lg', sm: 'xl', lg: '2xl' }}>
-              <Text as={'span'} position={'relative'}>
-                Soil Requirements
-              </Text>
-            </Heading>
-          </Skeleton>
-          {/* Info */}
-          
-        </VStack>
+        {/* Soil */}
+        <PlantRequirement
+          type={PlantRequirementType.SOIL}
+          information={plantData?.requirements?.soil}
+          loading={loading}
+        />
+        {/* Water */}
+        <PlantRequirement
+          type={PlantRequirementType.WATER}
+          information={plantData?.requirements?.water}
+          loading={loading}
+        />
+        {/* Temperature */}
+        <PlantRequirement
+          type={PlantRequirementType.TEMPERATURE}
+          information={plantData?.requirements?.temperature}
+          loading={loading}
+        />
+        {/* Light */}
+        <PlantRequirement
+          type={PlantRequirementType.LIGHT}
+          information={plantData?.requirements?.light}
+          loading={loading}
+        />
       </VStack>
     </Stack>
   );

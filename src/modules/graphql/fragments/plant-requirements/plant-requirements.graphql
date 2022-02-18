@@ -1,0 +1,7 @@
+fragment PlantRequirements on PlantRequirements {
+  uuid
+  soil
+  water
+  light
+  temperature
+}
