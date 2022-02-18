@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import CoreLayout from 'src/components/layout/core-layout';
 import CoreLayoutHead from 'src/components/layout/core-layout-head';
+import UserProfile from 'src/components/user/profile/user-profile';
 import { UserFragment, useUserQuery } from 'src/generated/graphql';
 
 interface UserPageProps {
@@ -36,10 +37,10 @@ const UserPage: React.FC<UserPageProps> = (props) => {
         seoUrl: 'https://gardentify.com/user/' + userData?.user?.user?.uuid,
       }}
     >
-      {user && (
-        <Heading as="h1" fontWeight={700}>
-          {user.username}
-        </Heading>
+      {user && !userDataLoading ? (
+        <UserProfile userData={user} loading={userDataLoading} />
+      ) : (
+        <Heading>Loading...</Heading>
       )}
     </CoreLayout>
   );

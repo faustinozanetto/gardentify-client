@@ -18,7 +18,7 @@ const PlantDisease: React.FC<PlantDiseaseProps> = (props) => {
       padding={2}
       align={'center'}
       rounded={'lg'}
-      maxWidth={'400px'}
+      maxWidth={'350px'}
       height={'full'}
     >
       <VStack padding={4} textAlign={'center'}>
@@ -43,7 +43,7 @@ const PlantDisease: React.FC<PlantDiseaseProps> = (props) => {
           </Skeleton>
 
           {/* Description */}
-          <Skeleton isLoaded={!loading} mb={2}>
+          <Skeleton isLoaded={!loading} mb={4}>
             <Text as="p" fontWeight={500} noOfLines={3}>
               {diseaseData.description}
             </Text>
