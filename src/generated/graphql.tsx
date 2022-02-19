@@ -30,6 +30,16 @@ export type CreateHarvestInput = {
   plantUuid: Scalars['String'];
 };
 
+export type CreatePlantInput = {
+  description: Scalars['String'];
+  image?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
+  requirementsUuid: Scalars['String'];
+  scientificName: Scalars['String'];
+  type: PlantType;
+  variety: Scalars['String'];
+};
+
 export type CreatePlotInput = {
   dirtDepth: Scalars['Float'];
   sizeX: Scalars['Float'];
@@ -118,6 +128,18 @@ export type FindHarvestInput = {
   uuid?: InputMaybe<Scalars['String']>;
 };
 
+export type FindPlantInput = {
+  image?: InputMaybe<Scalars['String']>;
+  scientificName?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<PlantType>;
+  uuid?: InputMaybe<Scalars['String']>;
+  variety?: InputMaybe<Scalars['String']>;
+};
+
+export type FindPlantRequirementsInput = {
+  uuid: Scalars['String'];
+};
+
 export type FindPlotInput = {
   dirtDepth?: InputMaybe<Scalars['Float']>;
   sizeX?: InputMaybe<Scalars['Float']>;
@@ -190,11 +212,15 @@ export type Mutation = {
   addDiseaseToUserPlant: DiseaseResponse;
   addUserPlantToPlot: PlotPlantResponse;
   createDisease: DiseaseResponse;
+  createPlant: PlantResponse;
+  createPlantRequirements: PlantRequirementsResponse;
   createPlot: PlotResponse;
   createUserPlant: UserPlantResponse;
   createUserPlantHarvest: HarvestResponse;
   deleteDisease: DeleteObjectResponse;
   deleteDiseaseFromUserPlant: DeleteObjectResponse;
+  deletePlant: DeleteObjectResponse;
+  deletePlantRequirements: DeleteObjectResponse;
   deletePlot: DeleteObjectResponse;
   deleteUserPlant: DeleteObjectResponse;
   /** Removes the plant from the current plot if assigned */
@@ -218,6 +244,16 @@ export type MutationAddUserPlantToPlotArgs = {
 
 export type MutationCreateDiseaseArgs = {
   input: DiseaseCreateInput;
+};
+
+
+export type MutationCreatePlantArgs = {
+  input: CreatePlantInput;
+};
+
+
+export type MutationCreatePlantRequirementsArgs = {
+  input: PlantRequirementsCreateInput;
 };
 
 
@@ -247,6 +283,16 @@ export type MutationDeleteDiseaseFromUserPlantArgs = {
 };
 
 
+export type MutationDeletePlantArgs = {
+  input: FindPlantInput;
+};
+
+
+export type MutationDeletePlantRequirementsArgs = {
+  input: FindPlantRequirementsInput;
+};
+
+
 export type MutationDeletePlotArgs = {
   uuid: Scalars['String'];
 };
@@ -273,7 +319,7 @@ export type Plant = {
   diseases?: Maybe<Array<Disease>>;
   image?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
-  requirements?: Maybe<Array<PlantRequirements>>;
+  requirements?: Maybe<PlantRequirements>;
   scientificName?: Maybe<Scalars['String']>;
   type?: Maybe<PlantType>;
   updatedAt?: Maybe<Scalars['DateTime']>;
@@ -305,6 +351,25 @@ export type PlantRequirements = {
   water?: Maybe<Scalars['String']>;
 };
 
+export type PlantRequirementsCreateInput = {
+  light: Scalars['String'];
+  soil: Scalars['String'];
+  temperature: Scalars['String'];
+  water: Scalars['String'];
+};
+
+export type PlantRequirementsResponse = {
+  __typename?: 'PlantRequirementsResponse';
+  errors?: Maybe<Array<ErrorResponse>>;
+  plantRequirements?: Maybe<PlantRequirements>;
+};
+
+export type PlantResponse = {
+  __typename?: 'PlantResponse';
+  errors?: Maybe<Array<ErrorResponse>>;
+  plant?: Maybe<Plant>;
+};
+
 /** Used for declaring the type of plant. */
 export enum PlantType {
   Bean = 'BEAN',
@@ -329,6 +394,27 @@ export enum PlantType {
   Potato = 'POTATO',
   Tomato = 'TOMATO'
 }
+
+export type PlantsEdge = {
+  __typename?: 'PlantsEdge';
+  cursor?: Maybe<Scalars['DateTime']>;
+  node?: Maybe<Plant>;
+};
+
+export type PlantsPageInfo = {
+  __typename?: 'PlantsPageInfo';
+  endCursor?: Maybe<Scalars['DateTime']>;
+  hasMore?: Maybe<Scalars['Boolean']>;
+  startCursor?: Maybe<Scalars['DateTime']>;
+};
+
+export type PlantsResponse = {
+  __typename?: 'PlantsResponse';
+  count?: Maybe<Scalars['Int']>;
+  edges?: Maybe<Array<PlantsEdge>>;
+  errors?: Maybe<Array<ErrorResponse>>;
+  pageInfo?: Maybe<PlantsPageInfo>;
+};
 
 export type Plot = {
   __typename?: 'Plot';
@@ -388,7 +474,7 @@ export type Query = {
   findDisease: DiseaseResponse;
   findDiseases: DiseasesResponse;
   findHarvest: HarvestResponse;
-  findPlant: Plant;
+  findPlant: PlantResponse;
   /** Returns, if found, a plot with the given input. */
   findPlot: PlotResponse;
   findUserPlant: UserPlantResponse;
@@ -416,6 +502,11 @@ export type QueryFindDiseasesArgs = {
 
 export type QueryFindHarvestArgs = {
   input: FindHarvestInput;
+};
+
+
+export type QueryFindPlantArgs = {
+  input: FindPlantInput;
 };
 
 
@@ -549,6 +640,8 @@ export type HarvestsResponseFragment = { __typename?: 'HarvestsResponse', count?
 
 export type PlantRequirementsFragment = { __typename?: 'PlantRequirements', uuid?: string | null, soil?: string | null, water?: string | null, light?: string | null, temperature?: string | null, createdAt?: any | null, updatedAt?: any | null };
 
+export type PlantRequirementsResponseFragment = { __typename?: 'PlantRequirementsResponse', plantRequirements?: { __typename?: 'PlantRequirements', uuid?: string | null, soil?: string | null, water?: string | null, light?: string | null, temperature?: string | null, createdAt?: any | null, updatedAt?: any | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null };
+
 export type PlantFragment = { __typename?: 'Plant', uuid?: string | null, name?: string | null, scientificName?: string | null, description?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null };
 
 export type PlotsEdgeFragment = { __typename?: 'PlotsEdge', cursor?: any | null, node?: { __typename?: 'Plot', uuid?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null, createdAt?: any | null, updatedAt?: any | null } | null };
@@ -624,6 +717,20 @@ export type DeleteUserPlantHarvestMutationVariables = Exact<{
 
 
 export type DeleteUserPlantHarvestMutation = { __typename?: 'Mutation', deleteUserPlantHarvest: { __typename?: 'DeleteObjectResponse', success?: boolean | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
+
+export type CreatePlantRequirementsMutationVariables = Exact<{
+  input: PlantRequirementsCreateInput;
+}>;
+
+
+export type CreatePlantRequirementsMutation = { __typename?: 'Mutation', createPlantRequirements: { __typename?: 'PlantRequirementsResponse', plantRequirements?: { __typename?: 'PlantRequirements', uuid?: string | null, soil?: string | null, water?: string | null, light?: string | null, temperature?: string | null, createdAt?: any | null, updatedAt?: any | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
+
+export type DeletePlantRequirementsMutationVariables = Exact<{
+  input: FindPlantRequirementsInput;
+}>;
+
+
+export type DeletePlantRequirementsMutation = { __typename?: 'Mutation', deletePlantRequirements: { __typename?: 'DeleteObjectResponse', success?: boolean | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
 
 export type AddUserPlantToPlotMutationVariables = Exact<{
   plotUuid: Scalars['String'];
@@ -876,6 +983,17 @@ export const PlantRequirementsFragmentDoc = gql`
   updatedAt
 }
     `;
+export const PlantRequirementsResponseFragmentDoc = gql`
+    fragment PlantRequirementsResponse on PlantRequirementsResponse {
+  plantRequirements {
+    ...PlantRequirements
+  }
+  errors {
+    ...ErrorResponse
+  }
+}
+    ${PlantRequirementsFragmentDoc}
+${ErrorResponseFragmentDoc}`;
 export const PlantFragmentDoc = gql`
     fragment Plant on Plant {
   uuid
@@ -1243,6 +1361,72 @@ export function useDeleteUserPlantHarvestMutation(baseOptions?: Apollo.MutationH
 export type DeleteUserPlantHarvestMutationHookResult = ReturnType<typeof useDeleteUserPlantHarvestMutation>;
 export type DeleteUserPlantHarvestMutationResult = Apollo.MutationResult<DeleteUserPlantHarvestMutation>;
 export type DeleteUserPlantHarvestMutationOptions = Apollo.BaseMutationOptions<DeleteUserPlantHarvestMutation, DeleteUserPlantHarvestMutationVariables>;
+export const CreatePlantRequirementsDocument = gql`
+    mutation createPlantRequirements($input: PlantRequirementsCreateInput!) {
+  createPlantRequirements(input: $input) {
+    ...PlantRequirementsResponse
+  }
+}
+    ${PlantRequirementsResponseFragmentDoc}`;
+export type CreatePlantRequirementsMutationFn = Apollo.MutationFunction<CreatePlantRequirementsMutation, CreatePlantRequirementsMutationVariables>;
+
+/**
+ * __useCreatePlantRequirementsMutation__
+ *
+ * To run a mutation, you first call `useCreatePlantRequirementsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreatePlantRequirementsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createPlantRequirementsMutation, { data, loading, error }] = useCreatePlantRequirementsMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreatePlantRequirementsMutation(baseOptions?: Apollo.MutationHookOptions<CreatePlantRequirementsMutation, CreatePlantRequirementsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreatePlantRequirementsMutation, CreatePlantRequirementsMutationVariables>(CreatePlantRequirementsDocument, options);
+      }
+export type CreatePlantRequirementsMutationHookResult = ReturnType<typeof useCreatePlantRequirementsMutation>;
+export type CreatePlantRequirementsMutationResult = Apollo.MutationResult<CreatePlantRequirementsMutation>;
+export type CreatePlantRequirementsMutationOptions = Apollo.BaseMutationOptions<CreatePlantRequirementsMutation, CreatePlantRequirementsMutationVariables>;
+export const DeletePlantRequirementsDocument = gql`
+    mutation deletePlantRequirements($input: FindPlantRequirementsInput!) {
+  deletePlantRequirements(input: $input) {
+    ...DeleteObjectResponse
+  }
+}
+    ${DeleteObjectResponseFragmentDoc}`;
+export type DeletePlantRequirementsMutationFn = Apollo.MutationFunction<DeletePlantRequirementsMutation, DeletePlantRequirementsMutationVariables>;
+
+/**
+ * __useDeletePlantRequirementsMutation__
+ *
+ * To run a mutation, you first call `useDeletePlantRequirementsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeletePlantRequirementsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deletePlantRequirementsMutation, { data, loading, error }] = useDeletePlantRequirementsMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useDeletePlantRequirementsMutation(baseOptions?: Apollo.MutationHookOptions<DeletePlantRequirementsMutation, DeletePlantRequirementsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeletePlantRequirementsMutation, DeletePlantRequirementsMutationVariables>(DeletePlantRequirementsDocument, options);
+      }
+export type DeletePlantRequirementsMutationHookResult = ReturnType<typeof useDeletePlantRequirementsMutation>;
+export type DeletePlantRequirementsMutationResult = Apollo.MutationResult<DeletePlantRequirementsMutation>;
+export type DeletePlantRequirementsMutationOptions = Apollo.BaseMutationOptions<DeletePlantRequirementsMutation, DeletePlantRequirementsMutationVariables>;
 export const AddUserPlantToPlotDocument = gql`
     mutation addUserPlantToPlot($plotUuid: String!, $plantUuid: String!) {
   addUserPlantToPlot(plotUuid: $plotUuid, plantUuid: $plantUuid) {

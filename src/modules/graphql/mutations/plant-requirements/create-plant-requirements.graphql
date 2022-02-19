@@ -1,0 +1,5 @@
+mutation createPlantRequirements($input: PlantRequirementsCreateInput!) {
+  createPlantRequirements(input: $input) {
+    ...PlantRequirementsResponse
+  }
+}

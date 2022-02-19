@@ -1,0 +1,5 @@
+mutation deletePlantRequirements($input: FindPlantRequirementsInput!) {
+  deletePlantRequirements(input: $input) {
+    ...DeleteObjectResponse
+  }
+}

@@ -1,0 +1,8 @@
+fragment PlantRequirementsResponse on PlantRequirementsResponse {
+  plantRequirements {
+    ...PlantRequirements
+  }
+  errors {
+    ...ErrorResponse
+  }
+}
