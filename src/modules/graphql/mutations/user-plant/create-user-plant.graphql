@@ -1,0 +1,5 @@
+mutation createUserPlant($input: CreateUserPlantInput!) {
+  createUserPlant(input: $input) {
+    ...UserPlantResponse
+  }
+}

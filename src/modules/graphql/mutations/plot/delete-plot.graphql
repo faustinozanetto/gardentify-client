@@ -1,0 +1,5 @@
+mutation deletePlot($uuid: String!) {
+  deletePlot(uuid: $uuid) {
+    ...DeleteObjectResponse
+  }
+}

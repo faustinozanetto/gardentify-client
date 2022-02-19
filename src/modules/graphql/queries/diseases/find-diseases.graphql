@@ -1,0 +1,5 @@
+query findDiseases($input: FindDiseasesInput!) {
+  findDiseases(input: $input) {
+    ...DiseasesResponse
+  }
+}

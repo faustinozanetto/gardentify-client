@@ -1,0 +1,8 @@
+fragment PlotResponse on PlotResponse {
+  plot {
+    ...Plot
+  }
+  errors {
+    ...ErrorResponse
+  }
+}

@@ -1,0 +1,5 @@
+query plotUserPlants($input: PlotPlantsInput!) {
+  plotUserPlants(input: $input) {
+    ...UserPlantsResponse
+  }
+}

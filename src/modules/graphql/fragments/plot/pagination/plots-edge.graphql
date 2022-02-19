@@ -1,0 +1,6 @@
+fragment PlotsEdge on PlotsEdge {
+  cursor
+  node {
+    ...Plot
+  }
+}

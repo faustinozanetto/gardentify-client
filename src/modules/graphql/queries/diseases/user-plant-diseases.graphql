@@ -1,0 +1,5 @@
+query userPlantDiseases($input: PlantDiseasesInput!) {
+  userPlantDiseases(input: $input) {
+    ...DiseasesResponse
+  }
+}

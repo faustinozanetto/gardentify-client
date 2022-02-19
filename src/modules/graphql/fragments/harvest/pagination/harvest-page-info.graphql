@@ -1,0 +1,5 @@
+fragment HarvestsPageInfo on HarvestsPageInfo {
+  startCursor
+  endCursor
+  hasMore
+}

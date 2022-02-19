@@ -1,11 +1,12 @@
-fragment Plant on Plant {
+fragment UserPlant on UserPlant {
   uuid
   name
   scientificName
-  description
   variety
   type
   image
+  plantedSeedsOn
+  seedsSproutedOn
   createdAt
   updatedAt
 }

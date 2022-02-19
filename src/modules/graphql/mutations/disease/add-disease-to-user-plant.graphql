@@ -1,0 +1,5 @@
+mutation addDiseaseToUserPlant($disease: FindDiseaseInput!, $plant: FindUserPlantInput!) {
+  addDiseaseToUserPlant(disease: $disease, plant: $plant) {
+    ...DiseaseResponse
+  }
+}

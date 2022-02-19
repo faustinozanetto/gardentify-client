@@ -1,8 +1,0 @@
-fragment PlantResponse on PlantResponse {
-  plant {
-    ...Plant
-  }
-  errors {
-    ...ErrorResponse
-  }
-}

@@ -1,0 +1,5 @@
+mutation addUserPlantToPlot($plotUuid: String!, $plantUuid: String!) {
+  addUserPlantToPlot(plotUuid: $plotUuid, plantUuid: $plantUuid) {
+    ...PlotPlantResponse
+  }
+}

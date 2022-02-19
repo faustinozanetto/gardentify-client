@@ -5,4 +5,6 @@ fragment User on User {
   description
   avatar
   authProvider
+  createdAt
+  updatedAt
 }

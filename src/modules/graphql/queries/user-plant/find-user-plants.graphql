@@ -1,0 +1,5 @@
+query findUserPlants($input: FindUserPlantsInput!) {
+  findUserPlants(input: $input) {
+    ...UserPlantsResponse
+  }
+}

@@ -4,4 +4,6 @@ fragment PlantRequirements on PlantRequirements {
   water
   light
   temperature
+  createdAt
+  updatedAt
 }

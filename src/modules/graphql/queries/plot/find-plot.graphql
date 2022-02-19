@@ -1,0 +1,5 @@
+query findPlot($input: FindPlotInput!) {
+  findPlot(input: $input) {
+    ...PlotResponse
+  }
+}

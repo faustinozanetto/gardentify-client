@@ -3,4 +3,6 @@ fragment Harvest on Harvest {
   amountHarvested
   harvestWeight
   harvestedOn
+  createdAt
+  updatedAt
 }

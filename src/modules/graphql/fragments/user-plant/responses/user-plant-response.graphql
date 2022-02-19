@@ -1,0 +1,8 @@
+fragment UserPlantResponse on UserPlantResponse {
+  plant {
+    ...UserPlant
+  }
+  errors {
+    ...ErrorResponse
+  }
+}

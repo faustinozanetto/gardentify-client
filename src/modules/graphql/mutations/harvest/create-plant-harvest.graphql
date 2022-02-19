@@ -1,5 +1,0 @@
-mutation createPlantHarvest($input: CreateHarvestInput!) {
-  createPlantHarvest(input: $input) {
-    ...HarvestResponse
-  }
-}

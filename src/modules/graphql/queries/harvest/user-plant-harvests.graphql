@@ -1,0 +1,5 @@
+query userPlantHarvests($input: PlantHarvestsInput!) {
+  userPlantHarvests(input: $input) {
+    ...HarvestsResponse
+  }
+}

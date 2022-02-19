@@ -1,0 +1,6 @@
+fragment UserPlantsEdge on UserPlantsEdge {
+  cursor
+  node {
+    ...UserPlant
+  }
+}

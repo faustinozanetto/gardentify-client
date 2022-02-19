@@ -1,0 +1,12 @@
+fragment HarvestsResponse on HarvestsResponse {
+  count
+  pageInfo {
+    ...HarvestsPageInfo
+  }
+  edges {
+    ...HarvestsEdge
+  }
+  errors {
+    ...ErrorResponse
+  }
+}

@@ -1,0 +1,5 @@
+mutation createDisease($input: DiseaseCreateInput!) {
+  createDisease(input: $input) {
+    ...DiseaseResponse
+  }
+}

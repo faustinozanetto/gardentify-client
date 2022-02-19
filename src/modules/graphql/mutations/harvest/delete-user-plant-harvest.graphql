@@ -1,0 +1,5 @@
+mutation deleteUserPlantHarvest($input: FindHarvestInput!) {
+  deleteUserPlantHarvest(input: $input) {
+    ...DeleteObjectResponse
+  }
+}

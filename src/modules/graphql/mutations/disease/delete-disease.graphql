@@ -1,0 +1,5 @@
+mutation deleteDisease($input: FindDiseaseInput!) {
+  deleteDisease(input: $input) {
+    ...DeleteObjectResponse
+  }
+}

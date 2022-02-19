@@ -1,0 +1,12 @@
+fragment UserPlantsResponse on UserPlantsResponse {
+  count
+  pageInfo {
+    ...UserPlantsPageInfo
+  }
+  edges {
+    ...UserPlantsEdge
+  }
+  errors {
+    ...ErrorResponse
+  }
+}

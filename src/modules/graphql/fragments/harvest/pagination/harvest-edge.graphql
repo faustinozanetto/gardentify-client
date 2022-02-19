@@ -1,0 +1,6 @@
+fragment HarvestsEdge on HarvestsEdge {
+  cursor
+  node {
+    ...Harvest
+  }
+}

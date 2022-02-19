@@ -1,0 +1,5 @@
+query userPlots($input: UserPlotsInput!) {
+  userPlots(input: $input) {
+    ...PlotsResponse
+  }
+}

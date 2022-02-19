@@ -1,0 +1,5 @@
+fragment UserPlantsPageInfo on UserPlantsPageInfo {
+  startCursor
+  endCursor
+  hasMore
+}

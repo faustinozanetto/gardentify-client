@@ -1,0 +1,12 @@
+fragment PlotsResponse on PlotsResponse {
+  count
+  pageInfo {
+    ...PlotsPageInfo
+  }
+  edges {
+    ...PlotsEdge
+  }
+  errors {
+    ...ErrorResponse
+  }
+}

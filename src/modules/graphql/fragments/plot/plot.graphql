@@ -3,4 +3,6 @@ fragment Plot on Plot {
   sizeX
   sizeY
   dirtDepth
+  createdAt
+  updatedAt
 }

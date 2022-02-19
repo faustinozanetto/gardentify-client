@@ -1,0 +1,5 @@
+mutation createPlot($input: CreatePlotInput!) {
+  createPlot(input: $input) {
+    ...PlotResponse
+  }
+}

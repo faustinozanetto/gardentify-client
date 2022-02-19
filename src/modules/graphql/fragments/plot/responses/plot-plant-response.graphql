@@ -1,0 +1,11 @@
+fragment PlotPlantResponse on PlotPlantResponse {
+  plot {
+    ...Plot
+  }
+  plant {
+    ...UserPlant
+  }
+  errors {
+    ...ErrorResponse
+  }
+}

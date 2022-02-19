@@ -1,0 +1,5 @@
+mutation deleteDiseaseFromUserPlant($diseaseUuid: String!, $plantUuid: String!) {
+  deleteDiseaseFromUserPlant(diseaseUuid: $diseaseUuid, plantUuid: $plantUuid) {
+    ...DeleteObjectResponse
+  }
+}
