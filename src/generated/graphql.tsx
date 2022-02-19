@@ -140,6 +140,12 @@ export type FindPlantRequirementsInput = {
   uuid: Scalars['String'];
 };
 
+export type FindPlantsInput = {
+  skip: Scalars['Int'];
+  take: Scalars['Int'];
+  where?: InputMaybe<FindPlantInput>;
+};
+
 export type FindPlotInput = {
   dirtDepth?: InputMaybe<Scalars['Float']>;
   sizeX?: InputMaybe<Scalars['Float']>;
@@ -475,6 +481,7 @@ export type Query = {
   findDiseases: DiseasesResponse;
   findHarvest: HarvestResponse;
   findPlant: PlantResponse;
+  findPlants: PlantsResponse;
   /** Returns, if found, a plot with the given input. */
   findPlot: PlotResponse;
   findUserPlant: UserPlantResponse;
@@ -507,6 +514,11 @@ export type QueryFindHarvestArgs = {
 
 export type QueryFindPlantArgs = {
   input: FindPlantInput;
+};
+
+
+export type QueryFindPlantsArgs = {
+  input: FindPlantsInput;
 };
 
 
@@ -642,7 +654,15 @@ export type PlantRequirementsFragment = { __typename?: 'PlantRequirements', uuid
 
 export type PlantRequirementsResponseFragment = { __typename?: 'PlantRequirementsResponse', plantRequirements?: { __typename?: 'PlantRequirements', uuid?: string | null, soil?: string | null, water?: string | null, light?: string | null, temperature?: string | null, createdAt?: any | null, updatedAt?: any | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null };
 
-export type PlantFragment = { __typename?: 'Plant', uuid?: string | null, name?: string | null, scientificName?: string | null, description?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null };
+export type PlantsEdgeFragment = { __typename?: 'PlantsEdge', cursor?: any | null, node?: { __typename?: 'Plant', uuid?: string | null, name?: string | null, scientificName?: string | null, description?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, diseases?: Array<{ __typename?: 'Disease', uuid?: string | null, scientificName?: string | null, description?: string | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null }> | null, requirements?: { __typename?: 'PlantRequirements', uuid?: string | null, soil?: string | null, water?: string | null, light?: string | null, temperature?: string | null, createdAt?: any | null, updatedAt?: any | null } | null } | null };
+
+export type PlantsPageInfoFragment = { __typename?: 'PlantsPageInfo', startCursor?: any | null, endCursor?: any | null, hasMore?: boolean | null };
+
+export type PlantFragment = { __typename?: 'Plant', uuid?: string | null, name?: string | null, scientificName?: string | null, description?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, diseases?: Array<{ __typename?: 'Disease', uuid?: string | null, scientificName?: string | null, description?: string | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null }> | null, requirements?: { __typename?: 'PlantRequirements', uuid?: string | null, soil?: string | null, water?: string | null, light?: string | null, temperature?: string | null, createdAt?: any | null, updatedAt?: any | null } | null };
+
+export type PlantResponseFragment = { __typename?: 'PlantResponse', plant?: { __typename?: 'Plant', uuid?: string | null, name?: string | null, scientificName?: string | null, description?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, diseases?: Array<{ __typename?: 'Disease', uuid?: string | null, scientificName?: string | null, description?: string | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null }> | null, requirements?: { __typename?: 'PlantRequirements', uuid?: string | null, soil?: string | null, water?: string | null, light?: string | null, temperature?: string | null, createdAt?: any | null, updatedAt?: any | null } | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null };
+
+export type PlantsResponseFragment = { __typename?: 'PlantsResponse', count?: number | null, pageInfo?: { __typename?: 'PlantsPageInfo', startCursor?: any | null, endCursor?: any | null, hasMore?: boolean | null } | null, edges?: Array<{ __typename?: 'PlantsEdge', cursor?: any | null, node?: { __typename?: 'Plant', uuid?: string | null, name?: string | null, scientificName?: string | null, description?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, diseases?: Array<{ __typename?: 'Disease', uuid?: string | null, scientificName?: string | null, description?: string | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null }> | null, requirements?: { __typename?: 'PlantRequirements', uuid?: string | null, soil?: string | null, water?: string | null, light?: string | null, temperature?: string | null, createdAt?: any | null, updatedAt?: any | null } | null } | null }> | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null };
 
 export type PlotsEdgeFragment = { __typename?: 'PlotsEdge', cursor?: any | null, node?: { __typename?: 'Plot', uuid?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null, createdAt?: any | null, updatedAt?: any | null } | null };
 
@@ -814,6 +834,20 @@ export type UserPlantHarvestsQueryVariables = Exact<{
 
 
 export type UserPlantHarvestsQuery = { __typename?: 'Query', userPlantHarvests: { __typename?: 'HarvestsResponse', count?: number | null, pageInfo?: { __typename?: 'HarvestsPageInfo', startCursor?: any | null, endCursor?: any | null, hasMore?: boolean | null } | null, edges?: Array<{ __typename?: 'HarvestsEdge', cursor?: any | null, node?: { __typename?: 'Harvest', uuid?: string | null, amountHarvested?: number | null, harvestWeight?: number | null, harvestedOn?: any | null, createdAt?: any | null, updatedAt?: any | null } | null }> | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
+
+export type FindPlantQueryVariables = Exact<{
+  input: FindPlantInput;
+}>;
+
+
+export type FindPlantQuery = { __typename?: 'Query', findPlant: { __typename?: 'PlantResponse', plant?: { __typename?: 'Plant', uuid?: string | null, name?: string | null, scientificName?: string | null, description?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, diseases?: Array<{ __typename?: 'Disease', uuid?: string | null, scientificName?: string | null, description?: string | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null }> | null, requirements?: { __typename?: 'PlantRequirements', uuid?: string | null, soil?: string | null, water?: string | null, light?: string | null, temperature?: string | null, createdAt?: any | null, updatedAt?: any | null } | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
+
+export type FindPlantsQueryVariables = Exact<{
+  input: FindPlantsInput;
+}>;
+
+
+export type FindPlantsQuery = { __typename?: 'Query', findPlants: { __typename?: 'PlantsResponse', count?: number | null, pageInfo?: { __typename?: 'PlantsPageInfo', startCursor?: any | null, endCursor?: any | null, hasMore?: boolean | null } | null, edges?: Array<{ __typename?: 'PlantsEdge', cursor?: any | null, node?: { __typename?: 'Plant', uuid?: string | null, name?: string | null, scientificName?: string | null, description?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, diseases?: Array<{ __typename?: 'Disease', uuid?: string | null, scientificName?: string | null, description?: string | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null }> | null, requirements?: { __typename?: 'PlantRequirements', uuid?: string | null, soil?: string | null, water?: string | null, light?: string | null, temperature?: string | null, createdAt?: any | null, updatedAt?: any | null } | null } | null }> | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
 
 export type FindPlotQueryVariables = Exact<{
   input: FindPlotInput;
@@ -1003,10 +1037,59 @@ export const PlantFragmentDoc = gql`
   variety
   type
   image
+  diseases {
+    ...Disease
+  }
+  requirements {
+    ...PlantRequirements
+  }
   createdAt
   updatedAt
 }
+    ${DiseaseFragmentDoc}
+${PlantRequirementsFragmentDoc}`;
+export const PlantResponseFragmentDoc = gql`
+    fragment PlantResponse on PlantResponse {
+  plant {
+    ...Plant
+  }
+  errors {
+    ...ErrorResponse
+  }
+}
+    ${PlantFragmentDoc}
+${ErrorResponseFragmentDoc}`;
+export const PlantsPageInfoFragmentDoc = gql`
+    fragment PlantsPageInfo on PlantsPageInfo {
+  startCursor
+  endCursor
+  hasMore
+}
     `;
+export const PlantsEdgeFragmentDoc = gql`
+    fragment PlantsEdge on PlantsEdge {
+  cursor
+  node {
+    ...Plant
+  }
+}
+    ${PlantFragmentDoc}`;
+export const PlantsResponseFragmentDoc = gql`
+    fragment PlantsResponse on PlantsResponse {
+  count
+  pageInfo {
+    ...PlantsPageInfo
+  }
+  edges {
+    ...PlantsEdge
+  }
+  errors {
+    ...ErrorResponse
+  }
+}
+    ${PlantsPageInfoFragmentDoc}
+${PlantsEdgeFragmentDoc}
+${ErrorResponseFragmentDoc}`;
 export const PlotFragmentDoc = gql`
     fragment Plot on Plot {
   uuid
@@ -1831,6 +1914,76 @@ export function useUserPlantHarvestsLazyQuery(baseOptions?: Apollo.LazyQueryHook
 export type UserPlantHarvestsQueryHookResult = ReturnType<typeof useUserPlantHarvestsQuery>;
 export type UserPlantHarvestsLazyQueryHookResult = ReturnType<typeof useUserPlantHarvestsLazyQuery>;
 export type UserPlantHarvestsQueryResult = Apollo.QueryResult<UserPlantHarvestsQuery, UserPlantHarvestsQueryVariables>;
+export const FindPlantDocument = gql`
+    query findPlant($input: FindPlantInput!) {
+  findPlant(input: $input) {
+    ...PlantResponse
+  }
+}
+    ${PlantResponseFragmentDoc}`;
+
+/**
+ * __useFindPlantQuery__
+ *
+ * To run a query within a React component, call `useFindPlantQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindPlantQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindPlantQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useFindPlantQuery(baseOptions: Apollo.QueryHookOptions<FindPlantQuery, FindPlantQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindPlantQuery, FindPlantQueryVariables>(FindPlantDocument, options);
+      }
+export function useFindPlantLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindPlantQuery, FindPlantQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindPlantQuery, FindPlantQueryVariables>(FindPlantDocument, options);
+        }
+export type FindPlantQueryHookResult = ReturnType<typeof useFindPlantQuery>;
+export type FindPlantLazyQueryHookResult = ReturnType<typeof useFindPlantLazyQuery>;
+export type FindPlantQueryResult = Apollo.QueryResult<FindPlantQuery, FindPlantQueryVariables>;
+export const FindPlantsDocument = gql`
+    query findPlants($input: FindPlantsInput!) {
+  findPlants(input: $input) {
+    ...PlantsResponse
+  }
+}
+    ${PlantsResponseFragmentDoc}`;
+
+/**
+ * __useFindPlantsQuery__
+ *
+ * To run a query within a React component, call `useFindPlantsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindPlantsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindPlantsQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useFindPlantsQuery(baseOptions: Apollo.QueryHookOptions<FindPlantsQuery, FindPlantsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindPlantsQuery, FindPlantsQueryVariables>(FindPlantsDocument, options);
+      }
+export function useFindPlantsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindPlantsQuery, FindPlantsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindPlantsQuery, FindPlantsQueryVariables>(FindPlantsDocument, options);
+        }
+export type FindPlantsQueryHookResult = ReturnType<typeof useFindPlantsQuery>;
+export type FindPlantsLazyQueryHookResult = ReturnType<typeof useFindPlantsLazyQuery>;
+export type FindPlantsQueryResult = Apollo.QueryResult<FindPlantsQuery, FindPlantsQueryVariables>;
 export const FindPlotDocument = gql`
     query findPlot($input: FindPlotInput!) {
   findPlot(input: $input) {

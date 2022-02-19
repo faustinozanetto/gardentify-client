@@ -6,6 +6,12 @@ fragment Plant on Plant {
   variety
   type
   image
+  diseases {
+    ...Disease
+  }
+  requirements {
+    ...PlantRequirements
+  }
   createdAt
   updatedAt
 }

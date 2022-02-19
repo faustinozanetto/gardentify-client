@@ -2,25 +2,25 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import CoreLayout from 'src/components/layout/core-layout';
 import CoreLayoutHead from 'src/components/layout/core-layout-head';
-import { PlantFragment, UserFragment } from 'src/generated/graphql';
+import { Plant, useFindPlantQuery, User } from 'src/generated/graphql';
 import PlantDetails from 'src/components/plant/details/plant-details';
 import PlantCommonDiseases from 'src/components/plant/diseases/plant-common-diseases';
 
 interface PlatPageProps {
-  meUser: UserFragment;
+  meUser: User;
 }
 
 const PlatPage: React.FC<PlatPageProps> = (props) => {
   const router = useRouter();
   const { meUser } = props;
-  const [plant, setPlant] = useState<PlantFragment>();
-  const { data: plantData, loading: plantLoading } = usePlantQuery({
+  const [plant, setPlant] = useState<Plant>();
+  const { data: plantData, loading: plantLoading } = useFindPlantQuery({
     variables: { input: { uuid: router?.query?.uuid as string } },
   });
 
   useEffect(() => {
-    if (plantData && plantData.plant.plant) {
-      setPlant(plantData.plant.plant);
+    if (plantData && plantData.findPlant.plant) {
+      setPlant(plantData.findPlant.plant);
     }
   }, [plantData, plantLoading]);
 
