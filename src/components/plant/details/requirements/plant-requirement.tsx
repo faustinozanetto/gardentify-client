@@ -44,7 +44,7 @@ const PlantRequirement: React.FC<PlantRequirementProps> = (props) => {
   return (
     <Flex
       flexDir={'column'}
-      backgroundColor={useColorModeValue('gray.200', 'gray.800')}
+      backgroundColor={useColorModeValue('gray.100', 'gray.700')}
       padding={4}
       rounded={'lg'}
       width={'full'}

@@ -1,14 +1,14 @@
 import React from 'react';
+import PlantDiseaseReadMore from './plant-disease-read-more';
 import { Flex, Text, Image, Heading, Skeleton, useColorModeValue, Stack, VStack, Spacer } from '@chakra-ui/react';
 import { Disease } from 'src/generated/graphql';
-import PlantDiseaseReadMore from './plant-disease-read-more';
 
-interface PlantDiseaseProps {
+interface PlantDiseaseCardProps {
   diseaseData?: Disease;
   loading?: boolean;
 }
 
-const PlantDisease: React.FC<PlantDiseaseProps> = (props) => {
+const PlantDiseaseCard: React.FC<PlantDiseaseCardProps> = (props) => {
   const { diseaseData, loading } = props;
 
   return (
@@ -57,4 +57,4 @@ const PlantDisease: React.FC<PlantDiseaseProps> = (props) => {
   );
 };
 
-export default PlantDisease;
+export default PlantDiseaseCard;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Flex, Text, useColorModeValue, HStack, Skeleton, Badge, SkeletonText } from '@chakra-ui/react';
 import { UserFragment } from 'src/generated/graphql';
-import UserAvatar from './user-avatar';
+import UserAvatar from '../user-avatar';
 import { generateAvatarURl } from '@utils/utils-user';
 
 interface UserProfileDetailsProps {
@@ -16,8 +16,8 @@ const UserProfileDetails: React.FC<UserProfileDetailsProps> = (props) => {
       flexDir="column"
       padding="1rem"
       borderRadius="2xl"
-      boxShadow="xl"
-      backgroundColor={useColorModeValue('gray.300', 'gray.700')}
+      boxShadow="2xl"
+      bgColor={useColorModeValue('gray.300', 'gray.900')}
     >
       <Flex flexDir={['column', 'column', 'column', 'row', 'row']} justifyContent="space-between">
         {userData && <UserAvatar imageUrl={generateAvatarURl(userData)} size={150} loading={loading} />}

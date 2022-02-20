@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import CoreLayout from 'src/components/layout/core-layout';
 import CoreLayoutHead from 'src/components/layout/core-layout-head';
 import UserProfile from 'src/components/user/profile/user-profile';
-import { UserFragment, useUserQuery } from 'src/generated/graphql';
+import { useFindUserPlantsQuery, UserFragment, UserPlant, useUserQuery } from 'src/generated/graphql';
 
 interface UserPageProps {
   meUser: UserFragment;
@@ -17,8 +17,12 @@ const UserPage: React.FC<UserPageProps> = (props) => {
   const { meUser } = props;
   const router = useRouter();
   const [user, setUser] = useState<UserFragment>();
+  const [userPlants, setUserPlants] = useState<UserPlant[]>([]);
   const { data: userData, loading: userDataLoading } = useUserQuery({
     variables: { input: { username: router?.query?.username as string } },
+  });
+  const { data: userPlantsData, loading: userPlantsDataLoading } = useFindUserPlantsQuery({
+    variables: { input: { take: 10, skip: 0, where: {} } },
   });
 
   useEffect(() => {
@@ -26,6 +30,13 @@ const UserPage: React.FC<UserPageProps> = (props) => {
       setUser(userData.user.user);
     }
   }, [userData, userDataLoading]);
+
+  useEffect(() => {
+    if (userPlantsData && userPlantsData.findUserPlants && userPlantsData.findUserPlants.count > 0) {
+      const nodes = userPlantsData.findUserPlants.edges.map((edge) => edge.node);
+      setUserPlants(nodes);
+    }
+  }, [userPlantsData, userDataLoading]);
 
   return (
     <CoreLayout
@@ -38,7 +49,7 @@ const UserPage: React.FC<UserPageProps> = (props) => {
       }}
     >
       {user && !userDataLoading ? (
-        <UserProfile userData={user} loading={userDataLoading} />
+        <UserProfile userData={user} userPlants={userPlants} loading={userDataLoading} />
       ) : (
         <Heading>Loading...</Heading>
       )}

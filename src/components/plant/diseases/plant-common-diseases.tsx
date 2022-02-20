@@ -1,7 +1,7 @@
 import React from 'react';
-import { Box, Text, Heading, Skeleton, Stack, useColorModeValue, VStack, SimpleGrid, Wrap } from '@chakra-ui/react';
-import { Disease, PlantFragment } from 'src/generated/graphql';
-import PlantDisease from './card/plant-disease';
+import PlantDiseaseCard from './card/plant-disease-card';
+import { Heading, Skeleton, Stack, useColorModeValue, Wrap } from '@chakra-ui/react';
+import { Disease } from 'src/generated/graphql';
 
 interface PlantCommonDiseasesProps {
   diseasesData?: Disease[];
@@ -22,15 +22,21 @@ const PlantCommonDiseases: React.FC<PlantCommonDiseasesProps> = (props) => {
     >
       {/* Heading */}
       <Skeleton isLoaded={!loading}>
-        <Heading as="h2" lineHeight={1.1} fontWeight={600} fontSize={{ base: 'xl', sm: '2xl', lg: '4xl' }}>
+        <Heading
+          as="h2"
+          lineHeight={1.1}
+          fontWeight={600}
+          fontSize={{ base: 'xl', sm: '2xl', lg: '4xl' }}
+          marginBottom={4}
+        >
           Common Diseases
         </Heading>
       </Skeleton>
       {/* Content */}
-      <Wrap spacing={6}>
+      <Wrap spacing={6} align="center" justify="center">
         {diseasesData &&
           diseasesData.map((disease, index) => {
-            return <PlantDisease key={index} diseaseData={disease} loading={loading} />;
+            return <PlantDiseaseCard key={index} diseaseData={disease} loading={loading} />;
           })}
       </Wrap>
     </Stack>

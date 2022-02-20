@@ -3,19 +3,12 @@ import { Box, Flex, Text, Image, Heading, Skeleton, Stack, VStack, useColorModeV
 import { PlantFragment } from 'src/generated/graphql';
 import PlantRequirement from './requirements/plant-requirement';
 
-export enum PlantRequirementType {
-  SOIL = 'Soil',
-  WATER = 'Water',
-  TEMPERATURE = 'Temperature',
-  LIGHT = 'Light',
-}
-
-interface PlantDetailsProps {
+interface PlotDetailsProps {
   plantData?: PlantFragment;
   loading?: boolean;
 }
 
-const PlantDetails: React.FC<PlantDetailsProps> = (props) => {
+const PlotDetails: React.FC<PlotDetailsProps> = (props) => {
   const { plantData, loading } = props;
   return (
     <HStack>
@@ -115,4 +108,4 @@ const PlantDetails: React.FC<PlantDetailsProps> = (props) => {
   );
 };
 
-export default PlantDetails;
+export default PlotDetails;
