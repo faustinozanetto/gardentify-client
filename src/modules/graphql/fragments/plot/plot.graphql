@@ -1,8 +1,10 @@
 fragment Plot on Plot {
   uuid
+  name
   sizeX
   sizeY
   dirtDepth
+  image
   createdAt
   updatedAt
 }

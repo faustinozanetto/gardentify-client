@@ -1,110 +1,108 @@
 import React from 'react';
-import { Box, Flex, Text, Image, Heading, Skeleton, Stack, VStack, useColorModeValue, HStack } from '@chakra-ui/react';
-import { PlantFragment } from 'src/generated/graphql';
-import PlantRequirement from './requirements/plant-requirement';
+import {
+  Box,
+  Flex,
+  Text,
+  Image,
+  Heading,
+  Skeleton,
+  Stack,
+  VStack,
+  useColorModeValue,
+  HStack,
+  Badge,
+  SkeletonCircle,
+} from '@chakra-ui/react';
+import { Plot } from 'src/generated/graphql';
 
 interface PlotDetailsProps {
-  plantData?: PlantFragment;
+  plotData?: Plot;
   loading?: boolean;
 }
 
 const PlotDetails: React.FC<PlotDetailsProps> = (props) => {
-  const { plantData, loading } = props;
+  const { plotData, loading } = props;
   return (
-    <HStack>
-      {/* Left Content */}
-      <Stack
-        bgColor={useColorModeValue('gray.50', 'gray.900')}
-        borderRadius="3xl"
-        boxShadow="2xl"
-        padding={6}
-        height={'full'}
-      >
-        {/* Main details */}
-        <VStack as={Box} padding={4} textAlign={'center'}>
-          <Box>
+    <Stack
+      direction={'row'}
+      bgColor={useColorModeValue('gray.50', 'gray.900')}
+      borderRadius="3xl"
+      boxShadow="2xl"
+      padding={6}
+      my={6}
+      height={'full'}
+    >
+      {/* Main details */}
+      <VStack as={Box} padding={4} textAlign={'center'} width={'full'}>
+        <Box mb={4}>
+          <SkeletonCircle isLoaded={!loading} boxSize={['150px', '200px', '250px', '300px', '400px']}>
             <Image
               objectFit="cover"
               borderRadius="full"
-              width={['150px', '200px', '250px', '300px', '400px']}
-              height={['150px', '200px', '250px', '300px', '400px']}
-              src={plantData?.image}
-              alt={plantData?.scientificName}
+              boxSize={['150px', '200px', '250px', '300px', '400px']}
+              src={plotData?.image}
+              alt={plotData?.name}
             />
-          </Box>
-          <Box>
-            <Stack spacing={2}>
-              {/* Name */}
+          </SkeletonCircle>
+        </Box>
+        <Box width={'full'}>
+          <Stack spacing={2} align={'center'}>
+            {/* Name */}
+            <Box mb={4}>
+              <Skeleton isLoaded={!loading}>
+                <Heading as="h1" lineHeight={1.1} fontWeight={600} fontSize={{ base: '3xl', sm: '4xl', lg: '5xl' }}>
+                  {plotData?.name}
+                </Heading>
+              </Skeleton>
+            </Box>
+            {/* Data */}
+            <HStack>
+              {/* Plants amount */}
               <Box>
                 <Skeleton isLoaded={!loading}>
-                  <Heading as="h1" lineHeight={1.1} fontWeight={600} fontSize={{ base: '3xl', sm: '4xl', lg: '6xl' }}>
-                    {plantData?.name}
-                  </Heading>
-                </Skeleton>
-              </Box>
-              {/* Scientific name */}
-              <Box>
-                <Skeleton isLoaded={!loading}>
-                  <Heading as="h2" lineHeight={1.1} fontWeight={300} fontSize={{ base: '1xl', sm: '2xl', lg: '3xl' }}>
-                    {plantData?.scientificName}
-                  </Heading>
+                  <Badge fontSize="1em" colorScheme={'green'}>
+                    3 Plants
+                  </Badge>
                 </Skeleton>
               </Box>
               {/* Description */}
               <Box>
                 <Skeleton isLoaded={!loading}>
-                  <Heading as="p" lineHeight={1.1} fontWeight={200} fontSize={{ base: 'md', sm: 'lg', lg: 'xl' }}>
-                    {plantData?.description}
-                  </Heading>
+                  <Badge fontSize="1em" colorScheme={'teal'}>
+                    Size {plotData?.sizeX}m x {plotData?.sizeY}m
+                  </Badge>
                 </Skeleton>
               </Box>
-            </Stack>
+            </HStack>
+            <Skeleton isLoaded={!loading}>
+              <Badge fontSize="1em" colorScheme={'twitter'}>
+                Added in {new Date(plotData?.createdAt).toDateString()}
+              </Badge>
+            </Skeleton>
+          </Stack>
+        </Box>
+      </VStack>
+      {/* In depth details */}
+      <VStack as={Box} padding={4} textAlign={'center'}>
+        <Stack spacing={2} align={'center'}>
+          {/* Name */}
+          <Box mb={4}>
+            <Skeleton isLoaded={!loading}>
+              <Heading as="h2" lineHeight={1.1} fontWeight={600} fontSize={{ base: '2xl', sm: '3xl', lg: '4xl' }}>
+                Information
+              </Heading>
+            </Skeleton>
           </Box>
-        </VStack>
-      </Stack>
-      {/* Right Content */}
-      <Stack
-        bgColor={useColorModeValue('gray.50', 'gray.900')}
-        borderRadius="3xl"
-        boxShadow="2xl"
-        padding={6}
-        height={'full'}
-      >
-        {/* Specific details */}
-        <VStack as={Box} padding={4}>
-          {/* Requirements Heading */}
-          <Skeleton isLoaded={!loading}>
-            <Heading as="h2" lineHeight={1.1} fontWeight={600} fontSize={{ base: 'xl', sm: '2xl', lg: '4xl' }} mb={4}>
-              Requirements
-            </Heading>
-          </Skeleton>
-          {/* Soil */}
-          <PlantRequirement
-            type={PlantRequirementType.SOIL}
-            information={plantData?.requirements?.soil}
-            loading={loading}
-          />
-          {/* Water */}
-          <PlantRequirement
-            type={PlantRequirementType.WATER}
-            information={plantData?.requirements?.water}
-            loading={loading}
-          />
-          {/* Temperature */}
-          <PlantRequirement
-            type={PlantRequirementType.TEMPERATURE}
-            information={plantData?.requirements?.temperature}
-            loading={loading}
-          />
-          {/* Light */}
-          <PlantRequirement
-            type={PlantRequirementType.LIGHT}
-            information={plantData?.requirements?.light}
-            loading={loading}
-          />
-        </VStack>
-      </Stack>
-    </HStack>
+          <Box mb={4}>
+            <Text as={'p'}>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam recusandae, maxime sunt ut eligendi
+              minima odit, error quidem expedita soluta optio dignissimos earum. Consectetur veniam, numquam possimus
+              deleniti atque eaque.
+            </Text>
+          </Box>
+        </Stack>
+      </VStack>
+    </Stack>
   );
 };
 
