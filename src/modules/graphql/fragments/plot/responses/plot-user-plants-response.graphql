@@ -1,0 +1,15 @@
+fragment PlotUserPlantsResponse on PlotUserPlantsResponse {
+  count
+  plot {
+    ...Plot
+  }
+  pageInfo {
+    ...PlotUserPlantsPageInfo
+  }
+  edges {
+    ...PlotUserPlantsEdge
+  }
+  errors {
+    ...ErrorResponse
+  }
+}

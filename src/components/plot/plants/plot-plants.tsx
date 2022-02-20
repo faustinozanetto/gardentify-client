@@ -1,15 +1,16 @@
 import React from 'react';
-import { Box, Heading, Skeleton, Stack, useColorModeValue, Wrap } from '@chakra-ui/react';
-import { UserPlant } from 'src/generated/graphql';
 import UserPlantCard from 'src/components/user-plant/card/user-plant-card';
+import { Box, Heading, Skeleton, Stack, useColorModeValue, Wrap } from '@chakra-ui/react';
+import { Plot, UserPlant } from 'src/generated/graphql';
 
 interface PlotPlantsProps {
+  plotData?: Plot;
   plotPlants?: UserPlant[];
   loading?: boolean;
 }
 
 const PlotPlants: React.FC<PlotPlantsProps> = (props) => {
-  const { plotPlants, loading } = props;
+  const { plotPlants, plotData, loading } = props;
 
   return (
     <Stack

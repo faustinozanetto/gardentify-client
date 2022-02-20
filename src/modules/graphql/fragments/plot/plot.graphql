@@ -5,6 +5,9 @@ fragment Plot on Plot {
   sizeY
   dirtDepth
   image
+  user {
+    ...User
+  }
   createdAt
   updatedAt
 }

@@ -1,24 +1,27 @@
 import { Button } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 import React from 'react';
 
-interface PlantDiseaseReadMoreProps {
-  diseaseUuid?: string;
+interface UserPlantReadMoreProps {
+  plantUuid?: string;
   loading?: boolean;
 }
 
-const PlantDiseaseReadMore: React.FC<PlantDiseaseReadMoreProps> = (props) => {
-  const { diseaseUuid, loading } = props;
+const UserPlantReadMore: React.FC<UserPlantReadMoreProps> = (props) => {
+  const router = useRouter();
+  const { plantUuid, loading } = props;
 
-  const generateLink = (diseaseUuid: string) => {
-    const base = '/plants/diseases/';
-    return base + diseaseUuid;
+  const generateLink = (plant: string) => {
+    const plantOwner = router.query.username as string;
+    const base = `/user/${plantOwner}/plants/`;
+    return base + plant;
   };
 
   return (
-    <Button as={'a'} loadingText={'Loading'} href={generateLink(diseaseUuid)}>
+    <Button as={'a'} isLoading={loading} loadingText={'Loading'} href={generateLink(plantUuid)}>
       Read More
     </Button>
   );
 };
 
-export default PlantDiseaseReadMore;
+export default UserPlantReadMore;

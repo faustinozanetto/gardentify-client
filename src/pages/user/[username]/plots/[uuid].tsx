@@ -21,17 +21,19 @@ const UserPlotPage: React.FC<UserPlotPageProps> = (props) => {
   });
   const { data: plotPlantsData, loading: plotPlantsLoading } = usePlotUserPlantsQuery({
     variables: { input: { plotUuid: router?.query?.uuid as string, take: 5, skip: 0, where: {} } },
+    ssr: true,
   });
 
-  useEffect(() => {
-    if (plotData && plotData.findPlot.plot) {
-      setPlot(plotData.findPlot.plot);
-    }
-  }, [plotData, plotLoading]);
+  // useEffect(() => {
+  //   if (plotData && plotData.findPlot.plot) {
+  //     setPlot(plotData.findPlot.plot);
+  //   }
+  // }, [plotData, plotLoading]);
 
   useEffect(() => {
     if (plotPlantsData && plotPlantsData.plotUserPlants.edges) {
       const mappedPlants = plotPlantsData.plotUserPlants.edges.map((edge) => edge.node);
+      setPlot(plotPlantsData.plotUserPlants.plot);
       setPlotPlants(mappedPlants);
     }
   }, [plotPlantsData, plotPlantsLoading]);
@@ -50,7 +52,7 @@ const UserPlotPage: React.FC<UserPlotPageProps> = (props) => {
         {/* Plot details */}
         <PlotDetails plotData={plot} loading={plotLoading} />
         {/* Plot plants */}
-        <PlotPlants plotPlants={plotPlants} loading={plotPlantsLoading} />
+        <PlotPlants plotData={plot} plotPlants={plotPlants} loading={plotPlantsLoading} />
       </VStack>
     </CoreLayout>
   );

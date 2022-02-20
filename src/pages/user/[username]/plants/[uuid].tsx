@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import PlantDetails from 'src/components/plant/details/plant-details';
 import CoreLayout from 'src/components/layout/core-layout';
 import CoreLayoutHead from 'src/components/layout/core-layout-head';
-import { PlantFragment, usePlantQuery, UserFragment } from 'src/generated/graphql';
-import PlantDetails from 'src/components/plant/details/plant-details';
+import { useRouter } from 'next/router';
+import { useFindUserPlantQuery, UserFragment, UserPlant } from 'src/generated/graphql';
 
 interface PlatPageProps {
   meUser: UserFragment;
@@ -12,14 +12,14 @@ interface PlatPageProps {
 const PlatPage: React.FC<PlatPageProps> = (props) => {
   const router = useRouter();
   const { meUser } = props;
-  const [plant, setPlant] = useState<PlantFragment>();
-  const { data: plantData, loading: plantLoading } = usePlantQuery({
+  const [plant, setPlant] = useState<UserPlant>();
+  const { data: plantData, loading: plantLoading } = useFindUserPlantQuery({
     variables: { input: { uuid: router?.query?.uuid as string } },
   });
 
   useEffect(() => {
-    if (plantData && plantData.plant.plant) {
-      setPlant(plantData.plant.plant);
+    if (plantData && plantData.findUserPlant.plant) {
+      setPlant(plantData.findUserPlant.plant);
     }
   }, [plantData, plantLoading]);
 

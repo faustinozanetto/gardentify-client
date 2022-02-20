@@ -7,6 +7,9 @@ fragment UserPlant on UserPlant {
   image
   plantedSeedsOn
   seedsSproutedOn
+  plot {
+    ...Plot
+  }
   createdAt
   updatedAt
 }

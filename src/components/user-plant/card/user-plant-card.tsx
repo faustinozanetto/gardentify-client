@@ -1,7 +1,7 @@
 import React from 'react';
+import UserPlantReadMore from './user-plant-read-more';
 import { Flex, Text, Image, Heading, Skeleton, useColorModeValue, Stack, VStack, Spacer } from '@chakra-ui/react';
 import { UserPlant } from 'src/generated/graphql';
-import PlantDiseaseReadMore from './user-plant-read-more';
 
 interface UserPlantCardProps {
   userPlant?: UserPlant;
@@ -34,16 +34,26 @@ const UserPlantCard: React.FC<UserPlantCardProps> = (props) => {
 
         <Spacer />
         {/* Information */}
-        <Stack spacing={2}>
+        <Stack spacing={2} width={'full'}>
           {/* Name */}
-          <Skeleton isLoaded={!loading} mb={2}>
-            <Heading as="h3" lineHeight={1.1} fontWeight={600} fontSize={{ base: 'lg', sm: 'xl', lg: '2xl' }}>
+          <Skeleton isLoaded={!loading}>
+            <Heading as="h3" fontWeight={600} fontSize={{ base: 'lg', sm: 'xl', lg: '2xl' }}>
+              {userPlant.name}
+            </Heading>
+          </Skeleton>
+
+          {/* Scientific name */}
+          <Skeleton isLoaded={!loading}>
+            <Heading as="h4" fontWeight={500} fontSize={{ base: 'lg', sm: 'xl', lg: 'xl' }}>
               {userPlant.scientificName}
             </Heading>
           </Skeleton>
 
           {/* Read more button */}
-          <PlantDiseaseReadMore diseaseUuid={userPlant.uuid} loading={loading} />
+          <UserPlantReadMore
+            plantUuid={userPlant.uuid}
+            loading={loading}
+          />
         </Stack>
       </VStack>
     </Flex>

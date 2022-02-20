@@ -1,0 +1,6 @@
+fragment PlotUserPlantsEdge on PlotUserPlantsEdge {
+  cursor
+  node {
+    ...UserPlant
+  }
+}

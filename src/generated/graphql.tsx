@@ -472,6 +472,28 @@ export type PlotResponse = {
   plot?: Maybe<Plot>;
 };
 
+export type PlotUserPlantsEdge = {
+  __typename?: 'PlotUserPlantsEdge';
+  cursor?: Maybe<Scalars['DateTime']>;
+  node?: Maybe<UserPlant>;
+};
+
+export type PlotUserPlantsPageInfo = {
+  __typename?: 'PlotUserPlantsPageInfo';
+  endCursor?: Maybe<Scalars['DateTime']>;
+  hasMore?: Maybe<Scalars['Boolean']>;
+  startCursor?: Maybe<Scalars['DateTime']>;
+};
+
+export type PlotUserPlantsResponse = {
+  __typename?: 'PlotUserPlantsResponse';
+  count?: Maybe<Scalars['Int']>;
+  edges?: Maybe<Array<PlotUserPlantsEdge>>;
+  errors?: Maybe<Array<ErrorResponse>>;
+  pageInfo?: Maybe<PlotUserPlantsPageInfo>;
+  plot?: Maybe<Plot>;
+};
+
 export type PlotsEdge = {
   __typename?: 'PlotsEdge';
   cursor?: Maybe<Scalars['DateTime']>;
@@ -506,7 +528,7 @@ export type Query = {
   findUserPlants: UserPlantsResponse;
   me: UserResponse;
   /** Returns all the plants in a specific user´s plot. */
-  plotUserPlants: UserPlantsResponse;
+  plotUserPlants: PlotUserPlantsResponse;
   user: UserResponse;
   userPlantDiseases: DiseasesResponse;
   userPlantHarvests: HarvestsResponse;
@@ -682,31 +704,37 @@ export type PlantResponseFragment = { __typename?: 'PlantResponse', plant?: { __
 
 export type PlantsResponseFragment = { __typename?: 'PlantsResponse', count?: number | null, pageInfo?: { __typename?: 'PlantsPageInfo', startCursor?: any | null, endCursor?: any | null, hasMore?: boolean | null } | null, edges?: Array<{ __typename?: 'PlantsEdge', cursor?: any | null, node?: { __typename?: 'Plant', uuid?: string | null, name?: string | null, scientificName?: string | null, description?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, diseases?: Array<{ __typename?: 'Disease', uuid?: string | null, scientificName?: string | null, description?: string | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null }> | null, requirements?: { __typename?: 'PlantRequirements', uuid?: string | null, soil?: string | null, water?: string | null, light?: string | null, temperature?: string | null, createdAt?: any | null, updatedAt?: any | null } | null } | null }> | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null };
 
-export type PlotsEdgeFragment = { __typename?: 'PlotsEdge', cursor?: any | null, node?: { __typename?: 'Plot', uuid?: string | null, name?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null } | null };
+export type PlotUserPlantsEdgeFragment = { __typename?: 'PlotUserPlantsEdge', cursor?: any | null, node?: { __typename?: 'UserPlant', uuid?: string | null, name?: string | null, scientificName?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null, createdAt?: any | null, updatedAt?: any | null, plot?: { __typename?: 'Plot', uuid?: string | null, name?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, user?: { __typename?: 'User', uuid?: string | null, oauthId?: string | null, username?: string | null, description?: string | null, avatar?: string | null, authProvider?: AuthProvider | null, createdAt?: any | null, updatedAt?: any | null } | null } | null } | null };
+
+export type PlotUserPlantsPageInfoFragment = { __typename?: 'PlotUserPlantsPageInfo', startCursor?: any | null, endCursor?: any | null, hasMore?: boolean | null };
+
+export type PlotsEdgeFragment = { __typename?: 'PlotsEdge', cursor?: any | null, node?: { __typename?: 'Plot', uuid?: string | null, name?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, user?: { __typename?: 'User', uuid?: string | null, oauthId?: string | null, username?: string | null, description?: string | null, avatar?: string | null, authProvider?: AuthProvider | null, createdAt?: any | null, updatedAt?: any | null } | null } | null };
 
 export type PlotsPageInfoFragment = { __typename?: 'PlotsPageInfo', startCursor?: any | null, endCursor?: any | null, hasMore?: boolean | null };
 
-export type PlotFragment = { __typename?: 'Plot', uuid?: string | null, name?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null };
+export type PlotFragment = { __typename?: 'Plot', uuid?: string | null, name?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, user?: { __typename?: 'User', uuid?: string | null, oauthId?: string | null, username?: string | null, description?: string | null, avatar?: string | null, authProvider?: AuthProvider | null, createdAt?: any | null, updatedAt?: any | null } | null };
 
-export type PlotPlantResponseFragment = { __typename?: 'PlotPlantResponse', plot?: { __typename?: 'Plot', uuid?: string | null, name?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null } | null, plant?: { __typename?: 'UserPlant', uuid?: string | null, name?: string | null, scientificName?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null, createdAt?: any | null, updatedAt?: any | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null };
+export type PlotPlantResponseFragment = { __typename?: 'PlotPlantResponse', plot?: { __typename?: 'Plot', uuid?: string | null, name?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, user?: { __typename?: 'User', uuid?: string | null, oauthId?: string | null, username?: string | null, description?: string | null, avatar?: string | null, authProvider?: AuthProvider | null, createdAt?: any | null, updatedAt?: any | null } | null } | null, plant?: { __typename?: 'UserPlant', uuid?: string | null, name?: string | null, scientificName?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null, createdAt?: any | null, updatedAt?: any | null, plot?: { __typename?: 'Plot', uuid?: string | null, name?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, user?: { __typename?: 'User', uuid?: string | null, oauthId?: string | null, username?: string | null, description?: string | null, avatar?: string | null, authProvider?: AuthProvider | null, createdAt?: any | null, updatedAt?: any | null } | null } | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null };
 
-export type PlotResponseFragment = { __typename?: 'PlotResponse', plot?: { __typename?: 'Plot', uuid?: string | null, name?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null };
+export type PlotResponseFragment = { __typename?: 'PlotResponse', plot?: { __typename?: 'Plot', uuid?: string | null, name?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, user?: { __typename?: 'User', uuid?: string | null, oauthId?: string | null, username?: string | null, description?: string | null, avatar?: string | null, authProvider?: AuthProvider | null, createdAt?: any | null, updatedAt?: any | null } | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null };
 
-export type PlotsResponseFragment = { __typename?: 'PlotsResponse', count?: number | null, pageInfo?: { __typename?: 'PlotsPageInfo', startCursor?: any | null, endCursor?: any | null, hasMore?: boolean | null } | null, edges?: Array<{ __typename?: 'PlotsEdge', cursor?: any | null, node?: { __typename?: 'Plot', uuid?: string | null, name?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null } | null }> | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null };
+export type PlotUserPlantsResponseFragment = { __typename?: 'PlotUserPlantsResponse', count?: number | null, plot?: { __typename?: 'Plot', uuid?: string | null, name?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, user?: { __typename?: 'User', uuid?: string | null, oauthId?: string | null, username?: string | null, description?: string | null, avatar?: string | null, authProvider?: AuthProvider | null, createdAt?: any | null, updatedAt?: any | null } | null } | null, pageInfo?: { __typename?: 'PlotUserPlantsPageInfo', startCursor?: any | null, endCursor?: any | null, hasMore?: boolean | null } | null, edges?: Array<{ __typename?: 'PlotUserPlantsEdge', cursor?: any | null, node?: { __typename?: 'UserPlant', uuid?: string | null, name?: string | null, scientificName?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null, createdAt?: any | null, updatedAt?: any | null, plot?: { __typename?: 'Plot', uuid?: string | null, name?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, user?: { __typename?: 'User', uuid?: string | null, oauthId?: string | null, username?: string | null, description?: string | null, avatar?: string | null, authProvider?: AuthProvider | null, createdAt?: any | null, updatedAt?: any | null } | null } | null } | null }> | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null };
+
+export type PlotsResponseFragment = { __typename?: 'PlotsResponse', count?: number | null, pageInfo?: { __typename?: 'PlotsPageInfo', startCursor?: any | null, endCursor?: any | null, hasMore?: boolean | null } | null, edges?: Array<{ __typename?: 'PlotsEdge', cursor?: any | null, node?: { __typename?: 'Plot', uuid?: string | null, name?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, user?: { __typename?: 'User', uuid?: string | null, oauthId?: string | null, username?: string | null, description?: string | null, avatar?: string | null, authProvider?: AuthProvider | null, createdAt?: any | null, updatedAt?: any | null } | null } | null }> | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null };
 
 export type DeleteObjectResponseFragment = { __typename?: 'DeleteObjectResponse', success?: boolean | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null };
 
 export type ErrorResponseFragment = { __typename?: 'ErrorResponse', field: string, message: string };
 
-export type UserPlantsEdgeFragment = { __typename?: 'UserPlantsEdge', cursor?: any | null, node?: { __typename?: 'UserPlant', uuid?: string | null, name?: string | null, scientificName?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null, createdAt?: any | null, updatedAt?: any | null } | null };
+export type UserPlantsEdgeFragment = { __typename?: 'UserPlantsEdge', cursor?: any | null, node?: { __typename?: 'UserPlant', uuid?: string | null, name?: string | null, scientificName?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null, createdAt?: any | null, updatedAt?: any | null, plot?: { __typename?: 'Plot', uuid?: string | null, name?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, user?: { __typename?: 'User', uuid?: string | null, oauthId?: string | null, username?: string | null, description?: string | null, avatar?: string | null, authProvider?: AuthProvider | null, createdAt?: any | null, updatedAt?: any | null } | null } | null } | null };
 
 export type UserPlantsPageInfoFragment = { __typename?: 'UserPlantsPageInfo', startCursor?: any | null, endCursor?: any | null, hasMore?: boolean | null };
 
-export type UserPlantResponseFragment = { __typename?: 'UserPlantResponse', plant?: { __typename?: 'UserPlant', uuid?: string | null, name?: string | null, scientificName?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null, createdAt?: any | null, updatedAt?: any | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null };
+export type UserPlantResponseFragment = { __typename?: 'UserPlantResponse', plant?: { __typename?: 'UserPlant', uuid?: string | null, name?: string | null, scientificName?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null, createdAt?: any | null, updatedAt?: any | null, plot?: { __typename?: 'Plot', uuid?: string | null, name?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, user?: { __typename?: 'User', uuid?: string | null, oauthId?: string | null, username?: string | null, description?: string | null, avatar?: string | null, authProvider?: AuthProvider | null, createdAt?: any | null, updatedAt?: any | null } | null } | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null };
 
-export type UserPlantsResponseFragment = { __typename?: 'UserPlantsResponse', count?: number | null, pageInfo?: { __typename?: 'UserPlantsPageInfo', startCursor?: any | null, endCursor?: any | null, hasMore?: boolean | null } | null, edges?: Array<{ __typename?: 'UserPlantsEdge', cursor?: any | null, node?: { __typename?: 'UserPlant', uuid?: string | null, name?: string | null, scientificName?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null, createdAt?: any | null, updatedAt?: any | null } | null }> | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null };
+export type UserPlantsResponseFragment = { __typename?: 'UserPlantsResponse', count?: number | null, pageInfo?: { __typename?: 'UserPlantsPageInfo', startCursor?: any | null, endCursor?: any | null, hasMore?: boolean | null } | null, edges?: Array<{ __typename?: 'UserPlantsEdge', cursor?: any | null, node?: { __typename?: 'UserPlant', uuid?: string | null, name?: string | null, scientificName?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null, createdAt?: any | null, updatedAt?: any | null, plot?: { __typename?: 'Plot', uuid?: string | null, name?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, user?: { __typename?: 'User', uuid?: string | null, oauthId?: string | null, username?: string | null, description?: string | null, avatar?: string | null, authProvider?: AuthProvider | null, createdAt?: any | null, updatedAt?: any | null } | null } | null } | null }> | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null };
 
-export type UserPlantFragment = { __typename?: 'UserPlant', uuid?: string | null, name?: string | null, scientificName?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null, createdAt?: any | null, updatedAt?: any | null };
+export type UserPlantFragment = { __typename?: 'UserPlant', uuid?: string | null, name?: string | null, scientificName?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null, createdAt?: any | null, updatedAt?: any | null, plot?: { __typename?: 'Plot', uuid?: string | null, name?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, user?: { __typename?: 'User', uuid?: string | null, oauthId?: string | null, username?: string | null, description?: string | null, avatar?: string | null, authProvider?: AuthProvider | null, createdAt?: any | null, updatedAt?: any | null } | null } | null };
 
 export type UserResponseFragment = { __typename?: 'UserResponse', user?: { __typename?: 'User', uuid?: string | null, oauthId?: string | null, username?: string | null, description?: string | null, avatar?: string | null, authProvider?: AuthProvider | null, createdAt?: any | null, updatedAt?: any | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null };
 
@@ -776,14 +804,14 @@ export type AddUserPlantToPlotMutationVariables = Exact<{
 }>;
 
 
-export type AddUserPlantToPlotMutation = { __typename?: 'Mutation', addUserPlantToPlot: { __typename?: 'PlotPlantResponse', plot?: { __typename?: 'Plot', uuid?: string | null, name?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null } | null, plant?: { __typename?: 'UserPlant', uuid?: string | null, name?: string | null, scientificName?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null, createdAt?: any | null, updatedAt?: any | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
+export type AddUserPlantToPlotMutation = { __typename?: 'Mutation', addUserPlantToPlot: { __typename?: 'PlotPlantResponse', plot?: { __typename?: 'Plot', uuid?: string | null, name?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, user?: { __typename?: 'User', uuid?: string | null, oauthId?: string | null, username?: string | null, description?: string | null, avatar?: string | null, authProvider?: AuthProvider | null, createdAt?: any | null, updatedAt?: any | null } | null } | null, plant?: { __typename?: 'UserPlant', uuid?: string | null, name?: string | null, scientificName?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null, createdAt?: any | null, updatedAt?: any | null, plot?: { __typename?: 'Plot', uuid?: string | null, name?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, user?: { __typename?: 'User', uuid?: string | null, oauthId?: string | null, username?: string | null, description?: string | null, avatar?: string | null, authProvider?: AuthProvider | null, createdAt?: any | null, updatedAt?: any | null } | null } | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
 
 export type CreatePlotMutationVariables = Exact<{
   input: CreatePlotInput;
 }>;
 
 
-export type CreatePlotMutation = { __typename?: 'Mutation', createPlot: { __typename?: 'PlotResponse', plot?: { __typename?: 'Plot', uuid?: string | null, name?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
+export type CreatePlotMutation = { __typename?: 'Mutation', createPlot: { __typename?: 'PlotResponse', plot?: { __typename?: 'Plot', uuid?: string | null, name?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, user?: { __typename?: 'User', uuid?: string | null, oauthId?: string | null, username?: string | null, description?: string | null, avatar?: string | null, authProvider?: AuthProvider | null, createdAt?: any | null, updatedAt?: any | null } | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
 
 export type DeletePlotMutationVariables = Exact<{
   uuid: Scalars['String'];
@@ -804,7 +832,7 @@ export type CreateUserPlantMutationVariables = Exact<{
 }>;
 
 
-export type CreateUserPlantMutation = { __typename?: 'Mutation', createUserPlant: { __typename?: 'UserPlantResponse', plant?: { __typename?: 'UserPlant', uuid?: string | null, name?: string | null, scientificName?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null, createdAt?: any | null, updatedAt?: any | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
+export type CreateUserPlantMutation = { __typename?: 'Mutation', createUserPlant: { __typename?: 'UserPlantResponse', plant?: { __typename?: 'UserPlant', uuid?: string | null, name?: string | null, scientificName?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null, createdAt?: any | null, updatedAt?: any | null, plot?: { __typename?: 'Plot', uuid?: string | null, name?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, user?: { __typename?: 'User', uuid?: string | null, oauthId?: string | null, username?: string | null, description?: string | null, avatar?: string | null, authProvider?: AuthProvider | null, createdAt?: any | null, updatedAt?: any | null } | null } | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
 
 export type DeleteUserPlantMutationVariables = Exact<{
   input: FindUserPlantInput;
@@ -872,35 +900,35 @@ export type FindPlotQueryVariables = Exact<{
 }>;
 
 
-export type FindPlotQuery = { __typename?: 'Query', findPlot: { __typename?: 'PlotResponse', plot?: { __typename?: 'Plot', uuid?: string | null, name?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
+export type FindPlotQuery = { __typename?: 'Query', findPlot: { __typename?: 'PlotResponse', plot?: { __typename?: 'Plot', uuid?: string | null, name?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, user?: { __typename?: 'User', uuid?: string | null, oauthId?: string | null, username?: string | null, description?: string | null, avatar?: string | null, authProvider?: AuthProvider | null, createdAt?: any | null, updatedAt?: any | null } | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
 
 export type PlotUserPlantsQueryVariables = Exact<{
   input: PlotPlantsInput;
 }>;
 
 
-export type PlotUserPlantsQuery = { __typename?: 'Query', plotUserPlants: { __typename?: 'UserPlantsResponse', count?: number | null, pageInfo?: { __typename?: 'UserPlantsPageInfo', startCursor?: any | null, endCursor?: any | null, hasMore?: boolean | null } | null, edges?: Array<{ __typename?: 'UserPlantsEdge', cursor?: any | null, node?: { __typename?: 'UserPlant', uuid?: string | null, name?: string | null, scientificName?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null, createdAt?: any | null, updatedAt?: any | null } | null }> | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
+export type PlotUserPlantsQuery = { __typename?: 'Query', plotUserPlants: { __typename?: 'PlotUserPlantsResponse', count?: number | null, plot?: { __typename?: 'Plot', uuid?: string | null, name?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, user?: { __typename?: 'User', uuid?: string | null, oauthId?: string | null, username?: string | null, description?: string | null, avatar?: string | null, authProvider?: AuthProvider | null, createdAt?: any | null, updatedAt?: any | null } | null } | null, pageInfo?: { __typename?: 'PlotUserPlantsPageInfo', startCursor?: any | null, endCursor?: any | null, hasMore?: boolean | null } | null, edges?: Array<{ __typename?: 'PlotUserPlantsEdge', cursor?: any | null, node?: { __typename?: 'UserPlant', uuid?: string | null, name?: string | null, scientificName?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null, createdAt?: any | null, updatedAt?: any | null, plot?: { __typename?: 'Plot', uuid?: string | null, name?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, user?: { __typename?: 'User', uuid?: string | null, oauthId?: string | null, username?: string | null, description?: string | null, avatar?: string | null, authProvider?: AuthProvider | null, createdAt?: any | null, updatedAt?: any | null } | null } | null } | null }> | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
 
 export type UserPlotsQueryVariables = Exact<{
   input: UserPlotsInput;
 }>;
 
 
-export type UserPlotsQuery = { __typename?: 'Query', userPlots: { __typename?: 'PlotsResponse', count?: number | null, pageInfo?: { __typename?: 'PlotsPageInfo', startCursor?: any | null, endCursor?: any | null, hasMore?: boolean | null } | null, edges?: Array<{ __typename?: 'PlotsEdge', cursor?: any | null, node?: { __typename?: 'Plot', uuid?: string | null, name?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null } | null }> | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
+export type UserPlotsQuery = { __typename?: 'Query', userPlots: { __typename?: 'PlotsResponse', count?: number | null, pageInfo?: { __typename?: 'PlotsPageInfo', startCursor?: any | null, endCursor?: any | null, hasMore?: boolean | null } | null, edges?: Array<{ __typename?: 'PlotsEdge', cursor?: any | null, node?: { __typename?: 'Plot', uuid?: string | null, name?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, user?: { __typename?: 'User', uuid?: string | null, oauthId?: string | null, username?: string | null, description?: string | null, avatar?: string | null, authProvider?: AuthProvider | null, createdAt?: any | null, updatedAt?: any | null } | null } | null }> | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
 
 export type FindUserPlantQueryVariables = Exact<{
   input: FindUserPlantInput;
 }>;
 
 
-export type FindUserPlantQuery = { __typename?: 'Query', findUserPlant: { __typename?: 'UserPlantResponse', plant?: { __typename?: 'UserPlant', uuid?: string | null, name?: string | null, scientificName?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null, createdAt?: any | null, updatedAt?: any | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
+export type FindUserPlantQuery = { __typename?: 'Query', findUserPlant: { __typename?: 'UserPlantResponse', plant?: { __typename?: 'UserPlant', uuid?: string | null, name?: string | null, scientificName?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null, createdAt?: any | null, updatedAt?: any | null, plot?: { __typename?: 'Plot', uuid?: string | null, name?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, user?: { __typename?: 'User', uuid?: string | null, oauthId?: string | null, username?: string | null, description?: string | null, avatar?: string | null, authProvider?: AuthProvider | null, createdAt?: any | null, updatedAt?: any | null } | null } | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
 
 export type FindUserPlantsQueryVariables = Exact<{
   input: FindUserPlantsInput;
 }>;
 
 
-export type FindUserPlantsQuery = { __typename?: 'Query', findUserPlants: { __typename?: 'UserPlantsResponse', count?: number | null, pageInfo?: { __typename?: 'UserPlantsPageInfo', startCursor?: any | null, endCursor?: any | null, hasMore?: boolean | null } | null, edges?: Array<{ __typename?: 'UserPlantsEdge', cursor?: any | null, node?: { __typename?: 'UserPlant', uuid?: string | null, name?: string | null, scientificName?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null, createdAt?: any | null, updatedAt?: any | null } | null }> | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
+export type FindUserPlantsQuery = { __typename?: 'Query', findUserPlants: { __typename?: 'UserPlantsResponse', count?: number | null, pageInfo?: { __typename?: 'UserPlantsPageInfo', startCursor?: any | null, endCursor?: any | null, hasMore?: boolean | null } | null, edges?: Array<{ __typename?: 'UserPlantsEdge', cursor?: any | null, node?: { __typename?: 'UserPlant', uuid?: string | null, name?: string | null, scientificName?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null, createdAt?: any | null, updatedAt?: any | null, plot?: { __typename?: 'Plot', uuid?: string | null, name?: string | null, sizeX?: number | null, sizeY?: string | null, dirtDepth?: number | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null, user?: { __typename?: 'User', uuid?: string | null, oauthId?: string | null, username?: string | null, description?: string | null, avatar?: string | null, authProvider?: AuthProvider | null, createdAt?: any | null, updatedAt?: any | null } | null } | null } | null }> | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1108,6 +1136,18 @@ export const PlantsResponseFragmentDoc = gql`
     ${PlantsPageInfoFragmentDoc}
 ${PlantsEdgeFragmentDoc}
 ${ErrorResponseFragmentDoc}`;
+export const UserFragmentDoc = gql`
+    fragment User on User {
+  uuid
+  oauthId
+  username
+  description
+  avatar
+  authProvider
+  createdAt
+  updatedAt
+}
+    `;
 export const PlotFragmentDoc = gql`
     fragment Plot on Plot {
   uuid
@@ -1116,10 +1156,13 @@ export const PlotFragmentDoc = gql`
   sizeY
   dirtDepth
   image
+  user {
+    ...User
+  }
   createdAt
   updatedAt
 }
-    `;
+    ${UserFragmentDoc}`;
 export const UserPlantFragmentDoc = gql`
     fragment UserPlant on UserPlant {
   uuid
@@ -1130,10 +1173,13 @@ export const UserPlantFragmentDoc = gql`
   image
   plantedSeedsOn
   seedsSproutedOn
+  plot {
+    ...Plot
+  }
   createdAt
   updatedAt
 }
-    `;
+    ${PlotFragmentDoc}`;
 export const PlotPlantResponseFragmentDoc = gql`
     fragment PlotPlantResponse on PlotPlantResponse {
   plot {
@@ -1159,6 +1205,41 @@ export const PlotResponseFragmentDoc = gql`
   }
 }
     ${PlotFragmentDoc}
+${ErrorResponseFragmentDoc}`;
+export const PlotUserPlantsPageInfoFragmentDoc = gql`
+    fragment PlotUserPlantsPageInfo on PlotUserPlantsPageInfo {
+  startCursor
+  endCursor
+  hasMore
+}
+    `;
+export const PlotUserPlantsEdgeFragmentDoc = gql`
+    fragment PlotUserPlantsEdge on PlotUserPlantsEdge {
+  cursor
+  node {
+    ...UserPlant
+  }
+}
+    ${UserPlantFragmentDoc}`;
+export const PlotUserPlantsResponseFragmentDoc = gql`
+    fragment PlotUserPlantsResponse on PlotUserPlantsResponse {
+  count
+  plot {
+    ...Plot
+  }
+  pageInfo {
+    ...PlotUserPlantsPageInfo
+  }
+  edges {
+    ...PlotUserPlantsEdge
+  }
+  errors {
+    ...ErrorResponse
+  }
+}
+    ${PlotFragmentDoc}
+${PlotUserPlantsPageInfoFragmentDoc}
+${PlotUserPlantsEdgeFragmentDoc}
 ${ErrorResponseFragmentDoc}`;
 export const PlotsPageInfoFragmentDoc = gql`
     fragment PlotsPageInfo on PlotsPageInfo {
@@ -1241,18 +1322,6 @@ export const UserPlantsResponseFragmentDoc = gql`
     ${UserPlantsPageInfoFragmentDoc}
 ${UserPlantsEdgeFragmentDoc}
 ${ErrorResponseFragmentDoc}`;
-export const UserFragmentDoc = gql`
-    fragment User on User {
-  uuid
-  oauthId
-  username
-  description
-  avatar
-  authProvider
-  createdAt
-  updatedAt
-}
-    `;
 export const UserResponseFragmentDoc = gql`
     fragment UserResponse on UserResponse {
   user {
@@ -2042,10 +2111,10 @@ export type FindPlotQueryResult = Apollo.QueryResult<FindPlotQuery, FindPlotQuer
 export const PlotUserPlantsDocument = gql`
     query plotUserPlants($input: PlotPlantsInput!) {
   plotUserPlants(input: $input) {
-    ...UserPlantsResponse
+    ...PlotUserPlantsResponse
   }
 }
-    ${UserPlantsResponseFragmentDoc}`;
+    ${PlotUserPlantsResponseFragmentDoc}`;
 
 /**
  * __usePlotUserPlantsQuery__
