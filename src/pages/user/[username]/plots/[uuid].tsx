@@ -5,7 +5,9 @@ import PlotDetails from 'src/components/plot/details/plot-details';
 import CoreLayoutHead from 'src/components/layout/core-layout-head';
 import { UserPlant, Plot, useFindPlotQuery, usePlotUserPlantsQuery, User } from 'src/generated/graphql';
 import PlotPlants from 'src/components/plot/plants/plot-plants';
-import { Container, VStack } from '@chakra-ui/react';
+import { VStack } from '@chakra-ui/react';
+import { GetServerSideProps } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 interface UserPlotPageProps {
   meUser: User;
@@ -50,12 +52,17 @@ const UserPlotPage: React.FC<UserPlotPageProps> = (props) => {
     >
       <VStack>
         {/* Plot details */}
-        <PlotDetails plotData={plot} loading={plotLoading} />
+        <PlotDetails plotData={plot} plantsAmount={plotPlants.length} loading={plotLoading} />
         {/* Plot plants */}
         <PlotPlants plotData={plot} plotPlants={plotPlants} loading={plotPlantsLoading} />
       </VStack>
     </CoreLayout>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { locale } = context;
+  return { props: { ...(await serverSideTranslations(locale ?? 'en', ['common', 'sidebar'])) } };
 };
 
 export default UserPlotPage;

@@ -7,7 +7,14 @@ import { useEffect, useState } from 'react';
 import CoreLayout from 'src/components/layout/core-layout';
 import CoreLayoutHead from 'src/components/layout/core-layout-head';
 import UserProfile from 'src/components/user/profile/user-profile';
-import { useFindUserPlantsQuery, UserFragment, UserPlant, useUserQuery } from 'src/generated/graphql';
+import {
+  Plot,
+  useFindUserPlantsQuery,
+  UserFragment,
+  UserPlant,
+  useUserPlotsQuery,
+  useUserQuery,
+} from 'src/generated/graphql';
 
 interface UserPageProps {
   meUser: UserFragment;
@@ -18,11 +25,15 @@ const UserPage: React.FC<UserPageProps> = (props) => {
   const router = useRouter();
   const [user, setUser] = useState<UserFragment>();
   const [userPlants, setUserPlants] = useState<UserPlant[]>([]);
+  const [userPlots, setUserPlots] = useState<Plot[]>([]);
   const { data: userData, loading: userDataLoading } = useUserQuery({
     variables: { input: { username: router?.query?.username as string } },
   });
   const { data: userPlantsData, loading: userPlantsDataLoading } = useFindUserPlantsQuery({
     variables: { input: { take: 10, skip: 0, where: {} } },
+  });
+  const { data: userPlotsData, loading: userPlotsDataLoading } = useUserPlotsQuery({
+    variables: { input: { take: 4, skip: 0, where: { username: meUser?.username } } },
   });
 
   useEffect(() => {
@@ -38,6 +49,13 @@ const UserPage: React.FC<UserPageProps> = (props) => {
     }
   }, [userPlantsData, userDataLoading]);
 
+  useEffect(() => {
+    if (userPlotsData && userPlotsData.userPlots && userPlotsData.userPlots.count > 0) {
+      const nodes = userPlotsData.userPlots.edges.map((edge) => edge.node);
+      setUserPlots(nodes);
+    }
+  }, [userPlotsData, userPlotsDataLoading]);
+
   return (
     <CoreLayout
       loggedUser={meUser}
@@ -49,7 +67,7 @@ const UserPage: React.FC<UserPageProps> = (props) => {
       }}
     >
       {user && !userDataLoading ? (
-        <UserProfile userData={user} userPlants={userPlants} loading={userDataLoading} />
+        <UserProfile userData={user} userPlots={userPlots} loading={userDataLoading} />
       ) : (
         <Heading>Loading...</Heading>
       )}

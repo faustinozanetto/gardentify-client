@@ -6,6 +6,7 @@ import '@fontsource/poppins';
 import { appWithTranslation } from 'next-i18next';
 import { useMeQuery, UserFragment } from 'src/generated/graphql';
 import { withApollo } from '@modules/apollo/apollo.module';
+import CoreWrapper from 'src/components/wrapper/core-wrapper';
 
 const GardentifyApp = (props: AppProps) => {
   const { Component, pageProps } = props;
@@ -23,10 +24,12 @@ const GardentifyApp = (props: AppProps) => {
   if (!meUserData?.me?.user && meUserLoading) return <h1>Loading</h1>;
 
   return (
-    <ChakraProvider theme={theme}>
+    <CoreWrapper cookies={pageProps.cookies}>
       <Component {...pageProps} meUser={meUser} />
-    </ChakraProvider>
+    </CoreWrapper>
   );
 };
+
+export { getServerSideProps } from '../components/wrapper/core-wrapper';
 
 export default withApollo({})(appWithTranslation(GardentifyApp));

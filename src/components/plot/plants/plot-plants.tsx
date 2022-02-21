@@ -33,7 +33,7 @@ const PlotPlants: React.FC<PlotPlantsProps> = (props) => {
       {/* Plants */}
       <Wrap spacing="30px" justify="center">
         {plotPlants?.map((plant) => (
-          <Box key={plant.uuid}>
+          <Box key={plant.uuid} width={'300px'}>
             <UserPlantCard loading={loading} userPlant={plant} />
           </Box>
         ))}

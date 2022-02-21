@@ -17,11 +17,12 @@ import { Plot } from 'src/generated/graphql';
 
 interface PlotDetailsProps {
   plotData?: Plot;
+  plantsAmount?: number;
   loading?: boolean;
 }
 
 const PlotDetails: React.FC<PlotDetailsProps> = (props) => {
-  const { plotData, loading } = props;
+  const { plotData, plantsAmount, loading } = props;
   return (
     <Stack
       direction={'row'}
@@ -61,7 +62,7 @@ const PlotDetails: React.FC<PlotDetailsProps> = (props) => {
               <Box>
                 <Skeleton isLoaded={!loading}>
                   <Badge fontSize="1em" colorScheme={'green'}>
-                    3 Plants
+                    {plantsAmount} plants
                   </Badge>
                 </Skeleton>
               </Box>

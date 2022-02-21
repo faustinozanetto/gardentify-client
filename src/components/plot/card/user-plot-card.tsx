@@ -1,5 +1,4 @@
 import React from 'react';
-import UserPlantReadMore from './user-plant-read-more';
 import {
   Flex,
   Text,
@@ -11,27 +10,37 @@ import {
   VStack,
   Spacer,
   SkeletonCircle,
+  Badge,
+  Box,
 } from '@chakra-ui/react';
-import { UserPlant } from 'src/generated/graphql';
+import { Plot } from 'src/generated/graphql';
+import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 
-interface UserPlantCardProps {
-  userPlant?: UserPlant;
+interface UserPlotCardProps {
+  plot?: Plot;
   loading?: boolean;
 }
 
-const UserPlantCard: React.FC<UserPlantCardProps> = (props) => {
-  const { userPlant, loading } = props;
+const UserPlotCard: React.FC<UserPlotCardProps> = (props) => {
+  const { plot, loading } = props;
+  const { query } = useRouter();
+
+  const generatePlotLink = (plot: Plot): string => {
+    return `/user/${query.username}/plots/${plot.uuid}`;
+  };
 
   return (
     <motion.div whileHover={{ scale: 1.05 }}>
       <Flex
+        as={'a'}
         flexDir={'column'}
         backgroundColor={useColorModeValue('gray.200', 'gray.800')}
         padding={2}
         align={'center'}
         rounded={'lg'}
         boxShadow={'lg'}
+        href={generatePlotLink(plot)}
       >
         <VStack padding={4} textAlign={'center'} width={'full'}>
           {/* Image */}
@@ -40,8 +49,8 @@ const UserPlantCard: React.FC<UserPlantCardProps> = (props) => {
               objectFit="cover"
               borderRadius="full"
               boxSize={['75px', '100px', '150px', '200px']}
-              src={userPlant?.image}
-              alt={userPlant?.scientificName}
+              src={plot?.image}
+              alt={plot?.name}
             />
           </SkeletonCircle>
 
@@ -51,19 +60,24 @@ const UserPlantCard: React.FC<UserPlantCardProps> = (props) => {
             {/* Name */}
             <Skeleton isLoaded={!loading}>
               <Heading as="h3" fontWeight={600} fontSize={{ base: 'lg', sm: 'xl', lg: '2xl' }}>
-                {userPlant.name}
+                {plot.name}
               </Heading>
             </Skeleton>
-
-            {/* Scientific name */}
-            <Skeleton isLoaded={!loading}>
-              <Heading as="h4" fontWeight={500} opacity={'0.75'} fontSize={{ base: 'lg', sm: 'xl', lg: 'lg' }}>
-                {userPlant.scientificName}
-              </Heading>
-            </Skeleton>
-
-            {/* Read more button */}
-            <UserPlantReadMore plantUuid={userPlant.uuid} loading={loading} />
+            <Box>
+              <Skeleton isLoaded={!loading}>
+                <Badge fontSize="0.85em" colorScheme={'green'}>
+                  {plot.dirtDepth}cm Dirth Depth
+                </Badge>
+              </Skeleton>
+            </Box>
+            {/* Description */}
+            <Box>
+              <Skeleton isLoaded={!loading}>
+                <Badge fontSize="0.85em" colorScheme={'teal'}>
+                  Size {plot?.sizeX}m x {plot?.sizeY}m
+                </Badge>
+              </Skeleton>
+            </Box>
           </Stack>
         </VStack>
       </Flex>
@@ -71,4 +85,4 @@ const UserPlantCard: React.FC<UserPlantCardProps> = (props) => {
   );
 };
 
-export default UserPlantCard;
+export default UserPlotCard;

@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import PlantDetails from 'src/components/plant/details/plant-details';
 import CoreLayout from 'src/components/layout/core-layout';
 import CoreLayoutHead from 'src/components/layout/core-layout-head';
 import { useRouter } from 'next/router';
-import { useFindUserPlantQuery, UserFragment, UserPlant } from 'src/generated/graphql';
+import { useFindUserPlantQuery, User, UserPlant } from 'src/generated/graphql';
+import UserPlantDetails from 'src/components/user-plant/card/details/user-plant-details';
+import { GetServerSideProps } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 interface PlatPageProps {
-  meUser: UserFragment;
+  meUser: User;
 }
 
 const PlatPage: React.FC<PlatPageProps> = (props) => {
@@ -17,6 +19,7 @@ const PlatPage: React.FC<PlatPageProps> = (props) => {
     variables: { input: { uuid: router?.query?.uuid as string } },
   });
 
+  //
   useEffect(() => {
     if (plantData && plantData.findUserPlant.plant) {
       setPlant(plantData.findUserPlant.plant);
@@ -33,9 +36,15 @@ const PlatPage: React.FC<PlatPageProps> = (props) => {
         seoUrl: 'https://gardentify.com/plants',
       }}
     >
-      <PlantDetails plantData={plant} loading={plantLoading} />
+      {/* Plant details. */}
+      <UserPlantDetails plantData={plant} loading={plantLoading} />
     </CoreLayout>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { locale } = context;
+  return { props: { ...(await serverSideTranslations(locale ?? 'en', ['common', 'sidebar'])) } };
 };
 
 export default PlatPage;

@@ -18,8 +18,15 @@ const UserPlantReadMore: React.FC<UserPlantReadMoreProps> = (props) => {
   };
 
   return (
-    <Button as={'a'} isLoading={loading} loadingText={'Loading'} href={generateLink(plantUuid)}>
-      Read More
+    <Button
+      as={'a'}
+      isLoading={loading}
+      variant={'ghost'}
+      loadingText={'Loading'}
+      href={generateLink(plantUuid)}
+      colorScheme={'teal'}
+    >
+      Show More
     </Button>
   );
 };
