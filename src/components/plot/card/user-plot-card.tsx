@@ -24,10 +24,9 @@ interface UserPlotCardProps {
 
 const UserPlotCard: React.FC<UserPlotCardProps> = (props) => {
   const { plot, loading } = props;
-  const { query } = useRouter();
 
   const generatePlotLink = (plot: Plot): string => {
-    return `/user/${query.username}/plots/${plot.uuid}`;
+    return `/plots/${plot.uuid}`;
   };
 
   return (

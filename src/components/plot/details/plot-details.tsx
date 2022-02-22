@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Box,
-  Flex,
   Text,
   Image,
   Heading,
@@ -30,11 +29,9 @@ const PlotDetails: React.FC<PlotDetailsProps> = (props) => {
       borderRadius="3xl"
       boxShadow="2xl"
       padding={6}
-      my={6}
-      height={'full'}
     >
       {/* Main details */}
-      <VStack as={Box} padding={4} textAlign={'center'} width={'full'}>
+      <VStack padding={4} textAlign={'center'} width={'full'}>
         <Box mb={4}>
           <SkeletonCircle isLoaded={!loading} boxSize={['150px', '200px', '250px', '300px', '400px']}>
             <Image

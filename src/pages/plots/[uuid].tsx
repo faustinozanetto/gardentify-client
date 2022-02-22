@@ -8,6 +8,7 @@ import PlotPlants from 'src/components/plot/plants/plot-plants';
 import { VStack } from '@chakra-ui/react';
 import { GetServerSideProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import PlotManagement from 'src/components/plot/management/plot-managment';
 
 interface UserPlotPageProps {
   meUser: User;
@@ -49,9 +50,11 @@ const UserPlotPage: React.FC<UserPlotPageProps> = (props) => {
         seoUrl: 'https://gardentify.com/plants',
       }}
     >
-      <VStack>
+      <VStack spacing={4}>
         {/* Plot details */}
         <PlotDetails plotData={plot} plantsAmount={plotPlants.length} loading={plotLoading} />
+        {/* Management */}
+        <PlotManagement />
         {/* Plot plants */}
         <PlotPlants plotData={plot} plotPlants={plotPlants} loading={plotPlantsLoading} />
       </VStack>

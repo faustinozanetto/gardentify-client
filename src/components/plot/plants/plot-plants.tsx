@@ -2,6 +2,7 @@ import React from 'react';
 import UserPlantCard from 'src/components/user-plant/card/user-plant-card';
 import { Box, Heading, Skeleton, Stack, useColorModeValue, Wrap } from '@chakra-ui/react';
 import { Plot, UserPlant } from 'src/generated/graphql';
+import PlotNoPlants from './plot-no-plants';
 
 interface PlotPlantsProps {
   plotData?: Plot;
@@ -18,8 +19,6 @@ const PlotPlants: React.FC<PlotPlantsProps> = (props) => {
       borderRadius="3xl"
       boxShadow="2xl"
       padding={6}
-      my={6}
-      height={'full'}
       width={'full'}
     >
       {/* Heading */}
@@ -37,6 +36,7 @@ const PlotPlants: React.FC<PlotPlantsProps> = (props) => {
             <UserPlantCard loading={loading} userPlant={plant} />
           </Box>
         ))}
+        {plotPlants && plotPlants.length === 0 && <PlotNoPlants />}
       </Wrap>
     </Stack>
   );
