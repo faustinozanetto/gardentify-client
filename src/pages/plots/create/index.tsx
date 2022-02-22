@@ -1,6 +1,7 @@
 import React from 'react';
 import CoreLayout from 'src/components/layout/core-layout';
 import CoreLayoutHead from 'src/components/layout/core-layout-head';
+import UserPlotCreation from 'src/components/plot/creation/user-plot-creation';
 import { User } from 'src/generated/graphql';
 
 interface CreatePlotPageProps {
@@ -20,7 +21,7 @@ const CreatePlotPage: React.FC<CreatePlotPageProps> = (props) => {
         seoUrl: 'https://gardentify.com/',
       }}
     >
-      
+      <UserPlotCreation userUuid={meUser?.uuid} />
     </CoreLayout>
   );
 };

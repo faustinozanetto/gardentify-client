@@ -22,20 +22,19 @@ const UserPlotPage: React.FC<UserPlotPageProps> = (props) => {
     variables: { input: { uuid: router?.query?.uuid as string } },
   });
   const { data: plotPlantsData, loading: plotPlantsLoading } = usePlotUserPlantsQuery({
-    variables: { input: { plotUuid: router?.query?.uuid as string, take: 5, skip: 0, where: {} } },
+    variables: { input: { plotUuid: router?.query?.uuid as string, take: 5, skip: 0, where: {}, includePlot: false } },
     ssr: true,
   });
 
-  // useEffect(() => {
-  //   if (plotData && plotData.findPlot.plot) {
-  //     setPlot(plotData.findPlot.plot);
-  //   }
-  // }, [plotData, plotLoading]);
+  useEffect(() => {
+    if (plotData && plotData.findPlot.plot) {
+      setPlot(plotData.findPlot.plot);
+    }
+  }, [plotData, plotLoading]);
 
   useEffect(() => {
     if (plotPlantsData && plotPlantsData.plotUserPlants.edges) {
       const mappedPlants = plotPlantsData.plotUserPlants.edges.map((edge) => edge.node);
-      setPlot(plotPlantsData.plotUserPlants.plot);
       setPlotPlants(mappedPlants);
     }
   }, [plotPlantsData, plotPlantsLoading]);

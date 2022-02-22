@@ -41,6 +41,7 @@ export type CreatePlantInput = {
 };
 
 export type CreatePlotInput = {
+  description: Scalars['String'];
   dirtDepth: Scalars['Float'];
   image?: InputMaybe<Scalars['String']>;
   name?: InputMaybe<Scalars['String']>;
@@ -441,6 +442,7 @@ export type PlantsResponse = {
 export type Plot = {
   __typename?: 'Plot';
   createdAt?: Maybe<Scalars['DateTime']>;
+  description?: Maybe<Scalars['String']>;
   dirtDepth?: Maybe<Scalars['Float']>;
   image?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
@@ -460,6 +462,7 @@ export type PlotPlantResponse = {
 };
 
 export type PlotPlantsInput = {
+  includePlot: Scalars['Boolean'];
   plotUuid: Scalars['String'];
   skip: Scalars['Int'];
   take: Scalars['Int'];
