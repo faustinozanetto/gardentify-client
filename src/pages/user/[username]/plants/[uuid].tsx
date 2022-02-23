@@ -8,6 +8,7 @@ import { GetServerSideProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import UserPlantDiseases from 'src/components/user-plant/details/user-plant-diseases';
 import UserPlantManagement from 'src/components/user-plant/management/user-plant-managment';
+import { VStack } from '@chakra-ui/react';
 
 interface PlatPageProps {
   meUser: User;
@@ -36,12 +37,14 @@ const PlatPage: React.FC<PlatPageProps> = (props) => {
         seoUrl: 'https://gardentify.com/plants',
       }}
     >
-      {/* Plant details. */}
-      <UserPlantDetails plantData={plant} loading={plantLoading} />
-      {/* Plant managament */}
-      <UserPlantManagement plantData={plant} loading={plantLoading} />
-      {/* Plant Details */}
-      <UserPlantDiseases plantData={plant} />
+      <VStack spacing={4} width="full">
+        {/* Plant details. */}
+        <UserPlantDetails plantData={plant} loading={plantLoading} />
+        {/* Plant managament */}
+        <UserPlantManagement plantData={plant} loading={plantLoading} />
+        {/* Plant Details */}
+        <UserPlantDiseases plantData={plant} />
+      </VStack>
     </CoreLayout>
   );
 };

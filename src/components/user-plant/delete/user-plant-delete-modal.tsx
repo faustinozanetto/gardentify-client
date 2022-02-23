@@ -10,7 +10,7 @@ import {
   Button,
   useToast,
 } from '@chakra-ui/react';
-import { useDeletePlotMutation } from 'src/generated/graphql';
+import { useDeleteUserPlantMutation } from 'src/generated/graphql';
 import { useRouter } from 'next/router';
 
 interface UserPlantDeleteModalProps {
@@ -21,7 +21,7 @@ interface UserPlantDeleteModalProps {
 
 const UserPlantDeleteModal: React.FC<UserPlantDeleteModalProps> = (props) => {
   const { onClose, isOpen, plantUuid } = props;
-  const [deletePlot] = useDeletePlotMutation();
+  const [deletePlant] = useDeleteUserPlantMutation();
   const cancelRef = React.useRef();
   const toast = useToast();
   const router = useRouter();
@@ -42,27 +42,27 @@ const UserPlantDeleteModal: React.FC<UserPlantDeleteModalProps> = (props) => {
             colorScheme="green"
             ml={3}
             onClick={async () => {
-              // await deletePlot({ variables: { uuid: plotUuid } }).then((res) => {
-              //   // Error handling
-              //   if (res.errors) {
-              //     toast({
-              //       title: 'An error occurred!',
-              //       description: 'Could not delete Plot.',
-              //       position: 'bottom-right',
-              //       status: 'error',
-              //     });
-              //   }
-              //   if (res.data.deletePlot.success) {
-              //     toast({
-              //       title: 'Success!',
-              //       description: 'The plot has been deleted.',
-              //       position: 'bottom-right',
-              //       status: 'success',
-              //     });
-              //     // Success
-              //     router.push('/');
-              //   }
-              // });
+              await deletePlant({ variables: { input: { uuid: plantUuid } } }).then((res) => {
+                // Error handling
+                if (res.errors) {
+                  toast({
+                    title: 'An error occurred!',
+                    description: 'Could not delete Plant.',
+                    position: 'bottom-right',
+                    status: 'error',
+                  });
+                }
+                if (res.data.deleteUserPlant.success) {
+                  toast({
+                    title: 'Success!',
+                    description: 'The plant has been deleted.',
+                    position: 'bottom-right',
+                    status: 'success',
+                  });
+                  // Success
+                  router.push('/');
+                }
+              });
             }}
           >
             Yes

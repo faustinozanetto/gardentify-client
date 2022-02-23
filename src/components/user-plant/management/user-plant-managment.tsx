@@ -20,7 +20,6 @@ const UserPlantManagement: React.FC<UserPlantManagementProps> = (props) => {
       borderRadius="3xl"
       boxShadow="2xl"
       padding={6}
-      my={4}
       width={'full'}
     >
       <HStack textAlign={'center'} width={'full'}>

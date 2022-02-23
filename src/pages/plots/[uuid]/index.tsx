@@ -39,13 +39,13 @@ const UserPlotPage: React.FC<UserPlotPageProps> = (props) => {
         seoUrl: 'https://gardentify.com/plants',
       }}
     >
-      <VStack spacing={4}>
+      <VStack spacing={4} width="full">
         {/* Plot details */}
         <PlotDetails plotData={plot} plantsAmount={5} loading={plotLoading} />
         {/* Management */}
-        <PlotManagement plotData={plot} />
+        <PlotManagement plotData={plot} loading={plotLoading} />
         {/* Plot plants */}
-        <PlotPlants plotData={plot} />
+        <PlotPlants plotData={plot} loading={plotLoading} />
       </VStack>
     </CoreLayout>
   );

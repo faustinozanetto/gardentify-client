@@ -27,8 +27,7 @@ const UserPlantDetails: React.FC<PlantDetailsProps> = (props) => {
       borderRadius="3xl"
       boxShadow="2xl"
       padding={6}
-      my={4}
-      width="full"
+      width={'full'}
     >
       <HStack>
         {/* Main details */}

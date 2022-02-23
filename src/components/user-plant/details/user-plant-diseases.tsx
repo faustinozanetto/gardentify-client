@@ -37,8 +37,7 @@ const UserPlantDiseases: React.FC<UserPlantDiseasesProps> = (props) => {
       borderRadius="3xl"
       boxShadow="2xl"
       padding={6}
-      my={4}
-      width="full"
+      width={'full'}
     >
       {/* Heading */}
       <Box mb={4}>
