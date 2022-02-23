@@ -14,19 +14,15 @@ interface UserPageProps {}
 
 const UserPage: React.FC<UserPageProps> = (props) => {
   const router = useRouter();
-  const { user: meUser } = useAuth();
   const [user, setUser] = useState<User>({});
   const [userPlants, setUserPlants] = useState<UserPlant[]>([]);
-  const [userPlots, setUserPlots] = useState<Plot[]>([]);
   const { data: userData, loading: userDataLoading } = useUserQuery({
     variables: { input: { username: router?.query?.username as string } },
   });
   const { data: userPlantsData, loading: userPlantsDataLoading } = useFindUserPlantsQuery({
     variables: { input: { take: 10, skip: 0, where: {} } },
   });
-  const { data: userPlotsData, loading: userPlotsDataLoading } = useUserPlotsQuery({
-    variables: { input: { take: 4, skip: 0, where: { username: meUser?.username } } },
-  });
+
 
   useEffect(() => {
     if (userData && userData.user) {
@@ -41,13 +37,6 @@ const UserPage: React.FC<UserPageProps> = (props) => {
     }
   }, [userPlantsData, userDataLoading]);
 
-  useEffect(() => {
-    if (userPlotsData && userPlotsData.userPlots && userPlotsData.userPlots.count > 0) {
-      const nodes = userPlotsData.userPlots.edges.map((edge) => edge.node);
-      setUserPlots(nodes);
-    }
-  }, [userPlotsData, userPlotsDataLoading]);
-
   return (
     <CoreLayout
       head={CoreLayoutHead}
@@ -58,7 +47,7 @@ const UserPage: React.FC<UserPageProps> = (props) => {
       }}
     >
       {user && !userDataLoading ? (
-        <UserProfile userData={user} userPlots={userPlots} loading={userDataLoading} />
+        <UserProfile userData={user} loading={userDataLoading} />
       ) : (
         <Heading>Loading...</Heading>
       )}

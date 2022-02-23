@@ -1,17 +1,52 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Heading, Skeleton, Stack, useColorModeValue, Wrap } from '@chakra-ui/react';
-import { Plot } from 'src/generated/graphql';
-import UserPlantCard from 'src/components/user-plant/card/user-plant-card';
+import { Plot, useUserPlotsQuery } from 'src/generated/graphql';
 import UserPlotCard from 'src/components/plot/card/user-plot-card';
+import UserPlotsLoadMore from './user-plots-load-more';
+import useAuth from '@modules/state/auth.context';
 
 interface UserProfilePlotsDetailsProps {
   username?: string;
-  userPlots?: Plot[];
   loading?: boolean;
 }
 
 const UserProfilePlotsDetails: React.FC<UserProfilePlotsDetailsProps> = (props) => {
-  const { username, userPlots, loading } = props;
+  const { username, loading } = props;
+  const { user: meUser } = useAuth();
+  const [pageCount, setPageCount] = useState(0);
+  const [userPlots, setUserPlots] = useState<Plot[]>([]);
+  const {
+    data: userPlotsData,
+    loading: userPlotsDataLoading,
+    fetchMore: plotsFetchMore,
+    variables: plotsVariables,
+  } = useUserPlotsQuery({
+    variables: { input: { take: 3, skip: 0, where: { username: meUser?.username } } },
+    notifyOnNetworkStatusChange: true,
+  });
+
+  // State fetch
+  useEffect(() => {
+    if (userPlotsData && userPlotsData.userPlots && userPlotsData.userPlots.count > 0) {
+      const nodes = userPlotsData.userPlots.edges.map((edge) => edge.node);
+      setUserPlots(nodes);
+    }
+  }, [userPlotsData, userPlotsDataLoading]);
+
+  // Fetch more on page count change
+  useEffect(() => {
+    if (pageCount > 0) {
+      plotsFetchMore({
+        variables: {
+          input: {
+            take: plotsVariables.input.take,
+            skip: 3 * pageCount,
+            where: { ...plotsVariables.input.where },
+          },
+        },
+      });
+    }
+  }, [pageCount]);
 
   return (
     <Stack
@@ -20,17 +55,12 @@ const UserProfilePlotsDetails: React.FC<UserProfilePlotsDetailsProps> = (props) 
       borderRadius="3xl"
       padding={6}
       my={4}
+      spacing={4}
       minWidth="100%"
     >
       {/* Heading */}
       <Skeleton isLoaded={!loading}>
-        <Heading
-          as="h2"
-          lineHeight={1.1}
-          fontWeight={600}
-          fontSize={{ base: 'xl', sm: '2xl', lg: '3xl' }}
-          marginBottom={4}
-        >
+        <Heading as="h2" fontWeight={700} fontSize={{ base: 'xl', sm: '2xl', lg: '3xl' }} marginBottom={4}>
           {username}'s Plots
         </Heading>
       </Skeleton>
@@ -42,6 +72,17 @@ const UserProfilePlotsDetails: React.FC<UserProfilePlotsDetailsProps> = (props) 
             return <UserPlotCard key={index} plot={plot} loading={loading} />;
           })}
       </Wrap>
+
+      {/* Load more */}
+      {userPlotsData && userPlotsData.userPlots.pageInfo.hasMore && (
+        <UserPlotsLoadMore
+          isLoading={userPlotsDataLoading}
+          onClick={() => {
+            // Increment page count
+            setPageCount(pageCount + 1);
+          }}
+        />
+      )}
     </Stack>
   );
 };

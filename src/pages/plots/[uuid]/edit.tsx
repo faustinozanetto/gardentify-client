@@ -1,6 +1,7 @@
 import React from 'react';
 import CoreLayout from 'src/components/layout/core-layout';
 import CoreLayoutHead from 'src/components/layout/core-layout-head';
+import PlotEdit from 'src/components/plot/edit/plot-edit';
 
 interface PlotEditPageProps {}
 
@@ -14,7 +15,7 @@ const PlotEditPage: React.FC<PlotEditPageProps> = (props) => {
         seoUrl: 'https://gardentify.com/plants',
       }}
     >
-      <h1>Edit plot</h1>
+      <PlotEdit />
     </CoreLayout>
   );
 };
