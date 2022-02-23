@@ -1,5 +1,6 @@
 import { Heading } from '@chakra-ui/react';
 import { withApollo } from '@modules/apollo/apollo.module';
+import useAuth from '@modules/state/auth.context';
 import { GetServerSideProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRouter } from 'next/router';
@@ -7,23 +8,14 @@ import { useEffect, useState } from 'react';
 import CoreLayout from 'src/components/layout/core-layout';
 import CoreLayoutHead from 'src/components/layout/core-layout-head';
 import UserProfile from 'src/components/user/profile/user-profile';
-import {
-  Plot,
-  useFindUserPlantsQuery,
-  UserFragment,
-  UserPlant,
-  useUserPlotsQuery,
-  useUserQuery,
-} from 'src/generated/graphql';
+import { Plot, useFindUserPlantsQuery, User, UserPlant, useUserPlotsQuery, useUserQuery } from 'src/generated/graphql';
 
-interface UserPageProps {
-  meUser: UserFragment;
-}
+interface UserPageProps {}
 
 const UserPage: React.FC<UserPageProps> = (props) => {
-  const { meUser } = props;
   const router = useRouter();
-  const [user, setUser] = useState<UserFragment>();
+  const { user: meUser } = useAuth();
+  const [user, setUser] = useState<User>({});
   const [userPlants, setUserPlants] = useState<UserPlant[]>([]);
   const [userPlots, setUserPlots] = useState<Plot[]>([]);
   const { data: userData, loading: userDataLoading } = useUserQuery({
@@ -58,7 +50,6 @@ const UserPage: React.FC<UserPageProps> = (props) => {
 
   return (
     <CoreLayout
-      loggedUser={meUser}
       head={CoreLayoutHead}
       headProps={{
         seoTitle: 'Home',

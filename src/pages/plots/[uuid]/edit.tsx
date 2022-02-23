@@ -1,15 +1,10 @@
 import React from 'react';
-import { useRouter } from 'next/router';
 import CoreLayout from 'src/components/layout/core-layout';
 import CoreLayoutHead from 'src/components/layout/core-layout-head';
-import { UserFragment } from 'src/generated/graphql';
 
-interface PlantsPageProps {
+interface PlotEditPageProps {}
 
-}
-
-const PlatsPage: React.FC<PlantsPageProps> = (props) => {
-
+const PlotEditPage: React.FC<PlotEditPageProps> = (props) => {
   return (
     <CoreLayout
       head={CoreLayoutHead}
@@ -19,9 +14,9 @@ const PlatsPage: React.FC<PlantsPageProps> = (props) => {
         seoUrl: 'https://gardentify.com/plants',
       }}
     >
-      <h1>Plants</h1>
+      <h1>Edit plot</h1>
     </CoreLayout>
   );
 };
 
-export default PlatsPage;
+export default PlotEditPage;

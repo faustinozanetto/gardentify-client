@@ -1,6 +1,6 @@
-import { Container, Flex, useColorModeValue } from '@chakra-ui/react';
 import React from 'react';
 import AuthProviders from 'src/components/auth/auth-providers';
+import { Container, Flex, useColorModeValue } from '@chakra-ui/react';
 
 interface SignInPageProps {}
 

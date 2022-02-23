@@ -4,17 +4,18 @@ import { CoreLayoutHeadProps } from './core-layout-head';
 import CoreLayoutContainer from './core-layout-container';
 import Sidebar from '../sidebar/sidebar';
 import { UserFragment } from 'src/generated/graphql';
+import useAuth from '@modules/state/auth.context';
 
 export interface LayoutCoreProps {
   children: React.ReactNode;
   head?: React.FC<CoreLayoutHeadProps>;
   headProps?: CoreLayoutHeadProps;
-  loggedUser?: UserFragment;
   error?: any;
 }
 
 const CoreLayout: React.FC<LayoutCoreProps> = (props): JSX.Element => {
-  const { children, head: Head, headProps, loggedUser, error } = props;
+  const { children, head: Head, headProps, error } = props;
+  const { user } = useAuth();
   const mainContainerBG = useColorModeValue('gray.200', 'gray.800');
 
   return (
@@ -28,7 +29,7 @@ const CoreLayout: React.FC<LayoutCoreProps> = (props): JSX.Element => {
       <Head {...headProps} />
 
       {/* Sidebar */}
-      <Box position="relative">{<Sidebar userData={loggedUser} />}</Box>
+      <Box position="relative">{<Sidebar userData={user} />}</Box>
 
       {/* Main container */}
       <Flex flexDir="column" backgroundColor={mainContainerBG} minHeight="100vh">

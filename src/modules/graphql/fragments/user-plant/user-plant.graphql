@@ -10,6 +10,9 @@ fragment UserPlant on UserPlant {
   plot {
     ...Plot
   }
+  user {
+    ...User
+  }
   createdAt
   updatedAt
 }

@@ -6,11 +6,10 @@ import PlantDiseaseDetails from 'src/components/plant/diseases/details/plat-dise
 import { Disease, useFindDiseaseQuery, UserFragment } from 'src/generated/graphql';
 
 interface DiseasePageProps {
-  meUser: UserFragment;
+
 }
 
 const DiseasePage: React.FC<DiseasePageProps> = (props) => {
-  const { meUser } = props;
   const { query } = useRouter();
   const [disease, setDisease] = useState<Disease>();
   const { data: diseaseData, loading: diseaseLoading } = useFindDiseaseQuery({
@@ -26,7 +25,6 @@ const DiseasePage: React.FC<DiseasePageProps> = (props) => {
 
   return (
     <CoreLayout
-      loggedUser={meUser}
       head={CoreLayoutHead}
       headProps={{
         seoTitle: 'Disease Page',

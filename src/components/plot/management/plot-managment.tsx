@@ -1,7 +1,7 @@
-import { Heading, HStack, Skeleton, Spacer, Stack, useColorModeValue } from '@chakra-ui/react';
 import React from 'react';
-import PlotManagementDelete from './plot-management-delete';
-import PlotManagementEdit from './plot-management-edit';
+import PlotManagementDelete from './buttons/plot-management-delete';
+import PlotManagementEdit from './buttons/plot-management-edit';
+import { Heading, HStack, Skeleton, Spacer, Stack, useColorModeValue } from '@chakra-ui/react';
 
 interface PlotManagementProps {
   loading?: boolean;

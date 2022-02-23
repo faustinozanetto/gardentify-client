@@ -1,21 +1,16 @@
 import React from 'react';
-import { Heading, Text } from '@chakra-ui/react';
+import { Heading } from '@chakra-ui/react';
 import { withApollo } from '@modules/apollo/apollo.module';
 import CoreLayout from 'src/components/layout/core-layout';
 import CoreLayoutHead from 'src/components/layout/core-layout-head';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GetStaticProps } from 'next';
-import { UserFragment } from 'src/generated/graphql';
 
-interface HomePageProps {
-  meUser: UserFragment;
-}
+interface HomePageProps {}
 
 const HomePage: React.FC<HomePageProps> = (props) => {
-  const { meUser } = props;
   return (
     <CoreLayout
-      loggedUser={meUser}
       head={CoreLayoutHead}
       headProps={{
         seoTitle: 'Home',

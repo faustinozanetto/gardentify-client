@@ -3,20 +3,17 @@ import { useRouter } from 'next/router';
 import CoreLayout from 'src/components/layout/core-layout';
 import PlotDetails from 'src/components/plot/details/plot-details';
 import CoreLayoutHead from 'src/components/layout/core-layout-head';
-import { UserPlant, Plot, useFindPlotQuery, usePlotUserPlantsQuery, User } from 'src/generated/graphql';
+import { UserPlant, Plot, useFindPlotQuery, usePlotUserPlantsQuery } from 'src/generated/graphql';
 import PlotPlants from 'src/components/plot/plants/plot-plants';
 import { VStack } from '@chakra-ui/react';
 import { GetServerSideProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import PlotManagement from 'src/components/plot/management/plot-managment';
 
-interface UserPlotPageProps {
-  meUser: User;
-}
+interface UserPlotPageProps {}
 
 const UserPlotPage: React.FC<UserPlotPageProps> = (props) => {
   const router = useRouter();
-  const { meUser } = props;
   const [plot, setPlot] = useState<Plot>();
   const [plotPlants, setPlotPlants] = useState<UserPlant[]>([]);
   const { data: plotData, loading: plotLoading } = useFindPlotQuery({
@@ -42,7 +39,6 @@ const UserPlotPage: React.FC<UserPlotPageProps> = (props) => {
 
   return (
     <CoreLayout
-      loggedUser={meUser}
       head={CoreLayoutHead}
       headProps={{
         seoTitle: 'Home',

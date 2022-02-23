@@ -13,7 +13,6 @@ interface PlatPageProps {
 
 const PlatPage: React.FC<PlatPageProps> = (props) => {
   const router = useRouter();
-  const { meUser } = props;
   const [plant, setPlant] = useState<UserPlant>();
   const { data: plantData, loading: plantLoading } = useFindUserPlantQuery({
     variables: { input: { uuid: router?.query?.uuid as string } },
@@ -28,7 +27,6 @@ const PlatPage: React.FC<PlatPageProps> = (props) => {
 
   return (
     <CoreLayout
-      loggedUser={meUser}
       head={CoreLayoutHead}
       headProps={{
         seoTitle: 'Home',

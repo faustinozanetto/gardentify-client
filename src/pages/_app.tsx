@@ -1,29 +1,21 @@
 import '@fontsource/poppins';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import CoreWrapper from 'src/components/wrapper/core-wrapper';
 import PageLoading from 'src/components/loading/page-loading';
 import type { AppProps } from 'next/app';
 import { appWithTranslation } from 'next-i18next';
-import { useMeQuery, UserFragment } from 'src/generated/graphql';
 import { withApollo } from '@modules/apollo/apollo.module';
+import useAuth, { AuthProvider } from '@modules/state/auth.context';
 
 const GardentifyApp = (props: AppProps) => {
   const { Component, pageProps } = props;
-  const [meUser, setMeUser] = useState<UserFragment>();
-  const [loaded, setLoaded] = useState(false);
-  const { data: meUserData, loading: meUserLoading } = useMeQuery();
-
-  useEffect(() => {
-    if (meUserData && meUserData.me.user) {
-      setMeUser(meUserData.me.user);
-      setLoaded(true);
-    }
-  }, [meUserData, meUserLoading]);
-
+  const { user, loading } = useAuth();
   return (
-    <CoreWrapper cookies={pageProps.cookies}>
-      {!meUserData?.me?.user && meUserLoading ? <PageLoading /> : <Component {...pageProps} meUser={meUser} />}
-    </CoreWrapper>
+    <AuthProvider>
+      <CoreWrapper cookies={pageProps.cookies}>
+        <Component {...pageProps} />
+      </CoreWrapper>
+    </AuthProvider>
   );
 };
 
