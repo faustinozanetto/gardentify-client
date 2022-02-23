@@ -6,9 +6,10 @@ import { useFindUserPlantQuery, User, UserPlant } from 'src/generated/graphql';
 import UserPlantDetails from 'src/components/user-plant/details/user-plant-details';
 import { GetServerSideProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import UserPlantDiseases from 'src/components/user-plant/details/user-plant-diseases';
+import UserPlantDiseases from 'src/components/user-plant/disease/user-plant-diseases';
 import UserPlantManagement from 'src/components/user-plant/management/user-plant-managment';
 import { VStack } from '@chakra-ui/react';
+import UserPlantHarvests from 'src/components/user-plant/harvests/user-plant-harvests';
 
 interface PlatPageProps {
   meUser: User;
@@ -43,7 +44,9 @@ const PlatPage: React.FC<PlatPageProps> = (props) => {
         {/* Plant managament */}
         <UserPlantManagement plantData={plant} loading={plantLoading} />
         {/* Plant Details */}
-        <UserPlantDiseases plantData={plant} />
+        <UserPlantDiseases plantData={plant} loading={plantLoading} />
+        {/* Plant harvests */}
+        <UserPlantHarvests plantData={plant} loading={plantLoading} />
       </VStack>
     </CoreLayout>
   );

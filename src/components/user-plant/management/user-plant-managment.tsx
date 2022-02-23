@@ -3,6 +3,7 @@ import UserPlantManagementDelete from './buttons/user-plant-management-delete';
 import { Heading, HStack, Skeleton, Spacer, Stack, useColorModeValue, useDisclosure } from '@chakra-ui/react';
 import { UserPlant } from 'src/generated/graphql';
 import UserPlantDeleteModal from '../delete/user-plant-delete-modal';
+import UserPlantManagementEdit from './buttons/user-plant-management-edit';
 
 interface UserPlantManagementProps {
   loading?: boolean;
@@ -31,8 +32,10 @@ const UserPlantManagement: React.FC<UserPlantManagementProps> = (props) => {
         </Skeleton>
         <Spacer />
         <HStack>
+          {/* Edit Plant */}
+          <UserPlantManagementEdit isLoading={loading} loadingText="Loading" />
           {/* Delete Plant */}
-          <UserPlantManagementDelete onClick={onOpenDelete} />
+          <UserPlantManagementDelete onClick={onOpenDelete} isLoading={loading} loadingText="Loading" />
         </HStack>
       </HStack>
 

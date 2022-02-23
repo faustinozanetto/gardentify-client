@@ -1,7 +1,8 @@
-import { Box, Heading, Skeleton, Stack, useColorModeValue } from '@chakra-ui/react';
+import { Box, Heading, HStack, Skeleton, Spacer, Stack, useColorModeValue } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { Disease, UserPlant, useUserPlantDiseasesQuery } from 'src/generated/graphql';
-import UserPlantDiseaseCard from '../disease/user-plant-disease-card';
+import UserPlantDiseaseCard from './user-plant-disease-card';
+import UserPlantRegisterDisease from './user-plant-register-disease';
 
 interface UserPlantDiseasesProps {
   plantData?: UserPlant;
@@ -40,13 +41,16 @@ const UserPlantDiseases: React.FC<UserPlantDiseasesProps> = (props) => {
       width={'full'}
     >
       {/* Heading */}
-      <Box mb={4}>
+      <HStack textAlign={'center'} width={'full'} mb={4}>
         <Skeleton isLoaded={!loading}>
           <Heading as="h2" lineHeight={1.1} fontWeight={600} fontSize={{ base: '3xl', sm: '4xl', lg: '4xl' }}>
             Plant Diseases
           </Heading>
         </Skeleton>
-      </Box>
+        <Spacer />
+        {/* Regiter Disease */}
+        <UserPlantRegisterDisease />
+      </HStack>
 
       {/* Diseases */}
       {diseases &&
@@ -56,9 +60,11 @@ const UserPlantDiseases: React.FC<UserPlantDiseasesProps> = (props) => {
         })}
       {/* No disease */}
       {diseases && diseases.length === 0 && (
-        <Heading as="h3" textAlign="center" fontWeight={600}>
-          No Diseases
-        </Heading>
+        <Skeleton isLoaded={!loading}>
+          <Heading as="h3" textAlign="center" fontWeight={600}>
+            No Diseases
+          </Heading>
+        </Skeleton>
       )}
     </Stack>
   );
