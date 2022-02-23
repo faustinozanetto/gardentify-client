@@ -1,13 +1,13 @@
-import { Button } from '@chakra-ui/react';
+import { Button, ButtonProps } from '@chakra-ui/react';
 import React from 'react';
 
-interface PlotManagementDeleteProps {}
+type PlotManagementDeleteProps = ButtonProps & {};
 
 const PlotManagementDelete: React.FC<PlotManagementDeleteProps> = (props) => {
-  const {} = props;
+  const { ...rest } = props;
 
   return (
-    <Button colorScheme="red" size="md">
+    <Button colorScheme="red" size="md" {...rest}>
       Delete Plot
     </Button>
   );

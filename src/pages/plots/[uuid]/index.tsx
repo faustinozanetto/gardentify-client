@@ -43,7 +43,7 @@ const UserPlotPage: React.FC<UserPlotPageProps> = (props) => {
         {/* Plot details */}
         <PlotDetails plotData={plot} plantsAmount={5} loading={plotLoading} />
         {/* Management */}
-        <PlotManagement />
+        <PlotManagement plotData={plot} />
         {/* Plot plants */}
         <PlotPlants plotData={plot} />
       </VStack>

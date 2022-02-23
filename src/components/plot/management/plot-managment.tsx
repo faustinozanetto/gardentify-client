@@ -1,14 +1,18 @@
 import React from 'react';
 import PlotManagementDelete from './buttons/plot-management-delete';
 import PlotManagementEdit from './buttons/plot-management-edit';
-import { Heading, HStack, Skeleton, Spacer, Stack, useColorModeValue } from '@chakra-ui/react';
+import { Heading, HStack, Skeleton, Spacer, Stack, useColorModeValue, useDisclosure } from '@chakra-ui/react';
+import PlotDeleteModal from '../delete/plot-delete-modal';
+import { Plot } from 'src/generated/graphql';
 
 interface PlotManagementProps {
   loading?: boolean;
+  plotData?: Plot;
 }
 
 const PlotManagement: React.FC<PlotManagementProps> = (props) => {
-  const { loading } = props;
+  const { loading, plotData } = props;
+  const { isOpen: isOpenDelete, onOpen: onOpenDelete, onClose: onCloseDelete } = useDisclosure();
 
   return (
     <Stack
@@ -31,9 +35,12 @@ const PlotManagement: React.FC<PlotManagementProps> = (props) => {
           {/* Edit details */}
           <PlotManagementEdit />
           {/* Delete plot */}
-          <PlotManagementDelete />
+          <PlotManagementDelete onClick={onOpenDelete} />
         </HStack>
       </HStack>
+
+      {/* Delete Modal */}
+      <PlotDeleteModal plotUuid={plotData?.uuid} onClose={onCloseDelete} isOpen={isOpenDelete} />
     </Stack>
   );
 };
