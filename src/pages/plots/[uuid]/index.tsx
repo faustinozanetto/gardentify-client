@@ -9,14 +9,19 @@ import { VStack } from '@chakra-ui/react';
 import { GetServerSideProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import PlotManagement from 'src/components/plot/management/plot-managment';
+import useOwnsPlot from '@hooks/use-owns-plot';
+import useAuth from '@modules/state/auth.context';
 
 interface UserPlotPageProps {}
 
 const UserPlotPage: React.FC<UserPlotPageProps> = (props) => {
   const router = useRouter();
   const [plot, setPlot] = useState<Plot>();
+  const [ownsPlot, user] = useOwnsPlot(plot);
   const { data: plotData, loading: plotLoading } = useFindPlotQuery({
     variables: { input: { uuid: router?.query?.uuid as string } },
+    ssr: true,
+    fetchPolicy: 'cache-and-network',
   });
 
   useEffect(() => {

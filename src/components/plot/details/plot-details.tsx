@@ -29,6 +29,7 @@ const PlotDetails: React.FC<PlotDetailsProps> = (props) => {
       borderRadius="3xl"
       boxShadow="2xl"
       padding={6}
+      width={'full'}
     >
       {/* Main details */}
       <VStack padding={4} textAlign={'center'} width={'full'}>
@@ -92,11 +93,7 @@ const PlotDetails: React.FC<PlotDetailsProps> = (props) => {
             </Skeleton>
           </Box>
           <Box mb={4}>
-            <Text as={'p'}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam recusandae, maxime sunt ut eligendi
-              minima odit, error quidem expedita soluta optio dignissimos earum. Consectetur veniam, numquam possimus
-              deleniti atque eaque.
-            </Text>
+            <Text as={'p'}>{plotData?.description}</Text>
           </Box>
         </Stack>
       </VStack>

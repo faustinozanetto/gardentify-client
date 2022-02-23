@@ -5,6 +5,7 @@ fragment Plot on Plot {
   sizeY
   dirtDepth
   image
+  description
   user {
     ...User
   }

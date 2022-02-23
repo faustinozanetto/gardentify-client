@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { Formik, FormikProps } from 'formik';
 import { Flex, useToast } from '@chakra-ui/react';
@@ -6,7 +6,7 @@ import InputControl from '../base/form-input';
 import TextAreaControl from '../base/form-textarea';
 import NumberInputControl from '../base/form-number-input';
 import FormSubmitButton from '../base/buttons/form-submit-button';
-import { useCreatePlotMutation, User } from 'src/generated/graphql';
+import { Plot, useUpdatePlotMutation } from 'src/generated/graphql';
 import { useRouter } from 'next/router';
 
 interface UpdatePlotFormValues {
@@ -15,11 +15,11 @@ interface UpdatePlotFormValues {
   image: string;
   sizeX: number;
   sizeY: number;
-  dirthDepth: number;
+  dirtDepth: number;
 }
 
 interface UpdatePlotFormProps {
-  userUuid: string;
+  plot: Plot;
 }
 
 const validationSchema = Yup.object().shape({
@@ -28,121 +28,132 @@ const validationSchema = Yup.object().shape({
   image: Yup.string().required('Image is required'),
   sizeX: Yup.number().required('Size X is required').positive('Size X must be positive'),
   sizeY: Yup.number().required('Size Y is required').positive('Size X must be positive'),
-  dirthDepth: Yup.number().required('Dirth Depth is required').min(0.1, 'Dirth Depth must be greater than 0.1'),
+  dirtDepth: Yup.number().required('Dirth Depth is required').min(0.1, 'Dirth Depth must be greater than 0.1'),
 });
 
-const CreatePlotForm: React.FC<UpdatePlotFormProps> = (props) => {
+const UpdatePlotForm: React.FC<UpdatePlotFormProps> = (props) => {
   const toast = useToast();
   const router = useRouter();
-  const { userUuid } = props;
-  const [createPlot] = useCreatePlotMutation();
-  const [initialValues, setInitialValues] = useState<UpdatePlotFormValues>({
-    name: 'Veggies Plot',
-    description: 'Plot Description',
-    image: 'https://i.pinimg.com/originals/1a/55/36/1a55368b755d6d4f1237187f25530f64.jpg',
-    sizeX: 1,
-    sizeY: 1,
-    dirthDepth: 10,
-  });
+  const { plot } = props;
+  const [updatePlot] = useUpdatePlotMutation();
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={async (values) => {
-        let dirthDepth = 0;
-        if (typeof values.dirthDepth === 'string') {
-          dirthDepth = Number.parseInt(values.dirthDepth);
-        }
-        let sizeX = 0;
-        if (typeof values.sizeX === 'string') {
-          sizeX = Number.parseInt(values.sizeX);
-        }
-        let sizeY = 0;
-        if (typeof values.sizeY === 'string') {
-          sizeY = Number.parseInt(values.sizeY);
-        }
-        await createPlot({
-          variables: {
-            input: {
-              dirtDepth: dirthDepth,
-              description: values.description,
-              name: values.name,
-              sizeX: sizeX,
-              sizeY: sizeY,
-              image: values.image,
-              userUuid: userUuid,
-            },
-          },
-        }).then((res) => {
-          // Error handling
-          if (res && res?.data?.createPlot?.errors) {
-            toast({
-              title: 'Something went wrong!',
-              description: res.data.createPlot.errors[0].message,
-              status: 'error',
-              position: 'bottom-right',
-              duration: 3000,
-            });
-          }
-          // Success handling
-          if (res && res.data.createPlot.plot) {
-            toast({
-              title: 'Success',
-              description: `Plot ${res.data.createPlot.plot.name} created successfully`,
-              status: 'success',
-              position: 'bottom-right',
-              duration: 3000,
-            });
+    <>
+      {plot && (
+        <Formik
+          enableReinitialize={true}
+          initialValues={{
+            name: plot.name,
+            description: plot.description,
+            sizeX: plot.sizeX,
+            sizeY: plot.sizeY,
+            image: plot.image,
+            dirtDepth: plot.dirtDepth,
+          }}
+          validationSchema={validationSchema}
+          onSubmit={async (values) => {
+            // Parse sizeX sizeY dirthDepth to floats.
+            let sizeX = 0;
+            if (typeof values.sizeX === 'string') {
+              sizeX = Number.parseFloat(values.sizeX);
+            } else {
+              sizeX = values.sizeX;
+            }
+            let sizeY = 0;
+            if (typeof values.sizeY === 'string') {
+              sizeY = Number.parseFloat(values.sizeY);
+            } else {
+              sizeY = values.sizeY;
+            }
+            let dirtDepth = 0;
+            if (typeof values.dirtDepth === 'string') {
+              dirtDepth = Number.parseFloat(values.dirtDepth);
+            } else {
+              dirtDepth = values.dirtDepth;
+            }
+            await updatePlot({
+              variables: {
+                input: {
+                  uuid: plot.uuid,
+                  dirtDepth: dirtDepth,
+                  description: values.description,
+                  name: values.name,
+                  sizeX: sizeX,
+                  sizeY: sizeY,
+                  image: values.image,
+                },
+              },
+            }).then((res) => {
+              // Error handling
+              if (res && res?.data?.updatePlot?.errors) {
+                toast({
+                  title: 'Something went wrong!',
+                  description: res.data.updatePlot.errors[0].message,
+                  status: 'error',
+                  position: 'bottom-right',
+                  duration: 3000,
+                });
+              }
+              // Success handling
+              if (res && res.data.updatePlot.plot) {
+                toast({
+                  title: 'Success',
+                  description: `Plot ${res.data.updatePlot.plot.name} updated successfully`,
+                  status: 'success',
+                  position: 'bottom-right',
+                  duration: 3000,
+                });
 
-            // Pushing user to the plot page
-            router.push(`/plots/${res.data.createPlot.plot.uuid}`);
-          }
-        });
-      }}
-    >
-      {(formikProps: FormikProps<UpdatePlotFormValues>) => {
-        const { handleSubmit } = formikProps;
+                // Pushing user to the plot page
+                router.push(`/plots/${res.data.updatePlot.plot.uuid}`, null, { shallow: false });
+              }
+            });
+          }}
+        >
+          {(formikProps: FormikProps<UpdatePlotFormValues>) => {
+            const { handleSubmit } = formikProps;
 
-        return (
-          <Flex as="form" flexDir="column" width="full" my={4} onSubmit={handleSubmit as any}>
-            {/* Name */}
-            <InputControl name="name" label="Name" my={2} />
-            {/* Description */}
-            <TextAreaControl name="description" label="Description" my={2} />
-            {/* Image */}
-            <InputControl name="image" label="Image" my={2} />
-            {/* Size X */}
-            <NumberInputControl
-              name="sizeX"
-              label="Size X"
-              helperText="Size X in meters of the plot."
-              numberInputProps={{ itemType: 'number' }}
-              my={2}
-            />
-            {/* Size Y */}
-            <NumberInputControl
-              name="sizeY"
-              label="Size Y"
-              helperText="Size Y in meters of the plot."
-              numberInputProps={{ itemType: 'number' }}
-              my={2}
-            />
-            {/* Dirth Depth */}
-            <NumberInputControl
-              name="dirthDepth"
-              label="Dirth Depth"
-              numberInputProps={{ itemType: 'number' }}
-              helperText="Depth of the dirt in centimeters."
-              my={2}
-            />
-            {/* Buttons */}
-            <FormSubmitButton my={2}>Submit</FormSubmitButton>
-          </Flex>
-        );
-      }}
-    </Formik>
+            return (
+              <Flex as="form" flexDir="column" width="full" my={4} onSubmit={handleSubmit as any}>
+                {/* Name */}
+                <InputControl name="name" label="Name" my={2} />
+                {/* Description */}
+                <TextAreaControl name="description" label="Description" my={2} />
+                {/* Image */}
+                <InputControl name="image" label="Image" my={2} />
+                {/* Size X */}
+                <NumberInputControl
+                  name="sizeX"
+                  label="Size X"
+                  helperText="Size X in meters of the plot."
+                  numberInputProps={{ itemType: 'number' }}
+                  my={2}
+                />
+                {/* Size Y */}
+                <NumberInputControl
+                  name="sizeY"
+                  label="Size Y"
+                  helperText="Size Y in meters of the plot."
+                  numberInputProps={{ itemType: 'number' }}
+                  my={2}
+                />
+                {/* Dirth Depth */}
+                <NumberInputControl
+                  name="dirtDepth"
+                  label="Dirth Depth"
+                  numberInputProps={{ itemType: 'number' }}
+                  helperText="Depth of the dirt in centimeters."
+                  my={2}
+                />
+                {/* Buttons */}
+                <FormSubmitButton my={2}>Submit</FormSubmitButton>
+              </Flex>
+            );
+          }}
+        </Formik>
+      )}
+    </>
   );
 };
 
-export default CreatePlotForm;
+export default UpdatePlotForm;

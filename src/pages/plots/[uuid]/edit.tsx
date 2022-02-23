@@ -1,7 +1,7 @@
 import React from 'react';
 import CoreLayout from 'src/components/layout/core-layout';
 import CoreLayoutHead from 'src/components/layout/core-layout-head';
-import PlotEdit from 'src/components/plot/edit/plot-edit';
+import PlotEdit from 'src/components/plot/edit/user-plot-edit';
 
 interface PlotEditPageProps {}
 
