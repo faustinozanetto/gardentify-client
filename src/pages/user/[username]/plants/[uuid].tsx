@@ -3,9 +3,11 @@ import CoreLayout from 'src/components/layout/core-layout';
 import CoreLayoutHead from 'src/components/layout/core-layout-head';
 import { useRouter } from 'next/router';
 import { useFindUserPlantQuery, User, UserPlant } from 'src/generated/graphql';
-import UserPlantDetails from 'src/components/user-plant/card/details/user-plant-details';
+import UserPlantDetails from 'src/components/user-plant/details/user-plant-details';
 import { GetServerSideProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import UserPlantDiseases from 'src/components/user-plant/details/user-plant-diseases';
+import UserPlantManagement from 'src/components/user-plant/management/user-plant-managment';
 
 interface PlatPageProps {
   meUser: User;
@@ -36,6 +38,10 @@ const PlatPage: React.FC<PlatPageProps> = (props) => {
     >
       {/* Plant details. */}
       <UserPlantDetails plantData={plant} loading={plantLoading} />
+      {/* Plant managament */}
+      <UserPlantManagement plantData={plant} loading={plantLoading} />
+      {/* Plant Details */}
+      <UserPlantDiseases plantData={plant} />
     </CoreLayout>
   );
 };

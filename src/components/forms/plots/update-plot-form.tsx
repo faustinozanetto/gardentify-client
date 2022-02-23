@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { Formik, FormikProps } from 'formik';
-import { Flex, useToast } from '@chakra-ui/react';
+import { Button, Flex, HStack, useToast } from '@chakra-ui/react';
 import InputControl from '../base/form-input';
 import TextAreaControl from '../base/form-textarea';
 import NumberInputControl from '../base/form-number-input';
@@ -146,7 +146,12 @@ const UpdatePlotForm: React.FC<UpdatePlotFormProps> = (props) => {
                   my={2}
                 />
                 {/* Buttons */}
-                <FormSubmitButton my={2}>Submit</FormSubmitButton>
+                <HStack width="full">
+                  <FormSubmitButton my={2}>Submit</FormSubmitButton>
+                  <Button as="a" colorScheme="teal" width="full" href={`/plots/${plot.uuid}`}>
+                    Go Back
+                  </Button>
+                </HStack>
               </Flex>
             );
           }}

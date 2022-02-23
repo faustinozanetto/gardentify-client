@@ -9,7 +9,7 @@ const FormSubmitButton: React.FC<FormSubmitButtonProps> = (props) => {
   const { isSubmitting } = useFormikContext();
 
   return (
-    <Button type="submit" isLoading={isSubmitting} colorScheme="green" {...rest}>
+    <Button type="submit" isLoading={isSubmitting} colorScheme="green" {...rest} width="full">
       {children}
     </Button>
   );

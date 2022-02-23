@@ -1,19 +1,17 @@
-import { Button } from '@chakra-ui/react';
-import { useRouter } from 'next/router';
 import React from 'react';
+import { Button } from '@chakra-ui/react';
 
 interface UserPlantReadMoreProps {
   plantUuid?: string;
+  username?: string;
   loading?: boolean;
 }
 
 const UserPlantReadMore: React.FC<UserPlantReadMoreProps> = (props) => {
-  const router = useRouter();
-  const { plantUuid, loading } = props;
+  const { plantUuid, username, loading } = props;
 
   const generateLink = (plant: string) => {
-    const plantOwner = router.query.username as string;
-    const base = `/user/${plantOwner}/plants/`;
+    const base = `/user/${username}/plants/`;
     return base + plant;
   };
 
