@@ -101,7 +101,7 @@ const CreatePlotForm: React.FC<UpdatePlotFormProps> = (props) => {
         });
       }}
     >
-      {(formikProps: FormikProps<CreatePlotFormValues>) => {
+      {(formikProps: FormikProps<UpdatePlotFormValues>) => {
         const { handleSubmit } = formikProps;
 
         return (

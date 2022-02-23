@@ -1,17 +1,56 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import UserPlantCard from 'src/components/user-plant/card/user-plant-card';
 import { Box, Heading, Skeleton, Stack, useColorModeValue, Wrap } from '@chakra-ui/react';
-import { Plot, UserPlant } from 'src/generated/graphql';
+import { Plot, usePlotUserPlantsQuery, UserPlant } from 'src/generated/graphql';
 import PlotNoPlants from './plot-no-plants';
+import { useRouter } from 'next/router';
+import PlotPlantsLoadMore from './plots-plants-load-more';
 
 interface PlotPlantsProps {
   plotData?: Plot;
-  plotPlants?: UserPlant[];
   loading?: boolean;
 }
 
 const PlotPlants: React.FC<PlotPlantsProps> = (props) => {
-  const { plotPlants, plotData, loading } = props;
+  const router = useRouter();
+  const { plotData, loading } = props;
+  const [pageCount, setPageCount] = useState(0);
+  const [plotPlants, setPlotPlants] = useState<UserPlant[]>([]);
+
+  const {
+    data: plotPlantsData,
+    loading: plotPlantsLoading,
+    fetchMore: plotPlantsFetchMore,
+    variables: plotPlantsVariables,
+  } = usePlotUserPlantsQuery({
+    variables: {
+      input: { plotUuid: router?.query?.uuid as string, take: 3, skip: 0, where: {}, includePlot: false },
+    },
+    ssr: true,
+  });
+
+  // State fetch
+  useEffect(() => {
+    if (plotPlantsData && plotPlantsData.plotUserPlants.edges) {
+      const mappedPlants = plotPlantsData.plotUserPlants.edges.map((edge) => edge.node);
+      setPlotPlants(mappedPlants);
+    }
+  }, [plotPlantsData, plotPlantsLoading]);
+
+  // Fetch more on page count change
+  useEffect(() => {
+    if (pageCount > 0) {
+      plotPlantsFetchMore({
+        variables: {
+          input: {
+            take: plotPlantsVariables.input.take,
+            skip: 3 * pageCount,
+            where: { ...plotPlantsVariables.input.where },
+          },
+        },
+      });
+    }
+  }, [pageCount]);
 
   return (
     <Stack
@@ -29,6 +68,7 @@ const PlotPlants: React.FC<PlotPlantsProps> = (props) => {
           </Heading>
         </Skeleton>
       </Box>
+
       {/* Plants */}
       <Wrap spacing="30px" justify="center">
         {plotPlants?.map((plant) => (
@@ -38,6 +78,17 @@ const PlotPlants: React.FC<PlotPlantsProps> = (props) => {
         ))}
         {plotPlants && plotPlants.length === 0 && <PlotNoPlants />}
       </Wrap>
+
+      {/* Load more */}
+      {plotPlantsData && plotPlantsData.plotUserPlants.pageInfo.hasMore && (
+        <PlotPlantsLoadMore
+          isLoading={plotPlantsLoading}
+          onClick={() => {
+            // Increment page count
+            setPageCount(pageCount + 1);
+          }}
+        />
+      )}
     </Stack>
   );
 };

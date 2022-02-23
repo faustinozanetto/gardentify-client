@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import CoreLayout from 'src/components/layout/core-layout';
 import PlotDetails from 'src/components/plot/details/plot-details';
 import CoreLayoutHead from 'src/components/layout/core-layout-head';
-import { UserPlant, Plot, useFindPlotQuery, usePlotUserPlantsQuery } from 'src/generated/graphql';
+import { Plot, useFindPlotQuery } from 'src/generated/graphql';
 import PlotPlants from 'src/components/plot/plants/plot-plants';
 import { VStack } from '@chakra-ui/react';
 import { GetServerSideProps } from 'next';
@@ -15,13 +15,8 @@ interface UserPlotPageProps {}
 const UserPlotPage: React.FC<UserPlotPageProps> = (props) => {
   const router = useRouter();
   const [plot, setPlot] = useState<Plot>();
-  const [plotPlants, setPlotPlants] = useState<UserPlant[]>([]);
   const { data: plotData, loading: plotLoading } = useFindPlotQuery({
     variables: { input: { uuid: router?.query?.uuid as string } },
-  });
-  const { data: plotPlantsData, loading: plotPlantsLoading } = usePlotUserPlantsQuery({
-    variables: { input: { plotUuid: router?.query?.uuid as string, take: 5, skip: 0, where: {}, includePlot: false } },
-    ssr: true,
   });
 
   useEffect(() => {
@@ -29,13 +24,6 @@ const UserPlotPage: React.FC<UserPlotPageProps> = (props) => {
       setPlot(plotData.findPlot.plot);
     }
   }, [plotData, plotLoading]);
-
-  useEffect(() => {
-    if (plotPlantsData && plotPlantsData.plotUserPlants.edges) {
-      const mappedPlants = plotPlantsData.plotUserPlants.edges.map((edge) => edge.node);
-      setPlotPlants(mappedPlants);
-    }
-  }, [plotPlantsData, plotPlantsLoading]);
 
   return (
     <CoreLayout
@@ -48,11 +36,11 @@ const UserPlotPage: React.FC<UserPlotPageProps> = (props) => {
     >
       <VStack spacing={4}>
         {/* Plot details */}
-        <PlotDetails plotData={plot} plantsAmount={plotPlants.length} loading={plotLoading} />
+        <PlotDetails plotData={plot} plantsAmount={5} loading={plotLoading} />
         {/* Management */}
         <PlotManagement />
         {/* Plot plants */}
-        <PlotPlants plotData={plot} plotPlants={plotPlants} loading={plotPlantsLoading} />
+        <PlotPlants plotData={plot} />
       </VStack>
     </CoreLayout>
   );
