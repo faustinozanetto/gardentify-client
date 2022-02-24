@@ -1,5 +1,6 @@
 fragment Harvest on Harvest {
   uuid
+  image
   amountHarvested
   harvestWeight
   harvestedOn

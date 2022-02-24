@@ -61,7 +61,7 @@ const UserPlantDiseases: React.FC<UserPlantDiseasesProps> = (props) => {
       {/* No disease */}
       {diseases && diseases.length === 0 && (
         <Skeleton isLoaded={!loading}>
-          <Heading as="h3" textAlign="center" fontWeight={600}>
+          <Heading as="h3" textAlign="center" fontWeight={600} fontSize="3xl">
             No Diseases
           </Heading>
         </Skeleton>

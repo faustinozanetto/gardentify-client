@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Heading, HStack, Skeleton, Spacer, Stack, useColorModeValue } from '@chakra-ui/react';
+import { Box, Heading, HStack, Skeleton, Spacer, Stack, useColorModeValue, Wrap } from '@chakra-ui/react';
 import { Harvest, UserPlant, useUserPlantHarvestsQuery } from 'src/generated/graphql';
+import UserPlantRegisterHarvest from './user-plant-register-harvest';
+import UserPlantHarvestCard from './user-plant-harvest-card';
 
 interface UserPlantHarvestsProps {
   plantData?: UserPlant;
@@ -51,15 +53,22 @@ const UserPlantHarvests: React.FC<UserPlantHarvestsProps> = (props) => {
       </HStack>
 
       {/* Diseases */}
-      {harvests &&
-        harvests.length > 0 &&
-        harvests.map((harvest, index) => {
-          return <UserPlantDiseaseCard key={index} disease={disease} loading={loading} />;
-        })}
+      <Wrap spacing="30px" justify="center">
+        {harvests &&
+          harvests.length > 0 &&
+          harvests.map((harvest, index) => {
+            return (
+              <Box key={harvest.uuid} width={'250px'}>
+                <UserPlantHarvestCard harvest={harvest} loading={loading} />
+              </Box>
+            );
+          })}
+      </Wrap>
+
       {/* No disease */}
       {harvests && harvests.length === 0 && (
         <Skeleton isLoaded={!loading}>
-          <Heading as="h3" textAlign="center" fontWeight={600}>
+          <Heading as="h3" textAlign="center" fontWeight={600} fontSize="3xl">
             No Harvests
           </Heading>
         </Skeleton>

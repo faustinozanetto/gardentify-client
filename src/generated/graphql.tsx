@@ -27,6 +27,8 @@ export enum AuthProvider {
 export type CreateHarvestInput = {
   amountHarvested: Scalars['Int'];
   harvestWeight: Scalars['Float'];
+  harvestedOn: Scalars['DateTime'];
+  image: Scalars['String'];
   plantUuid: Scalars['String'];
 };
 
@@ -185,6 +187,7 @@ export type Harvest = {
   createdAt?: Maybe<Scalars['DateTime']>;
   harvestWeight?: Maybe<Scalars['Float']>;
   harvestedOn?: Maybe<Scalars['DateTime']>;
+  image?: Maybe<Scalars['String']>;
   plant?: Maybe<UserPlant>;
   updatedAt?: Maybe<Scalars['DateTime']>;
   uuid?: Maybe<Scalars['String']>;
@@ -701,15 +704,15 @@ export type DiseaseResponseFragment = { __typename?: 'DiseaseResponse', disease?
 
 export type DiseasesResponseFragment = { __typename?: 'DiseasesResponse', count?: number | null, pageInfo?: { __typename?: 'DiseasesPageInfo', startCursor?: any | null, endCursor?: any | null, hasMore?: boolean | null } | null, edges?: Array<{ __typename?: 'DiseasesEdge', cursor?: any | null, node?: { __typename?: 'Disease', uuid?: string | null, scientificName?: string | null, description?: string | null, image?: string | null, createdAt?: any | null, updatedAt?: any | null } | null }> | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null };
 
-export type HarvestFragment = { __typename?: 'Harvest', uuid?: string | null, amountHarvested?: number | null, harvestWeight?: number | null, harvestedOn?: any | null, createdAt?: any | null, updatedAt?: any | null };
+export type HarvestFragment = { __typename?: 'Harvest', uuid?: string | null, image?: string | null, amountHarvested?: number | null, harvestWeight?: number | null, harvestedOn?: any | null, createdAt?: any | null, updatedAt?: any | null };
 
-export type HarvestsEdgeFragment = { __typename?: 'HarvestsEdge', cursor?: any | null, node?: { __typename?: 'Harvest', uuid?: string | null, amountHarvested?: number | null, harvestWeight?: number | null, harvestedOn?: any | null, createdAt?: any | null, updatedAt?: any | null } | null };
+export type HarvestsEdgeFragment = { __typename?: 'HarvestsEdge', cursor?: any | null, node?: { __typename?: 'Harvest', uuid?: string | null, image?: string | null, amountHarvested?: number | null, harvestWeight?: number | null, harvestedOn?: any | null, createdAt?: any | null, updatedAt?: any | null } | null };
 
 export type HarvestsPageInfoFragment = { __typename?: 'HarvestsPageInfo', startCursor?: any | null, endCursor?: any | null, hasMore?: boolean | null };
 
-export type HarvestResponseFragment = { __typename?: 'HarvestResponse', harvest?: { __typename?: 'Harvest', uuid?: string | null, amountHarvested?: number | null, harvestWeight?: number | null, harvestedOn?: any | null, createdAt?: any | null, updatedAt?: any | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null };
+export type HarvestResponseFragment = { __typename?: 'HarvestResponse', harvest?: { __typename?: 'Harvest', uuid?: string | null, image?: string | null, amountHarvested?: number | null, harvestWeight?: number | null, harvestedOn?: any | null, createdAt?: any | null, updatedAt?: any | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null };
 
-export type HarvestsResponseFragment = { __typename?: 'HarvestsResponse', count?: number | null, pageInfo?: { __typename?: 'HarvestsPageInfo', startCursor?: any | null, endCursor?: any | null, hasMore?: boolean | null } | null, edges?: Array<{ __typename?: 'HarvestsEdge', cursor?: any | null, node?: { __typename?: 'Harvest', uuid?: string | null, amountHarvested?: number | null, harvestWeight?: number | null, harvestedOn?: any | null, createdAt?: any | null, updatedAt?: any | null } | null }> | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null };
+export type HarvestsResponseFragment = { __typename?: 'HarvestsResponse', count?: number | null, pageInfo?: { __typename?: 'HarvestsPageInfo', startCursor?: any | null, endCursor?: any | null, hasMore?: boolean | null } | null, edges?: Array<{ __typename?: 'HarvestsEdge', cursor?: any | null, node?: { __typename?: 'Harvest', uuid?: string | null, image?: string | null, amountHarvested?: number | null, harvestWeight?: number | null, harvestedOn?: any | null, createdAt?: any | null, updatedAt?: any | null } | null }> | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null };
 
 export type PlantRequirementsFragment = { __typename?: 'PlantRequirements', uuid?: string | null, soil?: string | null, water?: string | null, light?: string | null, temperature?: string | null, createdAt?: any | null, updatedAt?: any | null };
 
@@ -796,7 +799,7 @@ export type CreateUserPlantHarvestMutationVariables = Exact<{
 }>;
 
 
-export type CreateUserPlantHarvestMutation = { __typename?: 'Mutation', createUserPlantHarvest: { __typename?: 'HarvestResponse', harvest?: { __typename?: 'Harvest', uuid?: string | null, amountHarvested?: number | null, harvestWeight?: number | null, harvestedOn?: any | null, createdAt?: any | null, updatedAt?: any | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
+export type CreateUserPlantHarvestMutation = { __typename?: 'Mutation', createUserPlantHarvest: { __typename?: 'HarvestResponse', harvest?: { __typename?: 'Harvest', uuid?: string | null, image?: string | null, amountHarvested?: number | null, harvestWeight?: number | null, harvestedOn?: any | null, createdAt?: any | null, updatedAt?: any | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
 
 export type DeleteUserPlantHarvestMutationVariables = Exact<{
   input: FindHarvestInput;
@@ -900,14 +903,14 @@ export type FindHarvestQueryVariables = Exact<{
 }>;
 
 
-export type FindHarvestQuery = { __typename?: 'Query', findHarvest: { __typename?: 'HarvestResponse', harvest?: { __typename?: 'Harvest', uuid?: string | null, amountHarvested?: number | null, harvestWeight?: number | null, harvestedOn?: any | null, createdAt?: any | null, updatedAt?: any | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
+export type FindHarvestQuery = { __typename?: 'Query', findHarvest: { __typename?: 'HarvestResponse', harvest?: { __typename?: 'Harvest', uuid?: string | null, image?: string | null, amountHarvested?: number | null, harvestWeight?: number | null, harvestedOn?: any | null, createdAt?: any | null, updatedAt?: any | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
 
 export type UserPlantHarvestsQueryVariables = Exact<{
   input: PlantHarvestsInput;
 }>;
 
 
-export type UserPlantHarvestsQuery = { __typename?: 'Query', userPlantHarvests: { __typename?: 'HarvestsResponse', count?: number | null, pageInfo?: { __typename?: 'HarvestsPageInfo', startCursor?: any | null, endCursor?: any | null, hasMore?: boolean | null } | null, edges?: Array<{ __typename?: 'HarvestsEdge', cursor?: any | null, node?: { __typename?: 'Harvest', uuid?: string | null, amountHarvested?: number | null, harvestWeight?: number | null, harvestedOn?: any | null, createdAt?: any | null, updatedAt?: any | null } | null }> | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
+export type UserPlantHarvestsQuery = { __typename?: 'Query', userPlantHarvests: { __typename?: 'HarvestsResponse', count?: number | null, pageInfo?: { __typename?: 'HarvestsPageInfo', startCursor?: any | null, endCursor?: any | null, hasMore?: boolean | null } | null, edges?: Array<{ __typename?: 'HarvestsEdge', cursor?: any | null, node?: { __typename?: 'Harvest', uuid?: string | null, image?: string | null, amountHarvested?: number | null, harvestWeight?: number | null, harvestedOn?: any | null, createdAt?: any | null, updatedAt?: any | null } | null }> | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
 
 export type FindPlantQueryVariables = Exact<{
   input: FindPlantInput;
@@ -1031,6 +1034,7 @@ ${ErrorResponseFragmentDoc}`;
 export const HarvestFragmentDoc = gql`
     fragment Harvest on Harvest {
   uuid
+  image
   amountHarvested
   harvestWeight
   harvestedOn
