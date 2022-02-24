@@ -9,13 +9,7 @@ const UserPlantRegisterDisease: React.FC<UserPlantRegisterDiseaseProps> = (props
   const { query } = useRouter();
 
   return (
-    <Button
-      as="a"
-      href={`/user/${query.username}/plants/${query.uuid}/disease/create`}
-      colorScheme="purple"
-      size="md"
-      {...rest}
-    >
+    <Button as="a" href={`/plants/${query.uuid}/disease/create`} colorScheme="purple" size="md" {...rest}>
       Register Disease
     </Button>
   );

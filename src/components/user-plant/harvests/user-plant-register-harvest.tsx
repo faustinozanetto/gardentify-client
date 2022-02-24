@@ -11,7 +11,7 @@ const UserPlantRegisterHarvest: React.FC<UserPlantRegisterHarvestProps> = (props
   return (
     <Button
       as="a"
-      href={`/user/${query.username}/plants/${query.uuid}/harvest/create`}
+      href={`/plants/${query.uuid}/harvest/create`}
       colorScheme="purple"
       size="md"
       {...rest}

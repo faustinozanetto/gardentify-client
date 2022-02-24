@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import UserPlantCard from 'src/components/user-plant/card/user-plant-card';
-import { Box, Heading, Skeleton, Stack, useColorModeValue, Wrap } from '@chakra-ui/react';
+import { Box, Heading, HStack, Skeleton, Spacer, Stack, useColorModeValue, Wrap } from '@chakra-ui/react';
 import { Plot, usePlotUserPlantsQuery, UserPlant } from 'src/generated/graphql';
 import PlotNoPlants from './plot-no-plants';
 import { useRouter } from 'next/router';
 import PlotPlantsLoadMore from './plots-plants-load-more';
+import PlotPlantsAdd from './plot-plants-add';
 
 interface PlotPlantsProps {
   plotData?: Plot;
@@ -61,13 +62,16 @@ const PlotPlants: React.FC<PlotPlantsProps> = (props) => {
       width={'full'}
     >
       {/* Heading */}
-      <Box mb={4}>
+      <HStack mb={4}>
         <Skeleton isLoaded={!loading}>
           <Heading as="h2" lineHeight={1.1} fontWeight={600} fontSize={{ base: '3xl', sm: '4xl', lg: '4xl' }}>
             Plot Plants
           </Heading>
         </Skeleton>
-      </Box>
+
+        <Spacer />
+        <PlotPlantsAdd />
+      </HStack>
 
       {/* Plants */}
       <Wrap spacing="30px" justify="center">

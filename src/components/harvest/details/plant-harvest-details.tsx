@@ -72,7 +72,7 @@ const PlantHarvestDetails: React.FC<PlantHarvestDetailsProps> = (props) => {
             </Stack>
           </Box>
           {/* Go back button */}
-          <Button as="a" variant="ghost" width="full" href={`/user/${query.username}/plants/${query.uuid}`}>
+          <Button as="a" variant="ghost" width="full" href={`/plants/${query.uuid}`}>
             Go Back
           </Button>
         </VStack>

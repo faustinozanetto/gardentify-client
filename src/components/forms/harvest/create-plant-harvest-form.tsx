@@ -86,7 +86,7 @@ const CreatePlantHarvestForm: React.FC<CreatePlantHarvestFormProps> = (props) =>
             });
 
             // Pushing user to the plot page
-            router.push(`/user/${router.query.username as string}/plants/${plantUuid}`);
+            router.push(`/plants/${plantUuid}`);
           }
         });
       }}
@@ -119,12 +119,7 @@ const CreatePlantHarvestForm: React.FC<CreatePlantHarvestFormProps> = (props) =>
             {/* Buttons */}
             <HStack width="full">
               <FormSubmitButton my={2}>Submit</FormSubmitButton>
-              <Button
-                as="a"
-                colorScheme="teal"
-                width="full"
-                href={`/user/${router.query.username as string}/plants/${plantUuid}`}
-              >
+              <Button as="a" colorScheme="teal" width="full" href={`/plants/${plantUuid}`}>
                 Go Back
               </Button>
             </HStack>

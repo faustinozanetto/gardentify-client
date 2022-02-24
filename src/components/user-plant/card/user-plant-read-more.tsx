@@ -11,7 +11,7 @@ const UserPlantReadMore: React.FC<UserPlantReadMoreProps> = (props) => {
   const { plantUuid, username, loading } = props;
 
   const generateLink = (plant: string) => {
-    const base = `/user/${username}/plants/`;
+    const base = `/plants/`;
     return base + plant;
   };
 

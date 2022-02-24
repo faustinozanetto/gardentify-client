@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Heading, Skeleton, Stack, useColorModeValue, Wrap } from '@chakra-ui/react';
+import { Heading, HStack, Skeleton, Spacer, Stack, useColorModeValue, Wrap } from '@chakra-ui/react';
 import { Plot, useUserPlotsQuery } from 'src/generated/graphql';
 import UserPlotCard from 'src/components/plot/card/user-plot-card';
 import UserPlotsLoadMore from './user-plots-load-more';
 import useAuth from '@modules/state/auth.context';
+import UserProfilePlotAdd from './user-profile-plot-add';
 
 interface UserProfilePlotsDetailsProps {
   username?: string;
@@ -59,11 +60,15 @@ const UserProfilePlotsDetails: React.FC<UserProfilePlotsDetailsProps> = (props) 
       minWidth="100%"
     >
       {/* Heading */}
-      <Skeleton isLoaded={!loading}>
-        <Heading as="h2" fontWeight={700} fontSize={{ base: 'xl', sm: '2xl', lg: '3xl' }} marginBottom={4}>
-          {username}'s Plots
-        </Heading>
-      </Skeleton>
+      <HStack>
+        <Skeleton isLoaded={!loading}>
+          <Heading as="h2" fontWeight={700} fontSize={{ base: 'xl', sm: '2xl', lg: '3xl' }} marginBottom={4}>
+            {username}'s Plots
+          </Heading>
+        </Skeleton>
+        <Spacer />
+        <UserProfilePlotAdd />
+      </HStack>
 
       {/* Plants Container */}
       <Wrap spacing={6} align="center" justify="center">

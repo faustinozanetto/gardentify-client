@@ -27,7 +27,7 @@ const UserPlantHarvestCard: React.FC<UserPlantHarvestCardProps> = (props) => {
   const { harvest, loading } = props;
 
   const generateHarvestUrl = (harvestUuid: string) => {
-    const base = `/user/${query?.username}/plants/${query.uuid}`;
+    const base = `/plants/${query.uuid}`;
     const link = base + `/harvest/${harvestUuid}`;
     return link;
   };

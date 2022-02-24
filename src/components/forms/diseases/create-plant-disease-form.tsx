@@ -67,7 +67,7 @@ const CreatePlantDiseaseForm: React.FC<CreatePlantDiseaseFormProps> = (props) =>
             });
 
             // Pushing user to the plot page
-            router.push(`/user/${router.query.username as string}/plants/${router.query.uuid as string}`);
+            router.push(`/plants/${router.query.uuid as string}`);
           }
         });
       }}
