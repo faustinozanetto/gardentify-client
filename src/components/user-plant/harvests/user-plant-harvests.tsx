@@ -3,6 +3,7 @@ import { Box, Heading, HStack, Skeleton, Spacer, Stack, useColorModeValue, Wrap 
 import { Harvest, UserPlant, useUserPlantHarvestsQuery } from 'src/generated/graphql';
 import UserPlantRegisterHarvest from './user-plant-register-harvest';
 import UserPlantHarvestCard from './user-plant-harvest-card';
+import UserPlantHarvestsLoadMore from './user-plant-harvests-load-more';
 
 interface UserPlantHarvestsProps {
   plantData?: UserPlant;
@@ -11,7 +12,7 @@ interface UserPlantHarvestsProps {
 
 const UserPlantHarvests: React.FC<UserPlantHarvestsProps> = (props) => {
   const { plantData, loading } = props;
-  const [page, setPage] = useState(0);
+  const [pageCount, setPageCount] = useState(0);
   const [harvests, setHarvests] = useState<Harvest[]>([]);
   const {
     data: harvestsData,
@@ -28,32 +29,33 @@ const UserPlantHarvests: React.FC<UserPlantHarvestsProps> = (props) => {
         },
       },
     },
-    fetchPolicy: 'cache-and-network',
-    notifyOnNetworkStatusChange: true,
   });
 
   // Initial state load
   useEffect(() => {
-    if (harvestsData && harvestsData.userPlantHarvests) {
+    if (harvestsData && harvestsData.userPlantHarvests.edges) {
       const mappedHarvests = harvestsData.userPlantHarvests.edges.map((edge) => edge.node);
       setHarvests(mappedHarvests);
     }
+    console.log(harvestsData);
   }, [harvestsData, harvestsLoading]);
 
   // Fetch more on page change
   useEffect(() => {
-    harvestsFetchMore({
-      variables: {
-        input: {
-          take: harvestsVariables.input.take,
-          skip: 3 * page,
-          where: {
-            ...harvestsVariables.input.where,
+    if (pageCount > 0) {
+      harvestsFetchMore({
+        variables: {
+          input: {
+            take: harvestsVariables.input.take,
+            skip: 3 * pageCount,
+            where: {
+              ...harvestsVariables.input.where,
+            },
           },
         },
-      },
-    });
-  }, [page]);
+      });
+    }
+  }, [pageCount]);
 
   return (
     <Stack
@@ -81,7 +83,7 @@ const UserPlantHarvests: React.FC<UserPlantHarvestsProps> = (props) => {
           harvests.length > 0 &&
           harvests.map((harvest, index) => {
             return (
-              <Box key={harvest.uuid} width={'250px'}>
+              <Box key={index} width={'250px'}>
                 <UserPlantHarvestCard harvest={harvest} loading={loading} />
               </Box>
             );
@@ -95,6 +97,17 @@ const UserPlantHarvests: React.FC<UserPlantHarvestsProps> = (props) => {
             No Harvests
           </Heading>
         </Skeleton>
+      )}
+
+      {/* Load more */}
+      {harvestsData && harvestsData.userPlantHarvests.pageInfo.hasMore && (
+        <UserPlantHarvestsLoadMore
+          isLoading={harvestsLoading}
+          onClick={() => {
+            // Increment page count
+            setPageCount(pageCount + 1);
+          }}
+        />
       )}
     </Stack>
   );
