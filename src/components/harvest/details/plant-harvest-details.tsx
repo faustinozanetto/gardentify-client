@@ -9,8 +9,10 @@ import {
   useColorModeValue,
   HStack,
   SkeletonCircle,
+  Button,
 } from '@chakra-ui/react';
 import { Harvest } from 'src/generated/graphql';
+import { useRouter } from 'next/router';
 
 interface PlantHarvestDetailsProps {
   harvestData?: Harvest;
@@ -18,12 +20,13 @@ interface PlantHarvestDetailsProps {
 }
 
 const PlantHarvestDetails: React.FC<PlantHarvestDetailsProps> = (props) => {
+  const { query } = useRouter();
   const { harvestData, loading } = props;
   return (
     <Stack bgColor={useColorModeValue('gray.50', 'gray.900')} borderRadius="3xl" boxShadow="2xl" padding={6}>
       <HStack>
         {/* Main details */}
-        <VStack as={Box} padding={4} textAlign={'center'} width="full">
+        <VStack padding={4} textAlign={'center'} spacing={4} width="full">
           {/* Image */}
           <Box mb={4}>
             <SkeletonCircle isLoaded={!loading} boxSize={['150px', '200px', '250px', '300px', '400px']}>
@@ -37,7 +40,7 @@ const PlantHarvestDetails: React.FC<PlantHarvestDetailsProps> = (props) => {
             </SkeletonCircle>
           </Box>
           {/* Main details. */}
-          <Box width={'full'}>
+          <Box width={'full'} mb={4}>
             <Stack spacing={2} align={'center'}>
               {/* Harvested on. */}
 
@@ -68,6 +71,10 @@ const PlantHarvestDetails: React.FC<PlantHarvestDetailsProps> = (props) => {
               </Skeleton>
             </Stack>
           </Box>
+          {/* Go back button */}
+          <Button as="a" variant="ghost" width="full" href={`/user/${query.username}/plants/${query.uuid}`}>
+            Go Back
+          </Button>
         </VStack>
       </HStack>
     </Stack>
