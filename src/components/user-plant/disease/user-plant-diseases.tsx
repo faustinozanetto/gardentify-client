@@ -1,4 +1,4 @@
-import { Box, Heading, HStack, Skeleton, Spacer, Stack, useColorModeValue } from '@chakra-ui/react';
+import { Box, Heading, HStack, Skeleton, Spacer, Stack, useColorModeValue, Wrap } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { Disease, UserPlant, useUserPlantDiseasesQuery } from 'src/generated/graphql';
 import UserPlantDiseaseCard from './user-plant-disease-card';
@@ -53,11 +53,17 @@ const UserPlantDiseases: React.FC<UserPlantDiseasesProps> = (props) => {
       </HStack>
 
       {/* Diseases */}
-      {diseases &&
-        diseases.length > 0 &&
-        diseases.map((disease, index) => {
-          return <UserPlantDiseaseCard key={index} disease={disease} loading={loading} />;
-        })}
+      <Wrap spacing="30px" justify="center">
+        {diseases &&
+          diseases.length > 0 &&
+          diseases.map((disease, index) => {
+            return (
+              <Box key={disease.uuid} width={'250px'}>
+                <UserPlantDiseaseCard disease={disease} loading={loading} />
+              </Box>
+            );
+          })}
+      </Wrap>
       {/* No disease */}
       {diseases && diseases.length === 0 && (
         <Skeleton isLoaded={!loading}>

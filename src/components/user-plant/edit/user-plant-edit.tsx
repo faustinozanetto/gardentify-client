@@ -33,7 +33,7 @@ const UserPlantEdit: React.FC<UserPlantEditProps> = (props) => {
         Plant Editing
       </Heading>
       {/* Edit plot form */}
-      {!plantLoading && plant && <UpdatePlotForm plant={plant} />}
+      {/* {!plantLoading && plant && <UpdatePlotForm plant={plant} />} */}
     </VStack>
   );
 };

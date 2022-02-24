@@ -1,5 +1,9 @@
-mutation addDiseaseToUserPlant($disease: FindDiseaseInput!, $plant: FindUserPlantInput!) {
-  addDiseaseToUserPlant(disease: $disease, plant: $plant) {
+mutation addDiseaseToUserPlant(
+  $disease: FindDiseaseInput!
+  $plant: FindUserPlantInput!
+  $input: AddDiseaseToUserPlantInput!
+) {
+  addDiseaseToUserPlant(disease: $disease, plant: $plant, input: $input) {
     ...DiseaseResponse
   }
 }

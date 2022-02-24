@@ -17,6 +17,10 @@ export type Scalars = {
   DateTime: any;
 };
 
+export type AddDiseaseToUserPlantInput = {
+  appearedOn: Scalars['DateTime'];
+};
+
 /** User auth provider service */
 export enum AuthProvider {
   Default = 'DEFAULT',
@@ -254,6 +258,7 @@ export type MutationAddDiseaseToPlantArgs = {
 
 export type MutationAddDiseaseToUserPlantArgs = {
   disease: FindDiseaseInput;
+  input: AddDiseaseToUserPlantInput;
   plant: FindUserPlantInput;
 };
 
@@ -767,6 +772,7 @@ export type UserFragment = { __typename?: 'User', uuid?: string | null, oauthId?
 export type AddDiseaseToUserPlantMutationVariables = Exact<{
   disease: FindDiseaseInput;
   plant: FindUserPlantInput;
+  input: AddDiseaseToUserPlantInput;
 }>;
 
 
@@ -1371,8 +1377,8 @@ export const UserResponseFragmentDoc = gql`
     ${UserFragmentDoc}
 ${ErrorResponseFragmentDoc}`;
 export const AddDiseaseToUserPlantDocument = gql`
-    mutation addDiseaseToUserPlant($disease: FindDiseaseInput!, $plant: FindUserPlantInput!) {
-  addDiseaseToUserPlant(disease: $disease, plant: $plant) {
+    mutation addDiseaseToUserPlant($disease: FindDiseaseInput!, $plant: FindUserPlantInput!, $input: AddDiseaseToUserPlantInput!) {
+  addDiseaseToUserPlant(disease: $disease, plant: $plant, input: $input) {
     ...DiseaseResponse
   }
 }
@@ -1394,6 +1400,7 @@ export type AddDiseaseToUserPlantMutationFn = Apollo.MutationFunction<AddDisease
  *   variables: {
  *      disease: // value for 'disease'
  *      plant: // value for 'plant'
+ *      input: // value for 'input'
  *   },
  * });
  */
