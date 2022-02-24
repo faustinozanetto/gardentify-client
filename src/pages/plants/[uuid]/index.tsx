@@ -38,16 +38,18 @@ const PlatPage: React.FC<PlatPageProps> = (props) => {
         seoUrl: 'https://gardentify.com/plants',
       }}
     >
-      <VStack spacing={4} width="full">
-        {/* Plant details. */}
-        <UserPlantDetails plantData={plant} loading={plantLoading} />
-        {/* Plant managament */}
-        <UserPlantManagement plantData={plant} loading={plantLoading} />
-        {/* Plant Details */}
-        <UserPlantDiseases plantData={plant} loading={plantLoading} />
-        {/* Plant harvests */}
-        <UserPlantHarvests plantData={plant} loading={plantLoading} />
-      </VStack>
+      {plant && (
+        <VStack spacing={4} width="full">
+          {/* Plant details. */}
+          <UserPlantDetails plantData={plant} loading={plantLoading} />
+          {/* Plant managament */}
+          <UserPlantManagement plantData={plant} loading={plantLoading} />
+          {/* Plant Details */}
+          <UserPlantDiseases plantData={plant} loading={plantLoading} />
+          {/* Plant harvests */}
+          <UserPlantHarvests plantData={plant} loading={plantLoading} />
+        </VStack>
+      )}
     </CoreLayout>
   );
 };

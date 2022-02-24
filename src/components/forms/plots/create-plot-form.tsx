@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import * as Yup from 'yup';
 import { Formik, FormikProps } from 'formik';
-import { Flex, useToast } from '@chakra-ui/react';
+import { Button, Flex, HStack, useToast } from '@chakra-ui/react';
 import InputControl from '../base/form-input';
 import TextAreaControl from '../base/form-textarea';
 import NumberInputControl from '../base/form-number-input';
 import FormSubmitButton from '../base/buttons/form-submit-button';
 import { useCreatePlotMutation, User } from 'src/generated/graphql';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 interface CreatePlotFormValues {
   name: string;
@@ -137,7 +138,14 @@ const CreatePlotForm: React.FC<CreatePlotFormProps> = (props) => {
               my={2}
             />
             {/* Buttons */}
-            <FormSubmitButton my={2}>Submit</FormSubmitButton>
+            <HStack width="full">
+              <FormSubmitButton my={2}>Submit</FormSubmitButton>
+              <Link href={(router.query.back as string) ?? '/'}>
+                <Button colorScheme="teal" width="full">
+                  Go Back
+                </Button>
+              </Link>
+            </HStack>
           </Flex>
         );
       }}

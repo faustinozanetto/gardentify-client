@@ -63,6 +63,7 @@ const UserPlantHarvests: React.FC<UserPlantHarvestsProps> = (props) => {
       borderRadius="3xl"
       boxShadow="2xl"
       padding={6}
+      spacing={4}
       width={'full'}
     >
       {/* Heading */}

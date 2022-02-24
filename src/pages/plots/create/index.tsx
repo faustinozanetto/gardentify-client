@@ -17,7 +17,7 @@ const CreatePlotPage: React.FC<CreatePlotPageProps> = (props) => {
         seoUrl: 'https://gardentify.com/',
       }}
     >
-      <UserPlotCreation userUuid={user.uuid} />
+      <UserPlotCreation userUuid={user?.uuid} />
     </CoreLayout>
   );
 };

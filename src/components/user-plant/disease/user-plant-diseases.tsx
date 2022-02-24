@@ -2,17 +2,24 @@ import { Box, Heading, HStack, Skeleton, Spacer, Stack, useColorModeValue, Wrap 
 import React, { useEffect, useState } from 'react';
 import { Disease, UserPlant, useUserPlantDiseasesQuery } from 'src/generated/graphql';
 import UserPlantDiseaseCard from './user-plant-disease-card';
+import UserPlantDiseasesLoadMore from './user-plant-diseases-load-more';
 import UserPlantRegisterDisease from './user-plant-register-disease';
 
 interface UserPlantDiseasesProps {
-  plantData?: UserPlant;
+  plantData: UserPlant;
   loading?: boolean;
 }
 
 const UserPlantDiseases: React.FC<UserPlantDiseasesProps> = (props) => {
   const { plantData, loading } = props;
+  const [pageCount, setPageCount] = useState(0);
   const [diseases, setDiseases] = useState<Disease[]>([]);
-  const { data: diseasesData, loading: diseasesLoading } = useUserPlantDiseasesQuery({
+  const {
+    data: diseasesData,
+    loading: diseasesLoading,
+    fetchMore: diseasesFetchMore,
+    variables: diseasesVariables,
+  } = useUserPlantDiseasesQuery({
     variables: {
       input: {
         take: 3,
@@ -28,9 +35,30 @@ const UserPlantDiseases: React.FC<UserPlantDiseasesProps> = (props) => {
   useEffect(() => {
     if (diseasesData && diseasesData.userPlantDiseases) {
       const mappedDiseases = diseasesData.userPlantDiseases.edges.map((edge) => edge.node);
-      setDiseases(mappedDiseases);
+      // Sort by date
+      const sortedDiseases = mappedDiseases.sort((a, b) => {
+        if (a.appearedOn > b.appearedOn) return 1;
+        if (a.appearedOn < b.appearedOn) return -1;
+        return 0;
+      });
+      setDiseases(sortedDiseases);
     }
   }, [diseasesData, diseasesLoading]);
+
+  // Fetch more on page change
+  useEffect(() => {
+    if (pageCount > 0) {
+      diseasesFetchMore({
+        variables: {
+          input: {
+            take: diseasesVariables.input.take,
+            skip: 3 * pageCount,
+            where: { ...diseasesVariables.input.where },
+          },
+        },
+      });
+    }
+  }, [pageCount]);
 
   return (
     <Stack
@@ -38,6 +66,7 @@ const UserPlantDiseases: React.FC<UserPlantDiseasesProps> = (props) => {
       borderRadius="3xl"
       boxShadow="2xl"
       padding={6}
+      spacing={4}
       width={'full'}
     >
       {/* Heading */}
@@ -58,7 +87,7 @@ const UserPlantDiseases: React.FC<UserPlantDiseasesProps> = (props) => {
           diseases.length > 0 &&
           diseases.map((disease, index) => {
             return (
-              <Box key={disease.uuid} width={'250px'}>
+              <Box key={index} width={'250px'}>
                 <UserPlantDiseaseCard disease={disease} loading={loading} />
               </Box>
             );
@@ -71,6 +100,17 @@ const UserPlantDiseases: React.FC<UserPlantDiseasesProps> = (props) => {
             No Diseases
           </Heading>
         </Skeleton>
+      )}
+
+      {/* Load more */}
+      {diseasesData && diseasesData.userPlantDiseases.pageInfo.hasMore && (
+        <UserPlantDiseasesLoadMore
+          isLoading={diseasesLoading}
+          onClick={() => {
+            // Increment page count
+            setPageCount(pageCount + 1);
+          }}
+        />
       )}
     </Stack>
   );

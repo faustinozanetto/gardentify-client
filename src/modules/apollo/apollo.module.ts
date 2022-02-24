@@ -2,7 +2,7 @@ import { ApolloClient, ApolloLink, HttpLink, InMemoryCache } from '@apollo/clien
 import { __BACKEND__, __PROD__ } from '@utils/constants';
 import { createWithApollo } from './createWithApollo';
 import { NextPageContext } from 'next';
-import { HarvestsResponse, PlotsResponse, PlotUserPlantsResponse } from 'src/generated/graphql';
+import { DiseasesResponse, HarvestsResponse, PlotsResponse, PlotUserPlantsResponse } from 'src/generated/graphql';
 
 const apolloClient = (ctx: NextPageContext) => {
   const setCookiesAfterware = new ApolloLink((operation, forward) =>
@@ -56,6 +56,16 @@ const apolloClient = (ctx: NextPageContext) => {
             userPlantHarvests: {
               keyArgs: [],
               merge(existing: HarvestsResponse | undefined, incoming: HarvestsResponse): HarvestsResponse {
+                return {
+                  ...incoming,
+                  edges: [...(existing?.edges || []), ...incoming.edges],
+                };
+              },
+            },
+            // Plant diseases
+            userPlantDiseases: {
+              keyArgs: [],
+              merge(existing: DiseasesResponse | undefined, incoming: DiseasesResponse): DiseasesResponse {
                 return {
                   ...incoming,
                   edges: [...(existing?.edges || []), ...incoming.edges],
