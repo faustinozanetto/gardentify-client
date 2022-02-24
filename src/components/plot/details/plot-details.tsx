@@ -93,7 +93,9 @@ const PlotDetails: React.FC<PlotDetailsProps> = (props) => {
             </Skeleton>
           </Box>
           <Box mb={4}>
-            <Text as={'p'}>{plotData?.description}</Text>
+            <Skeleton isLoaded={!loading}>
+              <Text as={'p'}>{plotData?.description}</Text>
+            </Skeleton>
           </Box>
         </Stack>
       </VStack>

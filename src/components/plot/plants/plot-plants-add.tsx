@@ -1,15 +1,16 @@
-import { Button } from '@chakra-ui/react';
+import { Button, ButtonProps } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 
-interface PlotPlantsAddProps {}
+type PlotPlantsAddProps = ButtonProps & {};
 
 const PlotPlantsAdd: React.FC<PlotPlantsAddProps> = (props) => {
+  const { ...rest } = props;
   const { query } = useRouter();
   return (
     <Link href={{ pathname: '/plants/create', query: { plot: query.uuid } }}>
-      <Button as="a" colorScheme="green" href={''}>
+      <Button colorScheme="green" {...rest}>
         Add Plant
       </Button>
     </Link>

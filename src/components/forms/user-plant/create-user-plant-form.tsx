@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import * as Yup from 'yup';
 import { Formik, FormikProps } from 'formik';
-import { Flex, useToast } from '@chakra-ui/react';
+import { Button, Flex, HStack, useToast } from '@chakra-ui/react';
 import InputControl from '../base/form-input';
 import TextAreaControl from '../base/form-textarea';
 import NumberInputControl from '../base/form-number-input';
@@ -14,6 +14,8 @@ import {
   User,
 } from 'src/generated/graphql';
 import { useRouter } from 'next/router';
+import SelectControl from '../base/form-select';
+import Link from 'next/link';
 
 interface CreateUserPlantFormValues {
   name: string;
@@ -94,6 +96,25 @@ const CreateUserPlantForm: React.FC<CreateUserPlantFormProps> = (props) => {
               plotUuid: router.query.plot as string,
             },
           });
+          if (plotErrors) {
+            toast({
+              title: 'Error adding plant to plot',
+              description: plotErrors[0].message,
+              status: 'error',
+              position: 'bottom-right',
+              duration: 3000,
+            });
+          } else if (plotData && plotData.addUserPlantToPlot) {
+            // Success
+            toast({
+              title: 'Success',
+              description: 'Plant created and binded to plot!.',
+              status: 'success',
+              position: 'bottom-right',
+              duration: 3000,
+            });
+            router.push(`/plots/${router.query.plot as string}`);
+          }
         }
       }}
     >
@@ -106,34 +127,45 @@ const CreateUserPlantForm: React.FC<CreateUserPlantFormProps> = (props) => {
             <InputControl name="name" label="Name" my={2} />
             {/* Scientific Name */}
             <InputControl name="scientificName" label="Scientifc Name" my={2} />
+            {/* Variety */}
+            <InputControl name="variety" label="Variety" my={2} />
             {/* Image */}
             <InputControl name="image" label="Image" my={2} />
-            {/* Size X */}
-            <NumberInputControl
-              name="sizeX"
-              label="Size X"
-              helperText="Size X in meters of the plot."
-              numberInputProps={{ itemType: 'number' }}
+            {/* Type X */}
+            <SelectControl name="type" label="Plant Type" selectProps={{ placeholder: 'Select a Type' }} my={2}>
+              {Object.values(PlantType).map((value, index) => {
+                return (
+                  <option key={index} value={value}>
+                    {value}
+                  </option>
+                );
+              })}
+            </SelectControl>
+            {/* Planted Seeds on Y */}
+            <InputControl
+              name="plantedSeedsOn"
+              label="Planted Seeds On"
+              helperText="Date when seeds were planted."
               my={2}
             />
-            {/* Size Y */}
-            <NumberInputControl
-              name="sizeY"
-              label="Size Y"
-              helperText="Size Y in meters of the plot."
-              numberInputProps={{ itemType: 'number' }}
-              my={2}
-            />
-            {/* Dirth Depth */}
-            <NumberInputControl
-              name="dirthDepth"
-              label="Dirth Depth"
-              numberInputProps={{ itemType: 'number' }}
-              helperText="Depth of the dirt in centimeters."
+            {/* Seeds sprouted */}
+            <InputControl
+              name="seedsSproutedOn"
+              label="Seeds Sprouted On"
+              helperText="Date when seeds sprouted."
               my={2}
             />
             {/* Buttons */}
-            <FormSubmitButton my={2}>Submit</FormSubmitButton>
+            <HStack width="full">
+              <FormSubmitButton my={2} width="full">
+                Submit
+              </FormSubmitButton>
+              <Link href={`/plots/${router.query.plot as string}/`}>
+                <Button width="full" colorScheme="teal">
+                  Go Back
+                </Button>
+              </Link>
+            </HStack>
           </Flex>
         );
       }}

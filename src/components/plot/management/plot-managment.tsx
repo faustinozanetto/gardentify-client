@@ -33,9 +33,9 @@ const PlotManagement: React.FC<PlotManagementProps> = (props) => {
         <Spacer />
         <HStack>
           {/* Edit details */}
-          <PlotManagementEdit />
+          <PlotManagementEdit isLoading={loading} loadingText="Loading" />
           {/* Delete plot */}
-          <PlotManagementDelete onClick={onOpenDelete} />
+          <PlotManagementDelete onClick={onOpenDelete} isLoading={loading} loadingText="Loading" />
         </HStack>
       </HStack>
 

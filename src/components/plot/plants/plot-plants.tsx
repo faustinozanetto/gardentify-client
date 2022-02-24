@@ -70,7 +70,7 @@ const PlotPlants: React.FC<PlotPlantsProps> = (props) => {
         </Skeleton>
 
         <Spacer />
-        <PlotPlantsAdd />
+        <PlotPlantsAdd isLoading={loading} loadingText="Loading" />
       </HStack>
 
       {/* Plants */}

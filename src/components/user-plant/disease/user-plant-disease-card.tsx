@@ -54,11 +54,11 @@ const UserPlantDiseaseCard: React.FC<UserPlantDiseaseCardProps> = (props) => {
               </Heading>
             </Skeleton>
 
-            {/* Description */}
+            {/* Appeared on */}
             <Skeleton isLoaded={!loading}>
-              <Text as="p" noOfLines={3}>
-                {disease.description}
-              </Text>
+              <Heading as="h4" fontWeight={500} opacity={'0.75'} fontSize={{ base: 'lg', sm: 'xl', lg: 'lg' }}>
+                Appeared On {new Date(disease.appearedOn).toLocaleDateString()}
+              </Heading>
             </Skeleton>
           </Stack>
         </VStack>

@@ -1,17 +1,20 @@
 import React from 'react';
-import { Button } from '@chakra-ui/react';
+import { Button, ButtonProps } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
-interface PlotManagementEditProps {}
+type PlotManagementEditProps = ButtonProps & {};
 
 const PlotManagementEdit: React.FC<PlotManagementEditProps> = (props) => {
-  const {} = props;
+  const { ...rest } = props;
   const { query } = useRouter();
 
   return (
-    <Button as="a" colorScheme="teal" size="md" href={`${query.uuid}/edit`}>
-      Edit Plot
-    </Button>
+    <Link href={`${query.uuid}/edit`}>
+      <Button colorScheme="teal" size="md" {...rest}>
+        Edit Plot
+      </Button>
+    </Link>
   );
 };
 

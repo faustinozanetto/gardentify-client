@@ -11,8 +11,14 @@ interface UserPlantHarvestsProps {
 
 const UserPlantHarvests: React.FC<UserPlantHarvestsProps> = (props) => {
   const { plantData, loading } = props;
+  const [page, setPage] = useState(0);
   const [harvests, setHarvests] = useState<Harvest[]>([]);
-  const { data: harvestsData, loading: harvestsLoading } = useUserPlantHarvestsQuery({
+  const {
+    data: harvestsData,
+    loading: harvestsLoading,
+    fetchMore: harvestsFetchMore,
+    variables: harvestsVariables,
+  } = useUserPlantHarvestsQuery({
     variables: {
       input: {
         take: 3,
@@ -22,6 +28,8 @@ const UserPlantHarvests: React.FC<UserPlantHarvestsProps> = (props) => {
         },
       },
     },
+    fetchPolicy: 'cache-and-network',
+    notifyOnNetworkStatusChange: true,
   });
 
   // Initial state load
@@ -31,6 +39,21 @@ const UserPlantHarvests: React.FC<UserPlantHarvestsProps> = (props) => {
       setHarvests(mappedHarvests);
     }
   }, [harvestsData, harvestsLoading]);
+
+  // Fetch more on page change
+  useEffect(() => {
+    harvestsFetchMore({
+      variables: {
+        input: {
+          take: harvestsVariables.input.take,
+          skip: 3 * page,
+          where: {
+            ...harvestsVariables.input.where,
+          },
+        },
+      },
+    });
+  }, [page]);
 
   return (
     <Stack
@@ -49,7 +72,7 @@ const UserPlantHarvests: React.FC<UserPlantHarvestsProps> = (props) => {
         </Skeleton>
         <Spacer />
         {/* Regiter Disease */}
-        <UserPlantRegisterHarvest />
+        <UserPlantRegisterHarvest isLoading={loading} loadingText="Loading" />
       </HStack>
 
       {/* Diseases */}

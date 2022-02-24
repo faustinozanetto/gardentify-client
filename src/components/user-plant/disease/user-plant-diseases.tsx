@@ -49,7 +49,7 @@ const UserPlantDiseases: React.FC<UserPlantDiseasesProps> = (props) => {
         </Skeleton>
         <Spacer />
         {/* Regiter Disease */}
-        <UserPlantRegisterDisease />
+        <UserPlantRegisterDisease isLoading={loading} loadingText="Loading" />
       </HStack>
 
       {/* Diseases */}

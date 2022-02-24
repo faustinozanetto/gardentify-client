@@ -3,6 +3,7 @@ fragment Disease on Disease {
   scientificName
   description
   image
+  appearedOn
   createdAt
   updatedAt
 }
