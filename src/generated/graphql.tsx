@@ -248,6 +248,7 @@ export type Mutation = {
   deleteUserPlantHarvest: DeleteObjectResponse;
   logout: Scalars['Boolean'];
   updatePlot: PlotResponse;
+  updateUserPlant: UserPlantResponse;
 };
 
 
@@ -349,6 +350,11 @@ export type MutationDeleteUserPlantHarvestArgs = {
 
 export type MutationUpdatePlotArgs = {
   input: UpdatePlotInput;
+};
+
+
+export type MutationUpdateUserPlantArgs = {
+  input: UpdateUserPlantInput;
 };
 
 export type Plant = {
@@ -630,6 +636,17 @@ export type UpdatePlotInput = {
   uuid: Scalars['String'];
 };
 
+export type UpdateUserPlantInput = {
+  image?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
+  plantedSeedsOn?: InputMaybe<Scalars['DateTime']>;
+  scientificName: Scalars['String'];
+  seedsSproutedOn?: InputMaybe<Scalars['DateTime']>;
+  type: PlantType;
+  uuid: Scalars['String'];
+  variety: Scalars['String'];
+};
+
 export type User = {
   __typename?: 'User';
   authProvider?: Maybe<AuthProvider>;
@@ -878,6 +895,13 @@ export type DeleteUserPlantMutationVariables = Exact<{
 
 
 export type DeleteUserPlantMutation = { __typename?: 'Mutation', deleteUserPlant: { __typename?: 'DeleteObjectResponse', success?: boolean | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
+
+export type UpdateUserPlantMutationVariables = Exact<{
+  input: UpdateUserPlantInput;
+}>;
+
+
+export type UpdateUserPlantMutation = { __typename?: 'Mutation', updateUserPlant: { __typename?: 'UserPlantResponse', plant?: { __typename?: 'UserPlant', uuid?: string | null, name?: string | null, scientificName?: string | null, variety?: string | null, type?: PlantType | null, image?: string | null, plantedSeedsOn?: any | null, seedsSproutedOn?: any | null, createdAt?: any | null, updatedAt?: any | null, plot?: { __typename?: 'Plot', uuid?: string | null, name?: string | null, sizeX?: number | null, sizeY?: number | null, dirtDepth?: number | null, image?: string | null, description?: string | null, createdAt?: any | null, updatedAt?: any | null, user?: { __typename?: 'User', uuid?: string | null, oauthId?: string | null, username?: string | null, description?: string | null, avatar?: string | null, authProvider?: AuthProvider | null, createdAt?: any | null, updatedAt?: any | null } | null } | null, user?: { __typename?: 'User', uuid?: string | null, oauthId?: string | null, username?: string | null, description?: string | null, avatar?: string | null, authProvider?: AuthProvider | null, createdAt?: any | null, updatedAt?: any | null } | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
 
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -1877,6 +1901,39 @@ export function useDeleteUserPlantMutation(baseOptions?: Apollo.MutationHookOpti
 export type DeleteUserPlantMutationHookResult = ReturnType<typeof useDeleteUserPlantMutation>;
 export type DeleteUserPlantMutationResult = Apollo.MutationResult<DeleteUserPlantMutation>;
 export type DeleteUserPlantMutationOptions = Apollo.BaseMutationOptions<DeleteUserPlantMutation, DeleteUserPlantMutationVariables>;
+export const UpdateUserPlantDocument = gql`
+    mutation updateUserPlant($input: UpdateUserPlantInput!) {
+  updateUserPlant(input: $input) {
+    ...UserPlantResponse
+  }
+}
+    ${UserPlantResponseFragmentDoc}`;
+export type UpdateUserPlantMutationFn = Apollo.MutationFunction<UpdateUserPlantMutation, UpdateUserPlantMutationVariables>;
+
+/**
+ * __useUpdateUserPlantMutation__
+ *
+ * To run a mutation, you first call `useUpdateUserPlantMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUserPlantMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateUserPlantMutation, { data, loading, error }] = useUpdateUserPlantMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateUserPlantMutation(baseOptions?: Apollo.MutationHookOptions<UpdateUserPlantMutation, UpdateUserPlantMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateUserPlantMutation, UpdateUserPlantMutationVariables>(UpdateUserPlantDocument, options);
+      }
+export type UpdateUserPlantMutationHookResult = ReturnType<typeof useUpdateUserPlantMutation>;
+export type UpdateUserPlantMutationResult = Apollo.MutationResult<UpdateUserPlantMutation>;
+export type UpdateUserPlantMutationOptions = Apollo.BaseMutationOptions<UpdateUserPlantMutation, UpdateUserPlantMutationVariables>;
 export const LogoutDocument = gql`
     mutation logout {
   logout

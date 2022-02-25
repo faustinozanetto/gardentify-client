@@ -3,6 +3,7 @@ import UpdatePlotForm from 'src/components/forms/plots/update-plot-form';
 import { Heading, useColorModeValue, VStack } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { useFindUserPlantQuery, UserPlant } from 'src/generated/graphql';
+import EditUserPlantForm from 'src/components/forms/user-plant/edit-user-plant-form';
 
 interface UserPlantEditProps {}
 
@@ -33,7 +34,7 @@ const UserPlantEdit: React.FC<UserPlantEditProps> = (props) => {
         Plant Editing
       </Heading>
       {/* Edit plot form */}
-      {/* {!plantLoading && plant && <UpdatePlotForm plant={plant} />} */}
+      {!plantLoading && plant && <EditUserPlantForm plant={plant} />}
     </VStack>
   );
 };

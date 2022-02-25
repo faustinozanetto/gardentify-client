@@ -31,7 +31,7 @@ const UserPlantDetails: React.FC<PlantDetailsProps> = (props) => {
     >
       <HStack>
         {/* Main details */}
-        <VStack as={Box} padding={4} textAlign={'center'} width="full">
+        <VStack padding={4} textAlign={'center'} width="full">
           {/* Image */}
           <Box mb={4}>
             <SkeletonCircle isLoaded={!loading} boxSize={['150px', '200px', '250px', '300px', '400px']}>
@@ -69,41 +69,29 @@ const UserPlantDetails: React.FC<PlantDetailsProps> = (props) => {
                   </Heading>
                 </Skeleton>
               </Box>
-              {/* Planted on */}
-              <Box mb={2}>
-                <Skeleton isLoaded={!loading}>
-                  <Heading as="h2" lineHeight={1.1} fontWeight={600} fontSize={{ base: 'lg', sm: 'xl', lg: 'xl' }}>
-                    Planted on {new Date(plantData?.plantedSeedsOn).toDateString()}
-                  </Heading>
-                </Skeleton>
-              </Box>
-              {/* Seeds sprouted */}
-              {plantData?.seedsSproutedOn && (
-                <Box mb={2}>
-                  <Skeleton isLoaded={!loading}>
-                    <Heading as="h2" lineHeight={1.1} fontWeight={600} fontSize={{ base: 'lg', sm: 'xl', lg: 'xl' }}>
-                      Seeds Sprouted on {new Date(plantData?.seedsSproutedOn).toDateString()}
-                    </Heading>
-                  </Skeleton>
-                </Box>
-              )}
             </Stack>
           </Box>
         </VStack>
-        <VStack padding={4} textAlign={'center'} width="full" height="full">
-          {/* Name */}
-          <Box mb={4}>
+        {/* Right Content */}
+        <VStack padding={4} width="full" height="full">
+          {/* Planted on */}
+          <Box mb={2}>
             <Skeleton isLoaded={!loading}>
-              <Heading as="h2" lineHeight={1.1} fontWeight={600} fontSize={{ base: '2xl', sm: '3xl', lg: '4xl' }}>
-                Plant owned by {plantData?.user?.username}
+              <Heading as="h2" lineHeight={1.1} fontWeight={600} fontSize={{ base: 'lg', sm: 'xl', lg: 'xl' }}>
+                Planted on {new Date(plantData?.plantedSeedsOn).toDateString()}
               </Heading>
             </Skeleton>
           </Box>
-          <Box mb={4}>
-            <Box as="a" href={`/user/${plantData?.user?.username}`}>
-              <UserAvatar imageUrl={generateAvatarURl(plantData?.user)} size={150} loading={loading} />
+          {/* Seeds sprouted */}
+          {plantData?.seedsSproutedOn && (
+            <Box mb={2}>
+              <Skeleton isLoaded={!loading}>
+                <Heading as="h2" lineHeight={1.1} fontWeight={600} fontSize={{ base: 'lg', sm: 'xl', lg: 'xl' }}>
+                  Seeds Sprouted on {new Date(plantData?.seedsSproutedOn).toDateString()}
+                </Heading>
+              </Skeleton>
             </Box>
-          </Box>
+          )}
         </VStack>
       </HStack>
     </Stack>
