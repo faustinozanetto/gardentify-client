@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Heading, HStack, Skeleton, Spacer, Stack, useColorModeValue, Wrap } from '@chakra-ui/react';
+import { Grid, GridItem, Heading, HStack, Skeleton, Spacer, Stack, useColorModeValue, Wrap } from '@chakra-ui/react';
 import { Plot, useUserPlotsQuery } from 'src/generated/graphql';
 import UserPlotCard from 'src/components/plot/card/user-plot-card';
 import UserPlotsLoadMore from './user-plots-load-more';
@@ -71,12 +71,16 @@ const UserProfilePlotsDetails: React.FC<UserProfilePlotsDetailsProps> = (props) 
       </HStack>
 
       {/* Plants Container */}
-      <Wrap spacing={6} align="center" justify="center">
+      <Grid templateColumns={`repeat(${userPlots.length % 2 === 0 ? 2 : 3}, 1fr)`} gap={6}>
         {userPlots &&
           userPlots.map((plot, index) => {
-            return <UserPlotCard key={index} plot={plot} loading={loading} />;
+            return (
+              <GridItem key={plot.uuid} width="100%">
+                <UserPlotCard plot={plot} loading={loading} />
+              </GridItem>
+            );
           })}
-      </Wrap>
+      </Grid>
 
       {/* Load more */}
       {userPlotsData && userPlotsData.userPlots.pageInfo.hasMore && (

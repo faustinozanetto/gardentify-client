@@ -8,34 +8,24 @@ import { useEffect, useState } from 'react';
 import CoreLayout from 'src/components/layout/core-layout';
 import CoreLayoutHead from 'src/components/layout/core-layout-head';
 import UserProfile from 'src/components/user/profile/user-profile';
-import { Plot, useFindUserPlantsQuery, User, UserPlant, useUserPlotsQuery, useUserQuery } from 'src/generated/graphql';
+import { User, useUserQuery } from 'src/generated/graphql';
 
 interface UserPageProps {}
 
 const UserPage: React.FC<UserPageProps> = (props) => {
   const router = useRouter();
   const [user, setUser] = useState<User>({});
-  const [userPlants, setUserPlants] = useState<UserPlant[]>([]);
   const { data: userData, loading: userDataLoading } = useUserQuery({
     variables: { input: { username: router?.query?.username as string } },
     fetchPolicy: 'network-only',
   });
-  const { data: userPlantsData, loading: userPlantsDataLoading } = useFindUserPlantsQuery({
-    variables: { input: { take: 10, skip: 0, where: {} } },
-  });
 
+  // Initial user state
   useEffect(() => {
     if (userData && userData.user) {
       setUser(userData.user.user);
     }
   }, [userData, userDataLoading]);
-
-  useEffect(() => {
-    if (userPlantsData && userPlantsData.findUserPlants && userPlantsData.findUserPlants.count > 0) {
-      const nodes = userPlantsData.findUserPlants.edges.map((edge) => edge.node);
-      setUserPlants(nodes);
-    }
-  }, [userPlantsData, userDataLoading]);
 
   return (
     <CoreLayout

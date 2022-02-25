@@ -30,7 +30,12 @@ const UserPlotCard: React.FC<UserPlotCardProps> = (props) => {
   };
 
   return (
-    <motion.div whileHover={{ scale: 1.05 }}>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      whileHover={{ scale: 1.05 }}
+    >
       <Flex
         as={'a'}
         flexDir={'column'}
@@ -41,7 +46,7 @@ const UserPlotCard: React.FC<UserPlotCardProps> = (props) => {
         boxShadow={'lg'}
         href={generatePlotLink(plot)}
       >
-        <VStack padding={4} textAlign={'center'} width={'full'}>
+        <VStack padding={4} textAlign={'center'}>
           {/* Image */}
           <SkeletonCircle isLoaded={!loading} boxSize={['75px', '100px', '150px', '200px']}>
             <Image
