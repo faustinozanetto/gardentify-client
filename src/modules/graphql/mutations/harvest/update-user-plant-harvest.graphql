@@ -1,0 +1,5 @@
+mutation updateHarvest($input: UpdateHarvestInput!) {
+  updateHarvest(input: $input) {
+    ...HarvestResponse
+  }
+}

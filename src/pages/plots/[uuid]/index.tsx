@@ -20,8 +20,7 @@ const UserPlotPage: React.FC<UserPlotPageProps> = (props) => {
   const [ownsPlot, user] = useOwnsPlot(plot);
   const { data: plotData, loading: plotLoading } = useFindPlotQuery({
     variables: { input: { uuid: router?.query?.uuid as string } },
-    ssr: true,
-    fetchPolicy: 'cache-and-network',
+    fetchPolicy: 'network-only',
   });
 
   useEffect(() => {

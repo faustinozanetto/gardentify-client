@@ -18,11 +18,11 @@ const UserPage: React.FC<UserPageProps> = (props) => {
   const [userPlants, setUserPlants] = useState<UserPlant[]>([]);
   const { data: userData, loading: userDataLoading } = useUserQuery({
     variables: { input: { username: router?.query?.username as string } },
+    fetchPolicy: 'network-only',
   });
   const { data: userPlantsData, loading: userPlantsDataLoading } = useFindUserPlantsQuery({
     variables: { input: { take: 10, skip: 0, where: {} } },
   });
-
 
   useEffect(() => {
     if (userData && userData.user) {

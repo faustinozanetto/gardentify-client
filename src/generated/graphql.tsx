@@ -247,6 +247,7 @@ export type Mutation = {
   deleteUserPlantFromPlot: DeleteObjectResponse;
   deleteUserPlantHarvest: DeleteObjectResponse;
   logout: Scalars['Boolean'];
+  updateHarvest: HarvestResponse;
   updatePlot: PlotResponse;
   updateUserPlant: UserPlantResponse;
 };
@@ -345,6 +346,11 @@ export type MutationDeleteUserPlantFromPlotArgs = {
 
 export type MutationDeleteUserPlantHarvestArgs = {
   input: FindHarvestInput;
+};
+
+
+export type MutationUpdateHarvestArgs = {
+  input: UpdateHarvestInput;
 };
 
 
@@ -626,6 +632,14 @@ export type QueryUserPlotsArgs = {
   input: UserPlotsInput;
 };
 
+export type UpdateHarvestInput = {
+  amountHarvested: Scalars['Int'];
+  harvestWeight: Scalars['Float'];
+  harvestedOn: Scalars['DateTime'];
+  image: Scalars['String'];
+  uuid: Scalars['String'];
+};
+
 export type UpdatePlotInput = {
   description?: InputMaybe<Scalars['String']>;
   dirtDepth?: InputMaybe<Scalars['Float']>;
@@ -831,6 +845,13 @@ export type DeleteUserPlantHarvestMutationVariables = Exact<{
 
 
 export type DeleteUserPlantHarvestMutation = { __typename?: 'Mutation', deleteUserPlantHarvest: { __typename?: 'DeleteObjectResponse', success?: boolean | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
+
+export type UpdateHarvestMutationVariables = Exact<{
+  input: UpdateHarvestInput;
+}>;
+
+
+export type UpdateHarvestMutation = { __typename?: 'Mutation', updateHarvest: { __typename?: 'HarvestResponse', harvest?: { __typename?: 'Harvest', uuid?: string | null, image?: string | null, amountHarvested?: number | null, harvestWeight?: number | null, harvestedOn?: any | null, createdAt?: any | null, updatedAt?: any | null } | null, errors?: Array<{ __typename?: 'ErrorResponse', field: string, message: string }> | null } };
 
 export type CreatePlantRequirementsMutationVariables = Exact<{
   input: PlantRequirementsCreateInput;
@@ -1603,6 +1624,39 @@ export function useDeleteUserPlantHarvestMutation(baseOptions?: Apollo.MutationH
 export type DeleteUserPlantHarvestMutationHookResult = ReturnType<typeof useDeleteUserPlantHarvestMutation>;
 export type DeleteUserPlantHarvestMutationResult = Apollo.MutationResult<DeleteUserPlantHarvestMutation>;
 export type DeleteUserPlantHarvestMutationOptions = Apollo.BaseMutationOptions<DeleteUserPlantHarvestMutation, DeleteUserPlantHarvestMutationVariables>;
+export const UpdateHarvestDocument = gql`
+    mutation updateHarvest($input: UpdateHarvestInput!) {
+  updateHarvest(input: $input) {
+    ...HarvestResponse
+  }
+}
+    ${HarvestResponseFragmentDoc}`;
+export type UpdateHarvestMutationFn = Apollo.MutationFunction<UpdateHarvestMutation, UpdateHarvestMutationVariables>;
+
+/**
+ * __useUpdateHarvestMutation__
+ *
+ * To run a mutation, you first call `useUpdateHarvestMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateHarvestMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateHarvestMutation, { data, loading, error }] = useUpdateHarvestMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateHarvestMutation(baseOptions?: Apollo.MutationHookOptions<UpdateHarvestMutation, UpdateHarvestMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateHarvestMutation, UpdateHarvestMutationVariables>(UpdateHarvestDocument, options);
+      }
+export type UpdateHarvestMutationHookResult = ReturnType<typeof useUpdateHarvestMutation>;
+export type UpdateHarvestMutationResult = Apollo.MutationResult<UpdateHarvestMutation>;
+export type UpdateHarvestMutationOptions = Apollo.BaseMutationOptions<UpdateHarvestMutation, UpdateHarvestMutationVariables>;
 export const CreatePlantRequirementsDocument = gql`
     mutation createPlantRequirements($input: PlantRequirementsCreateInput!) {
   createPlantRequirements(input: $input) {

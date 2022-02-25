@@ -132,7 +132,14 @@ const EditUserPlantForm: React.FC<EditUserPlantFormProps> = (props) => {
               <FormSubmitButton my={2} width="full">
                 Submit
               </FormSubmitButton>
-              <Link href={`/plots/${router.query.plot as string}/`}>
+              <Link
+                href={{
+                  pathname: '/plants/[uuid]/',
+                  query: {
+                    uuid: plant.uuid,
+                  },
+                }}
+              >
                 <Button width="full" colorScheme="teal">
                   Go Back
                 </Button>

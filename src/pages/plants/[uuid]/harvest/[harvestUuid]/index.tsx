@@ -17,6 +17,8 @@ const UserPlantHarvestPage: React.FC<UserPlantHarvestPageProps> = (props) => {
         uuid: query.harvestUuid as string,
       },
     },
+    skip: query.harvestUuid === undefined,
+    fetchPolicy: 'network-only',
   });
 
   // Initial harvest state
