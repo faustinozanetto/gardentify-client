@@ -29,6 +29,7 @@ const UserPlantHarvests: React.FC<UserPlantHarvestsProps> = (props) => {
         },
       },
     },
+    fetchPolicy: 'network-only',
   });
 
   // Initial state load
@@ -37,7 +38,6 @@ const UserPlantHarvests: React.FC<UserPlantHarvestsProps> = (props) => {
       const mappedHarvests = harvestsData.userPlantHarvests.edges.map((edge) => edge.node);
       setHarvests(mappedHarvests);
     }
-    console.log(harvestsData);
   }, [harvestsData, harvestsLoading]);
 
   // Fetch more on page change

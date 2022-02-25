@@ -29,6 +29,7 @@ const UserPlantDiseases: React.FC<UserPlantDiseasesProps> = (props) => {
         },
       },
     },
+    fetchPolicy: 'network-only',
   });
 
   // Initial state load
