@@ -21,6 +21,7 @@ const PlatPage: React.FC<PlatPageProps> = (props) => {
   const { data: plantData, loading: plantLoading } = useFindUserPlantQuery({
     variables: { input: { uuid: router?.query?.uuid as string } },
     fetchPolicy: 'network-only',
+    ssr: true,
   });
 
   //

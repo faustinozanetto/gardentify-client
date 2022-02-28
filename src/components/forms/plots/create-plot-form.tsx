@@ -54,14 +54,20 @@ const CreatePlotForm: React.FC<CreatePlotFormProps> = (props) => {
         let dirthDepth = 0;
         if (typeof values.dirthDepth === 'string') {
           dirthDepth = Number.parseFloat(values.dirthDepth);
+        } else {
+          dirthDepth = values.dirthDepth;
         }
         let sizeX = 0;
         if (typeof values.sizeX === 'string') {
           sizeX = Number.parseFloat(values.sizeX);
+        } else {
+          sizeX = values.sizeX;
         }
         let sizeY = 0;
         if (typeof values.sizeY === 'string') {
           sizeY = Number.parseFloat(values.sizeY);
+        } else {
+          sizeY = values.sizeY;
         }
         await createPlot({
           variables: {

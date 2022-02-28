@@ -49,10 +49,14 @@ const CreatePlantHarvestForm: React.FC<CreatePlantHarvestFormProps> = (props) =>
         let amountHarvested = 0;
         if (typeof values.amountHarvested === 'string') {
           amountHarvested = Number.parseFloat(values.amountHarvested);
+        } else {
+          amountHarvested = values.amountHarvested;
         }
         let harvestWeight = 0;
         if (typeof values.harvestWeight === 'string') {
           harvestWeight = Number.parseFloat(values.harvestWeight);
+        } else {
+          harvestWeight = values.harvestWeight;
         }
         await createHarvest({
           variables: {

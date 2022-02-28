@@ -48,24 +48,33 @@ const UserPlantDetails: React.FC<PlantDetailsProps> = (props) => {
           <Box width={'full'}>
             <Stack spacing={2} align={'center'}>
               {/* Name */}
-              <Box mb={2}>
+              <Box>
                 <Skeleton isLoaded={!loading}>
-                  <Heading as="h1" lineHeight={1.1} fontWeight={600} fontSize={{ base: '2xl', sm: '3xl', lg: '4xl' }}>
+                  <Heading as="h1" fontWeight={600} fontSize={{ base: '2xl', sm: '3xl', lg: '4xl' }}>
                     {plantData?.name}
                   </Heading>
                 </Skeleton>
               </Box>
               {/* Scientific Name */}
-              <Box mb={2}>
+              <Box>
+                <Skeleton isLoaded={!loading}>
+                  <Heading as="h2" opacity={'0.85'} fontWeight={600} fontSize={{ base: 'lg', sm: 'xl', lg: '2xl' }}>
+                    {plantData?.scientificName}
+                  </Heading>
+                </Skeleton>
+              </Box>
+              {/* Variety */}
+
+              <Box>
                 <Skeleton isLoaded={!loading}>
                   <Heading
                     as="h2"
                     lineHeight={1.1}
                     opacity={'0.85'}
                     fontWeight={600}
-                    fontSize={{ base: 'lg', sm: 'xl', lg: '2xl' }}
+                    fontSize={{ base: 'lg', sm: 'xl', lg: 'xl' }}
                   >
-                    {plantData?.scientificName}
+                    {plantData?.variety}
                   </Heading>
                 </Skeleton>
               </Box>

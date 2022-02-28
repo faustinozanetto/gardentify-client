@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Heading, HStack, Skeleton, Spacer, Stack, useColorModeValue, Wrap } from '@chakra-ui/react';
+import { Box, Grid, Heading, HStack, Skeleton, Spacer, Stack, useColorModeValue, Wrap } from '@chakra-ui/react';
 import { Harvest, UserPlant, useUserPlantHarvestsQuery } from 'src/generated/graphql';
 import UserPlantRegisterHarvest from './user-plant-register-harvest';
 import UserPlantHarvestCard from './user-plant-harvest-card';
@@ -79,17 +79,17 @@ const UserPlantHarvests: React.FC<UserPlantHarvestsProps> = (props) => {
       </HStack>
 
       {/* Diseases */}
-      <Wrap spacing="30px" justify="center">
+      <Grid templateColumns={`repeat(${harvests.length % 2 === 0 ? 2 : 3}, 1fr)`} gap={6}>
         {harvests &&
           harvests.length > 0 &&
           harvests.map((harvest, index) => {
             return (
-              <Box key={index} width={'250px'}>
+              <Box key={index + harvest.uuid}>
                 <UserPlantHarvestCard harvest={harvest} loading={loading} />
               </Box>
             );
           })}
-      </Wrap>
+      </Grid>
 
       {/* No disease */}
       {harvests && harvests.length === 0 && (
